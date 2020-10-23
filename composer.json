@@ -18,17 +18,20 @@
         "issues": "https://github.com/cobhimself/api-services-bundle/issues"
     },
     "require": {
-        "symfony/http-kernel": "^2.8",
-        "symfony/dependency-injection": "^2.8",
-        "symfony/config": "^2.8",
+        "doctrine/common": "^3.0",
         "guzzlehttp/guzzle": "^6.0",
         "guzzlehttp/guzzle-services": "^1.1",
-        "symfony/event-dispatcher": "^2.8",
+        "symfony/config": "^2.8",
         "symfony/console": "^2.8",
+        "symfony/dependency-injection": "^2.8",
+        "symfony/event-dispatcher": "^2.8",
+        "symfony/http-kernel": "^2.8",
         "symfony/yaml": "^2.8|^3.0"
     },
     "require-dev": {
-        "roave/security-advisories": "dev-master",
         "phpunit/phpunit": "^7.5"
+    },
+    "config": {
+        "sort-packages": true
     }
 }
