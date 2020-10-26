@@ -15,7 +15,7 @@ trait CountTrait
     /**
      * @var array
      */
-    private $collection;
+    private $collection = [];
 
     /**
      * @inheritDoc
