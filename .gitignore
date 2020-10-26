@@ -8,3 +8,20 @@
 
 # JIRA plugin
 atlassian-ide-plugin.xml
+
+# Gradle and Maven with auto-import
+auto-import.
+.idea/artifacts
+.idea/compiler.xml
+.idea/jarRepositories.xml
+.idea/modules.xml
+.idea/*.iml
+.idea/modules
+*.iml
+*.ipr
+
+# Symfony2 Plugin
+/.idea/symfony2.xml
+
+# Documentation build directory
+/docs/_build/
