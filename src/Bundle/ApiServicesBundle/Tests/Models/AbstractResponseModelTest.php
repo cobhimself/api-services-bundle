@@ -14,10 +14,26 @@ namespace Cob\Bundle\ApiServicesBundle\Tests\Models;
 use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException;
 use Cob\Bundle\ApiServicesBundle\Tests\Mocks\BadMockResponseModel;
 use Cob\Bundle\ApiServicesBundle\Tests\Mocks\MockResponseModel;
+use Cob\Bundle\ApiServicesBundle\Tests\ServiceClientMockTrait;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 
+/**
+ * Class AbstractResponseModelTest
+ *
+ * @package Cob\Bundle\ApiServicesBundle\Tests\Models
+ * @codeCoverageIgnore
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\AbstractResponseModel
+ * @coversDefaultClass \Cob\Bundle\ApiServicesBundle\Models\AbstractResponseModel
+ *
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelSetupTrait
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
+ * @uses \Cob\Bundle\ApiServicesBundle\Exceptions\BaseApiServicesBundleException
+ */
 class AbstractResponseModelTest extends TestCase
 {
+    use ServiceClientMockTrait;
+
     /**
      * @var MockResponseModel
      */
@@ -29,6 +45,52 @@ class AbstractResponseModelTest extends TestCase
     }
 
     /**
+     * @param array $data
+     * @param null  $parent
+     * @param null  $client
+     *
+     * @dataProvider dataProviderForTestConstruct
+     *
+     * @uses \Cob\Bundle\ApiServicesBundle\Models\AbstractResponseModel::dispatchEvent()
+     * @uses \Cob\Bundle\ApiServicesBundle\Models\Subscribers\ProgressTrait::getOutput()
+     * @uses \Cob\Bundle\ApiServicesBundle\Models\Subscribers\ProgressTrait::getIo()
+     * @uses \Cob\Bundle\ApiServicesBundle\Models\Subscribers\ProgressTrait::getProgressBar()
+     * @uses \Cob\Bundle\ApiServicesBundle\Models\Subscribers\ProgressTrait::inheritOutputFrom()
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\AssociateParentModelEvent
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelEvent
+     * @covers ::__construct
+     * @covers ::setClient
+     * @covers ::getClient
+     * @covers ::onAssociateParent
+     * @covers ::setParent
+     * @covers ::doSetParent
+     * @covers ::getData
+     * @covers ::getParent
+     */
+    public function testConstruct(array $data, $parent = null, $client = null)
+    {
+        $mock = new MockResponseModel($data, $parent, $client);
+        self::assertSame(['one' => 1, 'two' => 2], $mock->getData());
+        self::assertSame($parent, $mock->getParent());
+        self::assertSame($client, $mock->getClient());
+    }
+
+    public function dataProviderForTestConstruct()
+    {
+        $goodParent = new MockResponseModel();
+        $badParentModel = new stdClass();
+        $serviceClient = $this->getServiceClientMock([]);
+
+        return [
+            [
+                'data' => ['one' => 1, 'two' => 2],
+                'parent' => $goodParent,
+                $serviceClient,
+            ]
+        ];
+    }
+
+    /**
      * @param      $mock
      * @param      $method
      * @param null $expectedValue
@@ -36,6 +98,9 @@ class AbstractResponseModelTest extends TestCase
      * @param null $missingConst
      *
      * @dataProvider dataProviderForTestConstants
+     *
+     * @covers ::getLoadCommand
+     * @covers ::getLoadArguments
      */
     public function testConstants(
         $mock,
@@ -86,20 +151,5 @@ class AbstractResponseModelTest extends TestCase
         }
 
         return $data;
-    }
-
-    public function testGetLoadCommand()
-    {
-        self::assertSame(
-            MockResponseModel::LOAD_COMMAND,
-            MockResponseModel::getLoadCommand()
-        );
-    }
-
-    public function testGetLoadCommandFails()
-    {
-        $this->expectException(ResponseModelSetupException::class);
-        $this->expectExceptionMessage('Please set LOAD_COMMAND');
-        BadMockResponseModel::getLoadCommand();
     }
 }
