@@ -17,6 +17,13 @@ env:
 before_script:
   - composer require --prefer-dist --no-interaction --no-suggest --no-progress symfony/config:${SYMFONY_VERSION} symfony/console:${SYMFONY_VERSION} symfony/dependency-injection:${SYMFONY_VERSION} symfony/event-dispatcher:${SYMFONY_VERSION} symfony/http-kernel:${SYMFONY_VERSION} symfony/yaml:${SYMFONY_VERSION}
 
+script:
+  - mkdir -p build/logs
+  - phpunit --coverage-clover build/logs/clover.xml
+
+after_script:
+  - php vendor/bin/coveralls -v
+
 cache:
   directories:
     - $HOME/.composer/cache
