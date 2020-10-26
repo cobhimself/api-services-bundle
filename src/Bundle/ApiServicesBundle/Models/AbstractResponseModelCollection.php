@@ -153,14 +153,6 @@ abstract class AbstractResponseModelCollection extends AbstractResponseModel imp
     private $responses = [];
 
     /**
-     * Contains each of the response models within this collection of
-     * response models.
-     *
-     * @var array[ResponseModelInterface]
-     */
-    private $collection = [];
-
-    /**
      * Construct a response model collection.
      *
      * @param array|null                  $data        the data to set on the
