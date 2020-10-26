@@ -11,15 +11,16 @@ php:
   - '7.2'
 
 env:
-  - SYMFONY_VERSION=2.8.*
-  - SYMFONY_VERSION=^3.0
+  - SYMFONY_VERSION=2.8.* COVERAGE
+  - SYMFONY_VERSION=^3.0 COVERAGE
 
 before_script:
+  - |
+    if [[ "$COVERAGE" != "1" ]]; then
+      phpenv config-rm ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini || echo "xdebug is not installed"
+    fi
   - composer require --prefer-dist --no-interaction --no-suggest --no-progress symfony/config:${SYMFONY_VERSION} symfony/console:${SYMFONY_VERSION} symfony/dependency-injection:${SYMFONY_VERSION} symfony/event-dispatcher:${SYMFONY_VERSION} symfony/http-kernel:${SYMFONY_VERSION} symfony/yaml:${SYMFONY_VERSION}
-
-script:
   - mkdir -p build/logs
-  - phpunit --coverage-clover build/logs/clover.xml
 
 after_script:
   - php vendor/bin/coveralls -v
