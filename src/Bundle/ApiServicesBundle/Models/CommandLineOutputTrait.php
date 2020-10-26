@@ -35,14 +35,10 @@ trait CommandLineOutputTrait
     private static $terminalWidth;
 
     /**
-     * @return OutputInterface
+     * @return OutputInterface|null
      */
-    public function getOutput(): OutputInterface
+    public function getOutput()
     {
-        if (null === $this->output) {
-            throw new RuntimeException('Output property not set in ' . get_class($this));
-        }
-
         return $this->output;
     }
 
@@ -60,14 +56,10 @@ trait CommandLineOutputTrait
     }
 
     /**
-     * @return ProgressBar
+     * @return ProgressBar|null
      */
-    public function getProgressBar(): ProgressBar
+    public function getProgressBar()
     {
-        if (null === $this->progressBar) {
-            throw new RuntimeException('progressBar property not set in ' . get_class($this));
-        }
-
         return $this->progressBar;
     }
 
@@ -85,14 +77,10 @@ trait CommandLineOutputTrait
     }
 
     /**
-     * @return SymfonyStyle
+     * @return SymfonyStyle|null
      */
-    public function getIo(): SymfonyStyle
+    public function getIo()
     {
-        if (null === $this->io) {
-            throw new RuntimeException('io property not set in ' . get_class($this));
-        }
-
         return $this->io;
     }
 
@@ -137,15 +125,24 @@ trait CommandLineOutputTrait
      */
     public function inheritOutputFrom($model)
     {
-        if (method_exists($model, 'getProgressBar')) {
+        if (
+            method_exists($model, 'getProgressBar')
+            && null !== $model->getProgressBar()
+        ) {
             $this->setProgressBar($model->getProgressBar());
         }
 
-        if (method_exists($model, 'getIo')) {
+        if (
+            method_exists($model, 'getIo')
+            && null !== $model->getIo()
+        ) {
             $this->setIo($model->getIo());
         }
 
-        if (method_exists($model, 'getOutput')) {
+        if (
+            method_exists($model, 'getOutput')
+            && null !== $model->getOutput()
+        ) {
             $this->setOutput($model->getOutput());
         }
 

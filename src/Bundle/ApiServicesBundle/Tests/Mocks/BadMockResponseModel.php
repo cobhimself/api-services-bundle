@@ -8,20 +8,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Cob\Bundle\ApiServicesBundle\Models;
+namespace Cob\Bundle\ApiServicesBundle\Tests\Mocks;
 
-trait CountTrait
+use Cob\Bundle\ApiServicesBundle\Models\AbstractResponseModel;
+
+class BadMockResponseModel extends AbstractResponseModel
 {
-    /**
-     * @var array
-     */
-    private $collection = [];
-
-    /**
-     * @inheritDoc
-     */
-    public function count(): int
-    {
-        return count($this->collection);
-    }
+    const RAW_DATA_KEY = null;
+    const LOAD_ARGUMENTS = null;
 }

@@ -9,6 +9,9 @@
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
 .idea/**/dbnavigator.xml
+/.idea/**/webServers.xml
+/.idea/**/deployment.xml
+/.idea/**/remote-mappings.xml
 
 # User-specific stuff
 .idea/**/workspace.xml

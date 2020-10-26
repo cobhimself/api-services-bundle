@@ -15,7 +15,7 @@ trait CollectionTrait
     /**
      * @var array
      */
-    private $collection;
+    private $collection = [];
 
     /**
      * @inheritDoc

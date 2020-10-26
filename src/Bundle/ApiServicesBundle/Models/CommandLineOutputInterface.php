@@ -19,9 +19,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 interface CommandLineOutputInterface
 {
     /**
-     * @return OutputInterface
+     * @return OutputInterface|null
      */
-    public function getOutput(): OutputInterface;
+    public function getOutput();
 
     /**
      * @param OutputInterface $output
@@ -31,9 +31,9 @@ interface CommandLineOutputInterface
     public function setOutput(OutputInterface $output);
 
     /**
-     * @return ProgressBar
+     * @return ProgressBar|null
      */
-    public function getProgressBar(): ProgressBar;
+    public function getProgressBar();
 
     /**
      * @param ProgressBar $progressBar
@@ -43,9 +43,9 @@ interface CommandLineOutputInterface
     public function setProgressBar(ProgressBar $progressBar);
 
     /**
-     * @return SymfonyStyle
+     * @return SymfonyStyle|null
      */
-    public function getIo(): SymfonyStyle;
+    public function getIo();
 
     /**
      * @param SymfonyStyle $io
