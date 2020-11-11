@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="136px" preserveAspectRatio="none" style="width:212px;height:136px;" version="1.1" viewBox="0 0 212 136" width="212px" zoomAndPan="magnify"><defs><filter height="300%" id="f13f4qygitdlo0" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><ellipse cx="45.7696" cy="20.659" fill="#E7F2FA" filter="url(#f13f4qygitdlo0)" rx="39.7696" ry="14.659" style="stroke: #2980B9; stroke-width: 1.5;"/><text fill="#2980B9" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="52" x="19.7696" y="25.4031">Plan [0]</text><ellipse cx="160.7696" cy="20.659" fill="#E7F2FA" filter="url(#f13f4qygitdlo0)" rx="39.7696" ry="14.659" style="stroke: #2980B9; stroke-width: 1.5;"/><text fill="#2980B9" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="52" x="134.7696" y="25.4031">Plan [1]</text><ellipse cx="45.7696" cy="109.659" fill="#E7F2FA" filter="url(#f13f4qygitdlo0)" rx="39.7696" ry="14.659" style="stroke: #2980B9; stroke-width: 1.5;"/><text fill="#2980B9" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="52" x="19.7696" y="114.4031">Plan [2]</text><ellipse cx="160.7696" cy="109.659" fill="#E7F2FA" filter="url(#f13f4qygitdlo0)" rx="39.7696" ry="14.659" style="stroke: #2980B9; stroke-width: 1.5;"/><text fill="#2980B9" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="52" x="134.7696" y="114.4031">Plan [3]</text><!--MD5=[da6c0b77b9de1f65eb3394671aae9403]
+link PL1 to PL2--><!--MD5=[0b5c641c4a9bd819ad9bea929da86ab1]
+link PL1 to PL3--><!--MD5=[23789a6c0519b7bcc83bc5adead8a4f5]
+link PL3 to PL4--><!--MD5=[03b01cc2dd910231e85d5e5150a7fdad]
+@startuml
+
+!include config/plantuml.cfg
+
+(Plan [0]) as (PL1)
+(Plan [1]) as (PL2)
+(Plan [2]) as (PL3)
+(Plan [3]) as (PL4)
+
+@enduml
+
+@startuml
+
+
+
+skinparam backgroundColor white
+
+skinparam note {
+BackgroundColor #e7f2fa
+BorderColor #2980b9
+}
+
+skinparam activity {
+BackgroundColor #e7f2fa
+ArrowColor #f0b37e
+BorderColor #2980b9
+StartColor #227BC6
+EndColor #227BC6
+BarColor #227BC6
+}
+
+skinparam usecase {
+ArrowThickness 2
+MessageAlign center
+ArrowColor #f0b37e
+BorderColor #2980b9
+GroupFontColor white
+Padding 0
+FontColor #2980b9
+FontSize 14
+BackgroundColor #e7f2fa
+}
+
+skinparam sequence {
+ArrowColor  #f0b37e
+DividerBackgroundColor  #e7f2fa
+GroupBackgroundColor    #e7f2fa
+LifeLineBackgroundColor #e7f2fa
+LifeLineBorderColor #2980b9
+ParticipantBackgroundColor  #e7f2fa
+ParticipantBorderColor  #2980b9
+BoxLineColor    #2980b9
+BoxBackgroundColor  #e7f2fa
+}
+
+skinparam state {
+ArrowColor #2980b9
+ArrowThickness 2
+BorderThickness 4
+StartColor #f0b37e
+EndColor #f0b37e
+FontSize 16
+AttributeFontSize 14
+AttributeFontColor #555
+BackgroundColor white
+BorderColor #555
+FontColor white
+
+FontColor<<promise>> #2980b9
+BorderColor<<promise>> #2980b9
+
+FontColor<<wait>> #9b59b6
+BorderColor<<wait>> #9b59b6
+BackgroundColor<<promise>> #2980b9
+FontColor<<fulfilled>> #1abc9c
+BorderColor<<fulfilled>> #1abc9c
+FontColor<<rejected>> #E74C3C
+BorderColor<<rejected>> #E74C3C
+BorderColor<<gray>> #555
+FontColor<<then>> #555
+BorderColor<<then>> #555
+BackgroundColor<<then>> #555
+}
+
+skinparam actorBackgroundColor #e7f2fa
+skinparam actorBorderColor    #2980b9
+
+skinparam usecaseArrowColor   #f0b37e
+skinparam usecaseBackgroundColor  #e7f2fa
+skinparam usecaseBorderColor  #2980b9
+
+skinparam classArrowColor #f0b37e
+skinparam classBackgroundColor    #e7f2fa
+skinparam classBorderColor    #2980b9
+
+skinparam objectArrowColor    #f0b37e
+skinparam objectBackgroundColor   #e7f2fa
+skinparam objectBorderColor   #2980b9
+
+skinparam packageBackgroundColor  #e7f2fa
+skinparam packageBorderColor  #2980b9
+
+skinparam stereotypeCBackgroundColor  #e7f2fa
+skinparam stereotypeABackgroundColor  #e7f2fa
+skinparam stereotypeIBackgroundColor  #e7f2fa
+skinparam stereotypeEBackgroundColor  #e7f2fa
+
+skinparam componentArrowColor #f0b37e
+skinparam componentBackgroundColor    #e7f2fa
+skinparam componentBorderColor    #2980b9
+skinparam componentInterfaceBackgroundColor   #e7f2fa
+skinparam componentInterfaceBorderColor   #2980b9
+
+skinparam stateBackgroundColor #e7f2fa
+skinparam stateBorderColor #2980b9
+skinparam stateArrowColor #f0b37e
+skinparam stateStartColor black
+skinparam stateEndColor   black
+
+
+(Plan [0]) as (PL1)
+(Plan [1]) as (PL2)
+(Plan [2]) as (PL3)
+(Plan [3]) as (PL4)
+
+@enduml
+
+PlantUML version 1.2020.19(Mon Oct 12 10:10:01 CDT 2020)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

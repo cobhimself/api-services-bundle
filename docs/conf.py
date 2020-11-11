@@ -19,7 +19,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = u'CoBHimself ApiServicesBundle'
+project = u'ApiServicesBundle'
 copyright = u'2020, Collin D. Brooks <collin.brooks@gmail.com>'
 author = u'Collin D. Brooks <collin.brooks@gmail.com>'
 
@@ -28,6 +28,14 @@ version = u''
 # The full version, including alpha/beta/rc tags
 release = u''
 
+# -- Global Epilog -----------------------------------------------------------
+
+rst_epilog = """
+.. |ASB| replace:: ApiServicesBundle
+.. |ServiceClient| replace:: :class:`ServiceClient`
+.. |ARM| replace:: :class:`AbstractResponseModel`
+.. |ARMC| replace:: :class:`AbstractResponseModelCollection`
+"""
 
 # -- General configuration ---------------------------------------------------
 
@@ -39,6 +47,9 @@ release = u''
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    'sphinx.ext.todo',
+    'sphinx_rtd_theme',
+    'sphinxcontrib.phpdomain'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -66,7 +77,16 @@ language = None
 exclude_patterns = [u'_build', 'Thumbs.db', '.DS_Store']
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = None
+pygments_style = u'solarized-dark'
+
+# -- Options for Pygments lexer ----------------------------------------------
+# load PhpLexer
+from sphinx.highlighting import lexers
+from pygments.lexers.web import PhpLexer
+
+# enable highlighting for PHP code not between <?php ... ?> by default
+lexers['php'] = PhpLexer(startinline=True)
+lexers['php-annotations'] = PhpLexer(startinline=True)
 
 
 # -- Options for HTML output -------------------------------------------------
@@ -74,7 +94,16 @@ pygments_style = None
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'alabaster'
+html_theme = 'sphinx_rtd_theme'
+
+html_context = {
+  "display_github": True,
+  "github_user": "cobhimself",
+  "github_repo": project,
+  "github_version": "master",
+  "conf_py_path": "/doc/",
+  "source_suffix": source_suffix,
+}
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -101,7 +130,7 @@ html_static_path = ['_static']
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'CoBHimselfApiServicesBundledoc'
+htmlhelp_basename = 'ApiServicesBundledoc'
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -171,3 +200,19 @@ epub_title = project
 
 # A list of files that should not be packed into the epub file.
 epub_exclude_files = ['search.html']
+
+# Set domain
+primary_domain = "php"
+
+# Regenerate API docs via doxygen + doxyphp2sphinx
+import subprocess, os
+read_the_docs_build = os.environ.get('READTHEDOCS', None) == 'True'
+if read_the_docs_build:
+    subprocess.call(['mkdir', '_build'])
+    subprocess.call(['doxygen', 'Doxyfile'])
+    subprocess.call([
+        'doxyphp2sphinx',
+        '--xml-dir',
+        '_build/doxygen/xml',
+       'Cob::Bundle::ApiServicesBundle'
+   ])

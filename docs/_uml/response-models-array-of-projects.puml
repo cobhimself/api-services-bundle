@@ -1,0 +1,24 @@
+@startuml
+
+!include config/plantuml.cfg
+
+left to right direction
+
+(Project[0]) as (PR1)
+(Project[0] Plan[0]) as (PL1)
+(Project[0] Plan[1]) as (PL2)
+(Project[0] Plan[2]) as (PL3)
+(Project[0] Plan[3]) as (PL4)
+
+(Project[1]) as (PR2)
+(Project[1] Plan[0]) as (PL5)
+(Project[1] Plan[1]) as (PL6)
+
+child(PR1, PL1)
+child(PR1, PL2)
+child(PR1, PL3)
+child(PR1, PL4)
+
+child(PR2, PL5)
+child(PR2, PL6)
+@enduml

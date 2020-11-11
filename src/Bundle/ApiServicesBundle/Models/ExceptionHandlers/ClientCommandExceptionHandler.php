@@ -118,9 +118,10 @@ class ClientCommandExceptionHandler extends AbstractExceptionHandler
      * Return an exception handler that allows the exception to pass through if
      * the response code exists in the given codes.
      *
-     * @example if $codes is [400, 404], any CommandException with a response
-     *          that has either of those two codes would allow the original
-     *          exception to be passed through and thrown.
+     * If <code>$codes</code> is <code>[400, 404]</code>, any
+     * <code>CommandException</code> with a response that has either of those
+     * two codes would allow the original exception to be passed through
+     * and thrown.
      *
      * @param array $codes An array of http response codes
      */
@@ -145,9 +146,10 @@ class ClientCommandExceptionHandler extends AbstractExceptionHandler
      *
      * @param array $codes list of HTTP Response codes for our handler to ignore
      *
-     * @example if $codes is [400, 404], any CommandException with a response
-     *          that has either of those two codes would ignore the original
-     *          exception and set the result of the handler to null.
+     * If <code>$codes</code> is <code>[400, 404]</code>, any
+     * <code>CommandException</code> with a response that has either of those
+     * two codes would ignore the original exception and set the result of the
+     * handler to null.
      *
      * @return ClientCommandExceptionHandler
      */

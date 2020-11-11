@@ -23,5 +23,7 @@ auto-import.
 # Symfony2 Plugin
 /.idea/symfony2.xml
 
-# Documentation build directory
+# Documentation
 /docs/_build/
+/docs/api
+/docs/api.rst

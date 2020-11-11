@@ -1,0 +1,66 @@
+@startuml
+
+!include config/plantuml.cfg
+
+state "**(1)** Promise" as P1 <<promise>> {
+  state "**(5)** wait" as W1 <<wait>> {
+    W1: Wait callback sent into Promise. Called when wait method is invoked.
+  }
+}
+
+state "**(2)** then" as T1 <<then>> {
+  state "Promise" as P2 <<promise>> {
+
+    state "**(6a)** onFulfilled" as F1 <<fulfilled>>
+    F1: this callback will be called if the promise is fulfilled
+
+    state "**(6b)** onRejected" as R1 <<rejected>>
+    R1: this callback will be called if the promise is rejected
+
+  }
+}
+
+state outcome1 <<choice>>
+
+
+state "**(3)** then" as T2 <<then>> {
+  state "Promise" as P3 <<promise>> {
+    state "**(7a)** onFulfilled" as F2 <<fulfilled>>
+    F2: this callback will be called if the promise is fulfilled
+  }
+}
+
+state outcome2 <<choice>>
+
+state "**(4)** then" as T3 <<then>> {
+  state "Promise" as P4 <<promise>> {
+    state "**(8a)** onFulfilled" as F3 <<fulfilled>>
+    F3: this callback will be called if the promise is fulfilled
+    state "**(8b/7b)** onRejected" as R3 <<rejected>>
+    R3: this callback will be called if the promise is rejected
+  }
+}
+
+state outcome3 <<choice>>
+state outcome4 <<choice>>
+
+outcome1 -[hidden]-> T1
+
+P1 --> T1
+
+W1 --> outcome1 : resolve
+outcome1 -[$fulfilledColor]-> F1 : fulfilled
+outcome1 -[$rejectedColor]-> R1 : rejected
+T1 -> T2
+R1 --> outcome2 : resolve
+F1 --> outcome2 : resolve
+outcome2 -[$rejectedColor]-> R3 : rejected
+outcome2 -[$fulfilledColor]-> F2 : fulfilled
+T2 -> T3
+F2 --> outcome3 : resolve
+outcome3 -[$fulfilledColor]-> F3 : fulfilled
+outcome3 -[$rejectedColor]-> R3 : rejected
+F3 --> outcome4 : resolve
+R3 --> outcome4 : resolve
+outcome4 --> [*] : Nothing is done with return\nvalues or exceptions because\nthere aren't anymore callbacks
+@enduml

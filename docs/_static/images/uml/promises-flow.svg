@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="1561px" preserveAspectRatio="none" style="width:920px;height:1561px;" version="1.1" viewBox="0 0 920 1561" width="920px" zoomAndPan="magnify"><defs><filter height="300%" id="f1fwu5ua1ygy50" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[09c7fee59aeaa7f351d3f41315b9ec07]
+cluster P1--><rect fill="#E7F2FA" filter="url(#f1fwu5ua1ygy50)" height="141" rx="12.5" ry="12.5" style="stroke: #2980B9; stroke-width: 1.5;" width="557" x="7" y="7"/><rect fill="#FFFFFF" height="106.1563" rx="12.5" ry="12.5" style="stroke: #FFFFFF; stroke-width: 1.0;" width="551" x="10" y="38.8438"/><line style="stroke: #2980B9; stroke-width: 1.5;" x1="7" x2="564" y1="35.8438" y2="35.8438"/><text fill="#2980B9" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="23" x="240" y="26.4688">(1)</text><text fill="#2980B9" font-family="sans-serif" font-size="16" lengthAdjust="spacingAndGlyphs" textLength="63" x="268" y="26.4688">Promise</text><!--MD5=[9dc3e7dd58ce52d2dcab7508e255aacd]
+cluster T1--><rect fill="#E7F2FA" filter="url(#f1fwu5ua1ygy50)" height="227" rx="12.5" ry="12.5" style="stroke: #555555; stroke-width: 1.5;" width="875" x="33" y="314"/><rect fill="#FFFFFF" height="192.1563" rx="12.5" ry="12.5" style="stroke: #FFFFFF; stroke-width: 1.0;" width="869" x="36" y="345.8438"/><line style="stroke: #555555; stroke-width: 1.5;" x1="33" x2="908" y1="342.8438" y2="342.8438"/><text fill="#555555" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="23" x="439" y="333.4688">(2)</text><text fill="#555555" font-family="sans-serif" font-size="16" lengthAdjust="spacingAndGlyphs" textLength="35" x="467" y="333.4688">then</text><!--MD5=[c21fdba60f12d94b2fa6e6bbd805160f]
+cluster P2--><rect fill="#E7F2FA" filter="url(#f1fwu5ua1ygy50)" height="125" rx="12.5" ry="12.5" style="stroke: #2980B9; stroke-width: 1.5;" width="803" x="73" y="384"/><rect fill="#FFFFFF" height="90.1563" rx="12.5" ry="12.5" style="stroke: #FFFFFF; stroke-width: 1.0;" width="797" x="76" y="415.8438"/><line style="stroke: #2980B9; stroke-width: 1.5;" x1="73" x2="876" y1="412.8438" y2="412.8438"/><text fill="#2980B9" font-family="sans-serif" font-size="16" lengthAdjust="spacingAndGlyphs" textLength="63" x="439.5" y="403.4688">Promise</text><!--MD5=[87888a71ce5c88560c50a6eeafc8613a]
+cluster T2--><rect fill="#E7F2FA" filter="url(#f1fwu5ua1ygy50)" height="227" rx="12.5" ry="12.5" style="stroke: #555555; stroke-width: 1.5;" width="470" x="33" y="707"/><rect fill="#FFFFFF" height="192.1563" rx="12.5" ry="12.5" style="stroke: #FFFFFF; stroke-width: 1.0;" width="464" x="36" y="738.8438"/><line style="stroke: #555555; stroke-width: 1.5;" x1="33" x2="503" y1="735.8438" y2="735.8438"/><text fill="#555555" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="23" x="236.5" y="726.4688">(3)</text><text fill="#555555" font-family="sans-serif" font-size="16" lengthAdjust="spacingAndGlyphs" textLength="35" x="264.5" y="726.4688">then</text><!--MD5=[c6ffcf4d3b405419d09df7141ae36a57]
+cluster P3--><rect fill="#E7F2FA" filter="url(#f1fwu5ua1ygy50)" height="125" rx="12.5" ry="12.5" style="stroke: #2980B9; stroke-width: 1.5;" width="398" x="73" y="777"/><rect fill="#FFFFFF" height="90.1563" rx="12.5" ry="12.5" style="stroke: #FFFFFF; stroke-width: 1.0;" width="392" x="76" y="808.8438"/><line style="stroke: #2980B9; stroke-width: 1.5;" x1="73" x2="471" y1="805.8438" y2="805.8438"/><text fill="#2980B9" font-family="sans-serif" font-size="16" lengthAdjust="spacingAndGlyphs" textLength="63" x="237" y="796.4688">Promise</text><!--MD5=[586cda459122e15732035e902ab4876a]
+cluster T3--><rect fill="#E7F2FA" filter="url(#f1fwu5ua1ygy50)" height="227" rx="12.5" ry="12.5" style="stroke: #555555; stroke-width: 1.5;" width="875" x="33" y="1100"/><rect fill="#FFFFFF" height="192.1563" rx="12.5" ry="12.5" style="stroke: #FFFFFF; stroke-width: 1.0;" width="869" x="36" y="1131.8438"/><line style="stroke: #555555; stroke-width: 1.5;" x1="33" x2="908" y1="1128.8438" y2="1128.8438"/><text fill="#555555" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="23" x="439" y="1119.4688">(4)</text><text fill="#555555" font-family="sans-serif" font-size="16" lengthAdjust="spacingAndGlyphs" textLength="35" x="467" y="1119.4688">then</text><!--MD5=[ed756bf8c0d781a19dd2f9cd971fe5be]
+cluster P4--><rect fill="#E7F2FA" filter="url(#f1fwu5ua1ygy50)" height="125" rx="12.5" ry="12.5" style="stroke: #2980B9; stroke-width: 1.5;" width="803" x="73" y="1170"/><rect fill="#FFFFFF" height="90.1563" rx="12.5" ry="12.5" style="stroke: #FFFFFF; stroke-width: 1.0;" width="797" x="76" y="1201.8438"/><line style="stroke: #2980B9; stroke-width: 1.5;" x1="73" x2="876" y1="1198.8438" y2="1198.8438"/><text fill="#2980B9" font-family="sans-serif" font-size="16" lengthAdjust="spacingAndGlyphs" textLength="63" x="439.5" y="1189.4688">Promise</text><g id="P1.W1"><rect fill="#E7F2FA" filter="url(#f1fwu5ua1ygy50)" height="55.332" rx="12.5" ry="12.5" style="stroke: #9B59B6; stroke-width: 1.5;" width="489" x="50.5" y="69"/><line style="stroke: #9B59B6; stroke-width: 1.5;" x1="50.5" x2="539.5" y1="97.8438" y2="97.8438"/><text fill="#9B59B6" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="23" x="265" y="89.4688">(5)</text><text fill="#9B59B6" font-family="sans-serif" font-size="16" lengthAdjust="spacingAndGlyphs" textLength="32" x="293" y="89.4688">wait</text><text fill="#555555" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="469" x="55.5" y="116.3789">Wait callback sent into Promise. Called when wait method is invoked.</text></g><g id="T1.P2.F1"><rect fill="#E7F2FA" filter="url(#f1fwu5ua1ygy50)" height="55.332" rx="12.5" ry="12.5" style="stroke: #1ABC9C; stroke-width: 1.5;" width="366" x="89" y="438"/><line style="stroke: #1ABC9C; stroke-width: 1.5;" x1="89" x2="455" y1="466.8438" y2="466.8438"/><text fill="#1ABC9C" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="32" x="211.5" y="458.4688">(6a)</text><text fill="#1ABC9C" font-family="sans-serif" font-size="16" lengthAdjust="spacingAndGlyphs" textLength="84" x="248.5" y="458.4688">onFulfilled</text><text fill="#555555" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="346" x="94" y="485.3789">this callback will be called if the promise is fulfilled</text></g><g id="T1.P2.R1"><rect fill="#E7F2FA" filter="url(#f1fwu5ua1ygy50)" height="55.332" rx="12.5" ry="12.5" style="stroke: #E74C3C; stroke-width: 1.5;" width="369" x="490.5" y="438"/><line style="stroke: #E74C3C; stroke-width: 1.5;" x1="490.5" x2="859.5" y1="466.8438" y2="466.8438"/><text fill="#E74C3C" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="34" x="612.5" y="458.4688">(6b)</text><text fill="#E74C3C" font-family="sans-serif" font-size="16" lengthAdjust="spacingAndGlyphs" textLength="86" x="651.5" y="458.4688">onRejected</text><text fill="#555555" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="349" x="495.5" y="485.3789">this callback will be called if the promise is rejected</text></g><g id="T2.P3.F2"><rect fill="#E7F2FA" filter="url(#f1fwu5ua1ygy50)" height="55.332" rx="12.5" ry="12.5" style="stroke: #1ABC9C; stroke-width: 1.5;" width="366" x="89" y="831"/><line style="stroke: #1ABC9C; stroke-width: 1.5;" x1="89" x2="455" y1="859.8438" y2="859.8438"/><text fill="#1ABC9C" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="32" x="211.5" y="851.4688">(7a)</text><text fill="#1ABC9C" font-family="sans-serif" font-size="16" lengthAdjust="spacingAndGlyphs" textLength="84" x="248.5" y="851.4688">onFulfilled</text><text fill="#555555" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="346" x="94" y="878.3789">this callback will be called if the promise is fulfilled</text></g><g id="T3.P4.F3"><rect fill="#E7F2FA" filter="url(#f1fwu5ua1ygy50)" height="55.332" rx="12.5" ry="12.5" style="stroke: #1ABC9C; stroke-width: 1.5;" width="366" x="89" y="1224"/><line style="stroke: #1ABC9C; stroke-width: 1.5;" x1="89" x2="455" y1="1252.8438" y2="1252.8438"/><text fill="#1ABC9C" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="32" x="211.5" y="1244.4688">(8a)</text><text fill="#1ABC9C" font-family="sans-serif" font-size="16" lengthAdjust="spacingAndGlyphs" textLength="84" x="248.5" y="1244.4688">onFulfilled</text><text fill="#555555" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="346" x="94" y="1271.3789">this callback will be called if the promise is fulfilled</text></g><g id="T3.P4.R3"><rect fill="#E7F2FA" filter="url(#f1fwu5ua1ygy50)" height="55.332" rx="12.5" ry="12.5" style="stroke: #E74C3C; stroke-width: 1.5;" width="369" x="490.5" y="1224"/><line style="stroke: #E74C3C; stroke-width: 1.5;" x1="490.5" x2="859.5" y1="1252.8438" y2="1252.8438"/><text fill="#E74C3C" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="65" x="597" y="1244.4688">(8b/7b)</text><text fill="#E74C3C" font-family="sans-serif" font-size="16" lengthAdjust="spacingAndGlyphs" textLength="86" x="667" y="1244.4688">onRejected</text><text fill="#555555" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="349" x="495.5" y="1271.3789">this callback will be called if the promise is rejected</text></g><polygon fill="#E7F2FA" filter="url(#f1fwu5ua1ygy50)" points="281,219,293,231,281,243,269,231,281,219" style="stroke: #2980B9; stroke-width: 1.5;"/><polygon fill="#E7F2FA" filter="url(#f1fwu5ua1ygy50)" points="486,612,498,624,486,636,474,624,486,612" style="stroke: #2980B9; stroke-width: 1.5;"/><polygon fill="#E7F2FA" filter="url(#f1fwu5ua1ygy50)" points="272,1005,284,1017,272,1029,260,1017,272,1005" style="stroke: #2980B9; stroke-width: 1.5;"/><polygon fill="#E7F2FA" filter="url(#f1fwu5ua1ygy50)" points="473,1398,485,1410,473,1422,461,1410,473,1398" style="stroke: #2980B9; stroke-width: 1.5;"/><ellipse cx="473" cy="1539" fill="none" filter="url(#f1fwu5ua1ygy50)" rx="10" ry="10" style="stroke: #000000; stroke-width: 1.0;"/><ellipse cx="473.5" cy="1539.5" fill="#000000" rx="6" ry="6" style="stroke: none; stroke-width: 1.0;"/><!--MD5=[015518f19a72c3e1e98ae0f6f86cc6a5]
+link outcome1 to T1--><!--MD5=[990ac79680e812e206202d3e86ec7bb9]
+link P1 to T1--><path d="M18.6212,148.6587 C18.6571,149.1656 18.6933,149.6755 18.7296,150.1882 C18.8749,152.2389 19.0234,154.335 19.175,156.4739 C21.6,190.6959 24.8,235.8581 28,281.0188 C29.6,303.5991 31.2,326.179 32.7031,347.3908 C32.7971,348.7165 32.8906,350.0369 32.9838,351.3516 " fill="none" id="P1-to-T1" style="stroke: #F0B37E; stroke-width: 2.0;"/><polygon fill="#F0B37E" points="32.9838,351.3516,36.3376,342.0914,32.6304,346.3642,28.3576,342.6569,32.9838,351.3516" style="stroke: #F0B37E; stroke-width: 2.0;"/><!--MD5=[f83a0d31dd6a21152d995829eabd4c63]
+link W1 to outcome1--><path d="M292.17,124.31 C289.29,151.5 284.95,192.62 282.62,214.7 " fill="none" id="W1-to-outcome1" style="stroke: #F0B37E; stroke-width: 2.0;"/><polygon fill="#F0B37E" points="282.07,219.88,286.9991,211.3533,282.5986,214.908,279.044,210.5075,282.07,219.88" style="stroke: #F0B37E; stroke-width: 2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="45" x="287" y="185.5684">resolve</text><!--MD5=[ae4c2adc68c53833f26110836e4ff803]
+link outcome1 to F1--><path d="M280.59,242.59 C279.3,275.92 275.29,379.53 273.24,432.54 " fill="none" id="outcome1-to-F1" style="stroke: #1ABC9C; stroke-width: 2.0;"/><polygon fill="#1ABC9C" points="273.03,437.82,277.3622,428.9751,273.2161,432.8235,269.3678,428.6773,273.03,437.82" style="stroke: #1ABC9C; stroke-width: 2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="49" x="280" y="286.5684">fulfilled</text><!--MD5=[d1e87d6c5b525e1816953626e6b38f42]
+link outcome1 to R1--><path d="M290.29,233.94 C318.91,240.19 407.79,261.51 473,298 C540.73,335.9 607.99,397.33 645.26,434.03 " fill="none" id="outcome1-to-R1" style="stroke: #E74C3C; stroke-width: 2.0;"/><polygon fill="#E74C3C" points="649.22,437.94,645.6288,428.7692,645.6631,434.426,640.0064,434.4602,649.22,437.94" style="stroke: #E74C3C; stroke-width: 2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="50" x="454" y="286.5684">rejected</text><!--MD5=[1af785cdde5b88f460f2c82d056a469d]
+link T1 to T2--><path d="M41,541.6946 C41,542.302 41,542.9118 41,543.5242 C41,548.4233 41,553.4816 41,558.6766 C41,569.0665 41,580.0027 41,591.3031 C41,613.904 41,637.9616 41,662.0188 C41,674.0473 41,686.0758 41,697.9221 C41,700.8837 41,703.8338 41,706.7698 " fill="none" id="T1-to-T2" style="stroke: #F0B37E; stroke-width: 2.0;"/><polygon fill="#F0B37E" points="41,706.7698,45,697.7698,41,701.7698,37,697.7698,41,706.7698" style="stroke: #F0B37E; stroke-width: 2.0;"/><!--MD5=[c31ddf1ece0ffda2328d9f97023e07a0]
+link R1 to outcome2--><path d="M642.94,493.05 C599.35,529.14 523.69,591.79 496.28,614.48 " fill="none" id="R1-to-outcome2" style="stroke: #F0B37E; stroke-width: 2.0;"/><polygon fill="#F0B37E" points="492.31,617.77,501.7916,615.1055,496.1593,614.5789,496.6859,608.9467,492.31,617.77" style="stroke: #F0B37E; stroke-width: 2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="45" x="553" y="578.5684">resolve</text><!--MD5=[17491e73345a0460fa53617a3a5a9b91]
+link F1 to outcome2--><path d="M308.3,493.05 C358.11,529.47 444.9,592.94 475.2,615.1 " fill="none" id="F1-to-outcome2" style="stroke: #F0B37E; stroke-width: 2.0;"/><polygon fill="#F0B37E" points="479.56,618.29,474.6718,609.7399,475.5293,615.3313,469.9379,616.1889,479.56,618.29" style="stroke: #F0B37E; stroke-width: 2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="45" x="429" y="578.5684">resolve</text><!--MD5=[21585d6e04f21af2b18b1392c79385e1]
+link outcome2 to R3--><path d="M489.61,632.44 C493.48,640.56 499.64,654.02 504,666 C579.36,872.99 645.32,1130.22 667.26,1218.8 " fill="none" id="outcome2-to-R3" style="stroke: #E74C3C; stroke-width: 2.0;"/><polygon fill="#E74C3C" points="668.52,1223.89,670.2446,1214.1933,667.3208,1219.0359,662.4781,1216.1121,668.52,1223.89" style="stroke: #E74C3C; stroke-width: 2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="50" x="601" y="971.5684">rejected</text><!--MD5=[d726d273f8315bfa65bf9f398915ae24]
+link outcome2 to F2--><path d="M480.71,630.75 C456.01,657.58 351.07,771.6 300.06,827.01 " fill="none" id="outcome2-to-F2" style="stroke: #1ABC9C; stroke-width: 2.0;"/><polygon fill="#1ABC9C" points="296.48,830.9,305.5143,826.978,299.8625,827.2178,299.6227,821.566,296.48,830.9" style="stroke: #1ABC9C; stroke-width: 2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="49" x="446" y="679.5684">fulfilled</text><!--MD5=[a17a73c9cbbd374f5216090965306af5]
+link T2 to T3--><path d="M41,934.6946 C41,935.302 41,935.9118 41,936.5242 C41,941.4233 41,946.4816 41,951.6766 C41,962.0665 41,973.0027 41,984.3031 C41,1006.904 41,1030.9616 41,1055.0188 C41,1067.0473 41,1079.0758 41,1090.9221 C41,1093.8837 41,1096.8338 41,1099.7698 " fill="none" id="T2-to-T3" style="stroke: #F0B37E; stroke-width: 2.0;"/><polygon fill="#F0B37E" points="41,1099.7698,45,1090.7698,41,1094.7698,37,1090.7698,41,1099.7698" style="stroke: #F0B37E; stroke-width: 2.0;"/><!--MD5=[57104bf84d327cd662a84a6101428388]
+link F2 to outcome3--><path d="M272,886.05 C272,918.59 272,972.72 272,999.69 " fill="none" id="F2-to-outcome3" style="stroke: #F0B37E; stroke-width: 2.0;"/><polygon fill="#F0B37E" points="272,1004.7,276,995.7,272,999.7,268,995.7,272,1004.7" style="stroke: #F0B37E; stroke-width: 2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="45" x="273" y="971.5684">resolve</text><!--MD5=[e7e8c76d748761bd68915bb0959fcd3d]
+link outcome3 to F3--><path d="M272,1029.21 C272,1063.15 272,1165.66 272,1218.4 " fill="none" id="outcome3-to-F3" style="stroke: #1ABC9C; stroke-width: 2.0;"/><polygon fill="#1ABC9C" points="272,1223.65,276,1214.65,272,1218.65,268,1214.65,272,1223.65" style="stroke: #1ABC9C; stroke-width: 2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="49" x="273" y="1072.5684">fulfilled</text><!--MD5=[4c7bdf33561397432f2405407deb079c]
+link outcome3 to R3--><path d="M281.31,1019.77 C310.83,1025.63 404.47,1046.27 473,1084 C540.99,1121.44 608.16,1183.02 645.35,1219.88 " fill="none" id="outcome3-to-R3" style="stroke: #E74C3C; stroke-width: 2.0;"/><polygon fill="#E74C3C" points="649.29,1223.8,645.7174,1214.6219,645.7402,1220.2788,640.0834,1220.3016,649.29,1223.8" style="stroke: #E74C3C; stroke-width: 2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="50" x="453" y="1072.5684">rejected</text><!--MD5=[1f1a132d56b176c4ea39fc2ae137a553]
+link F3 to outcome4--><path d="M306.1,1279.05 C352.66,1315.31 433.66,1378.37 462.46,1400.79 " fill="none" id="F3-to-outcome4" style="stroke: #F0B37E; stroke-width: 2.0;"/><polygon fill="#F0B37E" points="466.62,1404.03,461.9781,1395.3436,462.6755,1400.9573,457.0619,1401.6548,466.62,1404.03" style="stroke: #F0B37E; stroke-width: 2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="45" x="420" y="1364.5684">resolve</text><!--MD5=[9ea390fd9302bb554ce7af0e7c5fbcc5]
+link R3 to outcome4--><path d="M640.73,1279.05 C593.94,1315.31 512.54,1378.37 483.59,1400.79 " fill="none" id="R3-to-outcome4" style="stroke: #F0B37E; stroke-width: 2.0;"/><polygon fill="#F0B37E" points="479.41,1404.03,488.9776,1401.6931,483.3667,1400.9732,484.0867,1395.3623,479.41,1404.03" style="stroke: #F0B37E; stroke-width: 2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="45" x="545" y="1364.5684">resolve</text><!--MD5=[36eb761909807c0e75c43fa454cd0713]
+link outcome4 to *end--><path d="M473,1422.27 C473,1445.39 473,1498.16 473,1523.67 " fill="none" id="outcome4-to-*end" style="stroke: #F0B37E; stroke-width: 2.0;"/><polygon fill="#F0B37E" points="473,1528.68,477,1519.68,473,1523.68,469,1519.68,473,1528.68" style="stroke: #F0B37E; stroke-width: 2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="174" x="483" y="1465.5684">Nothing is done with return</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="185" x="477.5" y="1480.8789">values or exceptions because</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="192" x="474" y="1496.1895">there aren't anymore callbacks</text><!--MD5=[4049656787141066e42a2a0016335786]
+@startuml
+
+!include config/plantuml.cfg
+
+state "**(1)** Promise" as P1 <<promise>> {
+  state "**(5)** wait" as W1 <<wait>> {
+    W1: Wait callback sent into Promise. Called when wait method is invoked.
+  }
+}
+
+state "**(2)** then" as T1 <<then>> {
+  state "Promise" as P2 <<promise>> {
+
+    state "**(6a)** onFulfilled" as F1 <<fulfilled>>
+    F1: this callback will be called if the promise is fulfilled
+
+    state "**(6b)** onRejected" as R1 <<rejected>>
+    R1: this callback will be called if the promise is rejected
+
+  }
+}
+
+state outcome1 <<choice>>
+
+
+state "**(3)** then" as T2 <<then>> {
+  state "Promise" as P3 <<promise>> {
+    state "**(7a)** onFulfilled" as F2 <<fulfilled>>
+    F2: this callback will be called if the promise is fulfilled
+  }
+}
+
+state outcome2 <<choice>>
+
+state "**(4)** then" as T3 <<then>> {
+  state "Promise" as P4 <<promise>> {
+    state "**(8a)** onFulfilled" as F3 <<fulfilled>>
+    F3: this callback will be called if the promise is fulfilled
+    state "**(8b/7b)** onRejected" as R3 <<rejected>>
+    R3: this callback will be called if the promise is rejected
+  }
+}
+
+state outcome3 <<choice>>
+state outcome4 <<choice>>
+
+outcome1 -[hidden]-> T1
+
+P1 - -> T1
+
+W1 - -> outcome1 : resolve
+outcome1 -[$fulfilledColor]-> F1 : fulfilled
+outcome1 -[$rejectedColor]-> R1 : rejected
+T1 -> T2
+R1 - -> outcome2 : resolve
+F1 - -> outcome2 : resolve
+outcome2 -[$rejectedColor]-> R3 : rejected
+outcome2 -[$fulfilledColor]-> F2 : fulfilled
+T2 -> T3
+F2 - -> outcome3 : resolve
+outcome3 -[$fulfilledColor]-> F3 : fulfilled
+outcome3 -[$rejectedColor]-> R3 : rejected
+F3 - -> outcome4 : resolve
+R3 - -> outcome4 : resolve
+outcome4 - -> [*] : Nothing is done with return\nvalues or exceptions because\nthere aren't anymore callbacks
+@enduml
+
+@startuml
+
+
+
+skinparam backgroundColor white
+
+skinparam note {
+BackgroundColor #e7f2fa
+BorderColor #2980b9
+}
+
+skinparam activity {
+BackgroundColor #e7f2fa
+ArrowColor #f0b37e
+BorderColor #2980b9
+StartColor #227BC6
+EndColor #227BC6
+BarColor #227BC6
+}
+
+skinparam usecase {
+ArrowThickness 2
+MessageAlign center
+ArrowColor #f0b37e
+BorderColor #2980b9
+GroupFontColor white
+Padding 0
+FontColor #2980b9
+FontSize 14
+BackgroundColor #e7f2fa
+}
+
+skinparam sequence {
+ArrowColor  #f0b37e
+DividerBackgroundColor  #e7f2fa
+GroupBackgroundColor    #e7f2fa
+LifeLineBackgroundColor #e7f2fa
+LifeLineBorderColor #2980b9
+ParticipantBackgroundColor  #e7f2fa
+ParticipantBorderColor  #2980b9
+BoxLineColor    #2980b9
+BoxBackgroundColor  #e7f2fa
+}
+
+skinparam state {
+ArrowColor #2980b9
+ArrowThickness 2
+BorderThickness 4
+StartColor #f0b37e
+EndColor #f0b37e
+FontSize 16
+AttributeFontSize 14
+AttributeFontColor #555
+BackgroundColor white
+BorderColor #555
+FontColor white
+
+FontColor<<promise>> #2980b9
+BorderColor<<promise>> #2980b9
+
+FontColor<<wait>> #9b59b6
+BorderColor<<wait>> #9b59b6
+BackgroundColor<<promise>> #2980b9
+FontColor<<fulfilled>> #1abc9c
+BorderColor<<fulfilled>> #1abc9c
+FontColor<<rejected>> #E74C3C
+BorderColor<<rejected>> #E74C3C
+BorderColor<<gray>> #555
+FontColor<<then>> #555
+BorderColor<<then>> #555
+BackgroundColor<<then>> #555
+}
+
+skinparam actorBackgroundColor #e7f2fa
+skinparam actorBorderColor    #2980b9
+
+skinparam usecaseArrowColor   #f0b37e
+skinparam usecaseBackgroundColor  #e7f2fa
+skinparam usecaseBorderColor  #2980b9
+
+skinparam classArrowColor #f0b37e
+skinparam classBackgroundColor    #e7f2fa
+skinparam classBorderColor    #2980b9
+
+skinparam objectArrowColor    #f0b37e
+skinparam objectBackgroundColor   #e7f2fa
+skinparam objectBorderColor   #2980b9
+
+skinparam packageBackgroundColor  #e7f2fa
+skinparam packageBorderColor  #2980b9
+
+skinparam stereotypeCBackgroundColor  #e7f2fa
+skinparam stereotypeABackgroundColor  #e7f2fa
+skinparam stereotypeIBackgroundColor  #e7f2fa
+skinparam stereotypeEBackgroundColor  #e7f2fa
+
+skinparam componentArrowColor #f0b37e
+skinparam componentBackgroundColor    #e7f2fa
+skinparam componentBorderColor    #2980b9
+skinparam componentInterfaceBackgroundColor   #e7f2fa
+skinparam componentInterfaceBorderColor   #2980b9
+
+skinparam stateBackgroundColor #e7f2fa
+skinparam stateBorderColor #2980b9
+skinparam stateArrowColor #f0b37e
+skinparam stateStartColor black
+skinparam stateEndColor   black
+
+
+state "**(1)** Promise" as P1 <<promise>> {
+  state "**(5)** wait" as W1 <<wait>> {
+    W1: Wait callback sent into Promise. Called when wait method is invoked.
+  }
+}
+
+state "**(2)** then" as T1 <<then>> {
+  state "Promise" as P2 <<promise>> {
+
+    state "**(6a)** onFulfilled" as F1 <<fulfilled>>
+    F1: this callback will be called if the promise is fulfilled
+
+    state "**(6b)** onRejected" as R1 <<rejected>>
+    R1: this callback will be called if the promise is rejected
+
+  }
+}
+
+state outcome1 <<choice>>
+
+
+state "**(3)** then" as T2 <<then>> {
+  state "Promise" as P3 <<promise>> {
+    state "**(7a)** onFulfilled" as F2 <<fulfilled>>
+    F2: this callback will be called if the promise is fulfilled
+  }
+}
+
+state outcome2 <<choice>>
+
+state "**(4)** then" as T3 <<then>> {
+  state "Promise" as P4 <<promise>> {
+    state "**(8a)** onFulfilled" as F3 <<fulfilled>>
+    F3: this callback will be called if the promise is fulfilled
+    state "**(8b/7b)** onRejected" as R3 <<rejected>>
+    R3: this callback will be called if the promise is rejected
+  }
+}
+
+state outcome3 <<choice>>
+state outcome4 <<choice>>
+
+outcome1 -[hidden]-> T1
+
+P1 - -> T1
+
+W1 - -> outcome1 : resolve
+outcome1 -[#1abc9c]-> F1 : fulfilled
+outcome1 -[#E74C3C]-> R1 : rejected
+T1 -> T2
+R1 - -> outcome2 : resolve
+F1 - -> outcome2 : resolve
+outcome2 -[#E74C3C]-> R3 : rejected
+outcome2 -[#1abc9c]-> F2 : fulfilled
+T2 -> T3
+F2 - -> outcome3 : resolve
+outcome3 -[#1abc9c]-> F3 : fulfilled
+outcome3 -[#E74C3C]-> R3 : rejected
+F3 - -> outcome4 : resolve
+R3 - -> outcome4 : resolve
+outcome4 - -> [*] : Nothing is done with return\nvalues or exceptions because\nthere aren't anymore callbacks
+@enduml
+
+PlantUML version 1.2020.19(Mon Oct 12 10:10:01 CDT 2020)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>
