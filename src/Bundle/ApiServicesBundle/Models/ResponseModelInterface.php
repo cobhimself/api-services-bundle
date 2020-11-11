@@ -18,9 +18,9 @@ use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ExceptionHandlerInterf
 interface ResponseModelInterface
 {
     /**
-     * Add a callback to be run upon response model initialization.
-     *
-     * Called after data is set in the model.
+     * Add a callback to be run after data is set in a model (either through
+     * withData or after it is loaded from an API endpoint
+     * or cache).
      *
      * @param callable $initCallback
      */
@@ -33,23 +33,24 @@ interface ResponseModelInterface
      * If a dot path has been resolved before, the value is returned without
      * having to traverse the data structure thanks to caching.
      *
-     * @example For the given array structure:
-     *
-     * $data = [
-     *    'one' => 1,
-     *    'parent' => [
-     *        'child1' => [
-     *             'child2' => true
+     * Example usage:
+     * @code
+     *     $data = [
+     *        'one' => 1,
+     *        'parent' => [
+     *            'child1' => [
+     *                 'child2' => true
+     *            ]
      *        ]
-     *    ]
-     * ];
+     *     ];
      *
-     * $this->dot('one'); //1
-     * $this->dot('parent'); //['child1' => ['child2' => true]]
-     * $this->dot('parent.child1'); //['child2' => true]
-     * $this->dot('parent.child1.child2'); //true
-     * $this->dot('parent.child1.child3'); //false
-     * #this->dot('parent.child1.child3', 'my_default'); //'my_default'
+     *     $this->dot('one'); //1
+     *     $this->dot('parent'); //['child1' => ['child2' => true]]
+     *     $this->dot('parent.child1'); //['child2' => true]
+     *     $this->dot('parent.child1.child2'); //true
+     *     $this->dot('parent.child1.child3'); //false
+     *     this->dot('parent.child1.child3', 'my_default'); //'my_default'
+     * @endcode
      *
      * @param string                     $key     the key to use as the path to
      *                                            find the data
@@ -67,7 +68,7 @@ interface ResponseModelInterface
      *                                            full key path when this method
      *                                            is called recursively.
      *
-     * @return false|mixed By default, if the data cannot be found, false is
+     * @return bool|mixed By default, if the data cannot be found, false is
      *                     returned. Otherwise, if a default value has been
      *                     provided, the default will be returned in that case.
      *                     If data is found at the key path, the data found
@@ -231,7 +232,7 @@ interface ResponseModelInterface
     /**
      * Obtain the raw data associated with this model.
      *
-     * @return false|mixed
+     * @return bool|mixed
      */
     public function getRawData();
 

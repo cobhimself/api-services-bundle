@@ -29,8 +29,9 @@
         "symfony/yaml": "^2.8|^3.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.0",
-        "php-coveralls/php-coveralls": "*"
+        "jawira/plantuml": "^1.44",
+        "php-coveralls/php-coveralls": "*",
+        "phpunit/phpunit": "^6.0"
     },
     "autoload": {
         "psr-4": {

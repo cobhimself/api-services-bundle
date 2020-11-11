@@ -106,7 +106,8 @@ abstract class AbstractResponseModelCollection extends AbstractResponseModel imp
      * If null, attempts to get the count value path will throw
      * a ResponseModelSetupException.
      *
-     * @example if our data was:
+     * if our data was:
+     * <code>
      * [
      *   'one' => [
      *     'two' => [
@@ -116,6 +117,7 @@ abstract class AbstractResponseModelCollection extends AbstractResponseModel imp
      *     ]
      *   ]
      * ]
+     * </code>
      * this should be 'one.two'
      *
      *
@@ -633,10 +635,11 @@ abstract class AbstractResponseModelCollection extends AbstractResponseModel imp
      * Get the dot value path to use when retrieving the value for the size of
      * this collection.
      *
-     * @example if our data was ['one' => ['two' => ['size' => 100]]],
-     *          this method should return 'one.two.size';
-     * @example if our data was ['max-results' => 1, 'size' => 100],
-     *          this method should return 'size'
+     * if our data was <code>['one' => ['two' => ['size' => 100]]]</code>,
+     * this method should return <code>'one.two.size'</code>;
+     *
+     * if our data was <code>['max-results' => 1, 'size' => 100]</code>,
+     * this method should return <code>'size'</code>
      *
      * @return string
      *
@@ -1104,12 +1107,13 @@ abstract class AbstractResponseModelCollection extends AbstractResponseModel imp
     /**
      * Applies the callback to the child response models in this collection
      *
-     * @example To return child data from this collection:
-     *
+     * To return child data from this collection:
+     * <code>
      * //Returns an array of the return values from methodToGetWhatever
      * $this->map(function ($item) {
      *     return $item->methodToGetWhatever();
      * });
+     * </code>
      *
      * @see     array_map()
      *

@@ -46,97 +46,109 @@ abstract class AbstractResponseModel implements ResponseModelInterface, CommandL
     use ResponseModelSetupTrait;
 
     /**
+     * @var string|null LOAD_COMMAND
+     *
      * The service operation the model uses to load its data.
      */
     const LOAD_COMMAND = null;
 
     /**
-     * @var array the arguments to send to the service operation
+     * @var array LOAD_ARGUMENTS
+     *
+     * The arguments to send to the service operation
      */
     const LOAD_ARGUMENTS = [];
 
     /**
+     * @var string RAW_DATA_KEY
+     *
      * Key used when setting the raw data for a response model.
      */
     const RAW_DATA_KEY = '_raw_data';
 
     /**
+     * @var bool RAW_DATA
+     *
      * Whether or not this response model only accepts raw data.
      */
     const RAW_DATA = false;
 
     /**
-     * @var array an array of callbacks to be run upon initialization
+     * @var array $initCallbacks
+     *
+     * Callbacks to be run upon initialization
      */
     protected $initCallbacks = [];
 
     /**
-     * Contains a list of arguments used when loading the response model.
+     * @var array $argsForCacheKey
      *
-     * @var array
+     * Contains a list of arguments used when loading the response model.
      */
     protected $argsForCacheKey = [];
 
     /**
-     * @var ServiceClient
+     * @var ServiceClient $client
+     *
+     * The service client this model uses.
      */
     protected $client;
 
     /**
-     * Whether or not this response model has been loaded already.
+     * @var bool $loaded
      *
-     * @var bool
+     * Whether or not this response model has been loaded already.
      */
     protected $loaded = false;
 
     /**
-     * Whether or not the data for this model was loaded from cache.
+     * @var bool $loadedFromCache
      *
-     * @var bool
+     * Whether or not the data for this model was loaded from cache.
      */
     protected $loadedFromCache = false;
 
     /**
+     * @var bool $loadedWithData
+     *
      * Whether or not this response model's data was populated with data
      * already retrieved
-     *
-     * @var bool
      */
     protected $loadedWithData = false;
 
     /**
-     * Data associated with this model.
+     * @var array|null $data
      *
-     * @var array
+     * Data associated with this model.
      */
     protected $data;
 
     /**
-     * Cache for our dot functionality.
+     * @var array $dotCache
      *
-     * @var array
+     * Cache for our dot functionality.
      */
     private $dotCache = [];
 
     /**
+     * @var ResponseModelCollectionInterface|ResponseModelInterface|null $parent
+     *
      * The parent response model or response model collection this response
      * model belongs to (if any).
-     *
-     * @var ResponseModelCollectionInterface|ResponseModelInterface|null
      */
     protected $parent;
 
     /**
-     * Whether or not it was determined to cancel the loading of this model.
+     * @var bool $loadCancelled
      *
-     * @var bool
+     * Whether or not it was determined to cancel the loading of this model.
      */
     private $loadCancelled = false;
 
     /**
-     * The reason, if any, the loading of this response model was cancelled.
+     * @var string $cancelReason
      *
-     * @var string
+     * The reason, if any, the loading of this response model was cancelled.
      */
     private $cancelReason = 'Loading was not cancelled!';
 
@@ -218,7 +230,7 @@ abstract class AbstractResponseModel implements ResponseModelInterface, CommandL
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      *
      * @returns ResponseModelInterface|ResponseModelCollectionInterface
      *
@@ -241,7 +253,7 @@ abstract class AbstractResponseModel implements ResponseModelInterface, CommandL
     /**
      * {@inheritDoc}
      *
-     * If a value for `$parent` is not sent in, automatic association
+     * If a value for ``$parent`` is not sent in, automatic association
      * of parent Plan and parent Project models for created model will not
      * occur. However, when provided, any model which is generated will have
      * these links established.
@@ -290,8 +302,6 @@ abstract class AbstractResponseModel implements ResponseModelInterface, CommandL
      * NOTE: The `$promise` variable sent in is set to the promise created by
      * this method and, for data to be loaded, its `wait()` method
      * MUST BE CALLED!
-     *
-     * @inheritDoc
      *
      * @return ResponseModelInterface
      *
@@ -399,9 +409,6 @@ abstract class AbstractResponseModel implements ResponseModelInterface, CommandL
         return $this->client;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function setClient(ServiceClient $client)
     {
         $this->client = $client;
@@ -409,9 +416,6 @@ abstract class AbstractResponseModel implements ResponseModelInterface, CommandL
         return $this;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function triggerCallbacks(ResponseModelInterface $model)
     {
         foreach ($this->initCallbacks as $callback) {
@@ -419,9 +423,6 @@ abstract class AbstractResponseModel implements ResponseModelInterface, CommandL
         }
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function getLoadArguments(): array
     {
         static::checkForConstException('LOAD_ARGUMENTS');
@@ -476,6 +477,10 @@ abstract class AbstractResponseModel implements ResponseModelInterface, CommandL
 
     /**
      * Return a unique hash string for the given array.
+     *
+     * @param array $array
+     *
+     * @return string
      */
     protected static function hashArray(array $array): string
     {
@@ -523,9 +528,6 @@ abstract class AbstractResponseModel implements ResponseModelInterface, CommandL
         return false;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function dot(string $key, $default = false, $data = null)
     {
         $firstRun = null === $data;
@@ -589,17 +591,11 @@ abstract class AbstractResponseModel implements ResponseModelInterface, CommandL
         return $final;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getData(): array
     {
         return $this->data ?? [];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function setData($data, string $key = null): ResponseModelInterface
     {
         if (null === $key) {
@@ -620,9 +616,6 @@ abstract class AbstractResponseModel implements ResponseModelInterface, CommandL
         return $this;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function setRawData($data): ResponseModelInterface
     {
         $this->setData($data, self::RAW_DATA_KEY);
@@ -630,17 +623,11 @@ abstract class AbstractResponseModel implements ResponseModelInterface, CommandL
         return $this;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getRawData()
     {
         return $this->dot(self::RAW_DATA_KEY);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function addInitCallback(callable $initCallback)
     {
         $this->initCallbacks[] = $initCallback;
@@ -748,7 +735,8 @@ abstract class AbstractResponseModel implements ResponseModelInterface, CommandL
     /**
      * Get the command for this response model with the given command args.
      *
-     * @param array $commandArgs the arguments to provide the command
+     * @param ServiceClient $client
+     * @param array         $commandArgs the arguments to provide the command
      *
      * @return CommandInterface
      *
@@ -879,6 +867,7 @@ abstract class AbstractResponseModel implements ResponseModelInterface, CommandL
      *
      * @param array $commandArgs the command arguments to use when running
      *                           the command
+     * @param bool  $clearCache  whether or not to clear the cache first
      *
      * @return PromiseInterface a promise which, upon fulfillment, will return
      *                          the response data for us to use

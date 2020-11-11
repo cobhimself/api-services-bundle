@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="402px" preserveAspectRatio="none" style="width:326px;height:402px;" version="1.1" viewBox="0 0 326 402" width="326px" zoomAndPan="magnify"><defs><filter height="300%" id="fecj1mn8xzn6o" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><ellipse cx="55.669" cy="268.659" fill="#E7F2FA" filter="url(#fecj1mn8xzn6o)" rx="49.669" ry="14.659" style="stroke: #2980B9; stroke-width: 1.5;"/><text fill="#2980B9" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="66" x="22.669" y="273.4031">Project[0]</text><ellipse cx="239.9732" cy="163.3946" fill="#E7F2FA" filter="url(#fecj1mn8xzn6o)" rx="74.9732" ry="17.3946" style="stroke: #2980B9; stroke-width: 1.5;"/><text fill="#2980B9" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="118" x="180.9732" y="168.1388">Project[0] Plan[0]</text><ellipse cx="239.9732" cy="233.3946" fill="#E7F2FA" filter="url(#fecj1mn8xzn6o)" rx="74.9732" ry="17.3946" style="stroke: #2980B9; stroke-width: 1.5;"/><text fill="#2980B9" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="118" x="180.9732" y="238.1388">Project[0] Plan[1]</text><ellipse cx="239.9732" cy="303.3946" fill="#E7F2FA" filter="url(#fecj1mn8xzn6o)" rx="74.9732" ry="17.3946" style="stroke: #2980B9; stroke-width: 1.5;"/><text fill="#2980B9" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="118" x="180.9732" y="308.1388">Project[0] Plan[2]</text><ellipse cx="239.9732" cy="373.3946" fill="#E7F2FA" filter="url(#fecj1mn8xzn6o)" rx="74.9732" ry="17.3946" style="stroke: #2980B9; stroke-width: 1.5;"/><text fill="#2980B9" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="118" x="180.9732" y="378.1388">Project[0] Plan[3]</text><ellipse cx="55.669" cy="58.659" fill="#E7F2FA" filter="url(#fecj1mn8xzn6o)" rx="49.669" ry="14.659" style="stroke: #2980B9; stroke-width: 1.5;"/><text fill="#2980B9" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="66" x="22.669" y="63.4031">Project[1]</text><ellipse cx="239.9732" cy="23.3946" fill="#E7F2FA" filter="url(#fecj1mn8xzn6o)" rx="74.9732" ry="17.3946" style="stroke: #2980B9; stroke-width: 1.5;"/><text fill="#2980B9" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="118" x="180.9732" y="28.1388">Project[1] Plan[0]</text><ellipse cx="239.9732" cy="93.3946" fill="#E7F2FA" filter="url(#fecj1mn8xzn6o)" rx="74.9732" ry="17.3946" style="stroke: #2980B9; stroke-width: 1.5;"/><text fill="#2980B9" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="118" x="180.9732" y="98.1388">Project[1] Plan[1]</text><!--MD5=[39a09213247e09c824db388fdf6ad185]
+link PR1 to PL1--><path d="M75.63,255.07 C96.94,240.36 132.67,216.47 165,198.5 C175.87,192.46 187.95,186.46 199.15,181.18 " fill="none" id="PR1-to-PL1" style="stroke: #F0B37E; stroke-width: 2.0;"/><polygon fill="#F0B37E" points="203.89,178.96,194.0428,179.1429,199.3594,181.0752,197.4272,186.3918,203.89,178.96" style="stroke: #F0B37E; stroke-width: 2.0;"/><!--MD5=[c99cd43d981869db0d4b145aa76b1e11]
+link PR1 to PL2--><path d="M97.46,260.65 C120.71,256.19 150.3,250.51 176.4,245.51 " fill="none" id="PR1-to-PL2" style="stroke: #F0B37E; stroke-width: 2.0;"/><polygon fill="#F0B37E" points="181.57,244.51,171.9763,242.2826,176.6601,245.4548,173.4879,250.1385,181.57,244.51" style="stroke: #F0B37E; stroke-width: 2.0;"/><!--MD5=[a6d87287cb69532b5a78409c046e7322]
+link PR1 to PL3--><path d="M97.46,276.35 C120.71,280.81 150.3,286.49 176.4,291.49 " fill="none" id="PR1-to-PL3" style="stroke: #F0B37E; stroke-width: 2.0;"/><polygon fill="#F0B37E" points="181.57,292.49,173.4879,286.8615,176.6601,291.5452,171.9763,294.7174,181.57,292.49" style="stroke: #F0B37E; stroke-width: 2.0;"/><!--MD5=[6e2c1f03224e78851625a646d0eb0724]
+link PR1 to PL4--><path d="M75.63,281.93 C96.94,296.64 132.67,320.53 165,338.5 C175.87,344.54 187.95,350.54 199.15,355.82 " fill="none" id="PR1-to-PL4" style="stroke: #F0B37E; stroke-width: 2.0;"/><polygon fill="#F0B37E" points="203.89,358.04,197.4272,350.6082,199.3594,355.9248,194.0428,357.8571,203.89,358.04" style="stroke: #F0B37E; stroke-width: 2.0;"/><!--MD5=[2340af3c9d200288e9525c4fbe3582fd]
+link PR2 to PL5--><path d="M97.46,50.65 C120.71,46.19 150.3,40.51 176.4,35.51 " fill="none" id="PR2-to-PL5" style="stroke: #F0B37E; stroke-width: 2.0;"/><polygon fill="#F0B37E" points="181.57,34.51,171.9763,32.2826,176.6601,35.4548,173.4879,40.1385,181.57,34.51" style="stroke: #F0B37E; stroke-width: 2.0;"/><!--MD5=[09735c84f5ce38d63889c606af7d7bcc]
+link PR2 to PL6--><path d="M97.46,66.35 C120.71,70.81 150.3,76.49 176.4,81.49 " fill="none" id="PR2-to-PL6" style="stroke: #F0B37E; stroke-width: 2.0;"/><polygon fill="#F0B37E" points="181.57,82.49,173.4879,76.8615,176.6601,81.5452,171.9763,84.7174,181.57,82.49" style="stroke: #F0B37E; stroke-width: 2.0;"/><!--MD5=[1e75034fb5550677219355e61fcd20f9]
+@startuml
+
+!include config/plantuml.cfg
+
+left to right direction
+
+(Project[0]) as (PR1)
+(Project[0] Plan[0]) as (PL1)
+(Project[0] Plan[1]) as (PL2)
+(Project[0] Plan[2]) as (PL3)
+(Project[0] Plan[3]) as (PL4)
+
+(Project[1]) as (PR2)
+(Project[1] Plan[0]) as (PL5)
+(Project[1] Plan[1]) as (PL6)
+
+child(PR1, PL1)
+child(PR1, PL2)
+child(PR1, PL3)
+child(PR1, PL4)
+
+child(PR2, PL5)
+child(PR2, PL6)
+@enduml
+
+@startuml
+
+
+
+skinparam backgroundColor white
+
+skinparam note {
+BackgroundColor #e7f2fa
+BorderColor #2980b9
+}
+
+skinparam activity {
+BackgroundColor #e7f2fa
+ArrowColor #f0b37e
+BorderColor #2980b9
+StartColor #227BC6
+EndColor #227BC6
+BarColor #227BC6
+}
+
+skinparam usecase {
+ArrowThickness 2
+MessageAlign center
+ArrowColor #f0b37e
+BorderColor #2980b9
+GroupFontColor white
+Padding 0
+FontColor #2980b9
+FontSize 14
+BackgroundColor #e7f2fa
+}
+
+skinparam sequence {
+ArrowColor  #f0b37e
+DividerBackgroundColor  #e7f2fa
+GroupBackgroundColor    #e7f2fa
+LifeLineBackgroundColor #e7f2fa
+LifeLineBorderColor #2980b9
+ParticipantBackgroundColor  #e7f2fa
+ParticipantBorderColor  #2980b9
+BoxLineColor    #2980b9
+BoxBackgroundColor  #e7f2fa
+}
+
+skinparam state {
+ArrowColor #2980b9
+ArrowThickness 2
+BorderThickness 4
+StartColor #f0b37e
+EndColor #f0b37e
+FontSize 16
+AttributeFontSize 14
+AttributeFontColor #555
+BackgroundColor white
+BorderColor #555
+FontColor white
+
+FontColor<<promise>> #2980b9
+BorderColor<<promise>> #2980b9
+
+FontColor<<wait>> #9b59b6
+BorderColor<<wait>> #9b59b6
+BackgroundColor<<promise>> #2980b9
+FontColor<<fulfilled>> #1abc9c
+BorderColor<<fulfilled>> #1abc9c
+FontColor<<rejected>> #E74C3C
+BorderColor<<rejected>> #E74C3C
+BorderColor<<gray>> #555
+FontColor<<then>> #555
+BorderColor<<then>> #555
+BackgroundColor<<then>> #555
+}
+
+skinparam actorBackgroundColor #e7f2fa
+skinparam actorBorderColor    #2980b9
+
+skinparam usecaseArrowColor   #f0b37e
+skinparam usecaseBackgroundColor  #e7f2fa
+skinparam usecaseBorderColor  #2980b9
+
+skinparam classArrowColor #f0b37e
+skinparam classBackgroundColor    #e7f2fa
+skinparam classBorderColor    #2980b9
+
+skinparam objectArrowColor    #f0b37e
+skinparam objectBackgroundColor   #e7f2fa
+skinparam objectBorderColor   #2980b9
+
+skinparam packageBackgroundColor  #e7f2fa
+skinparam packageBorderColor  #2980b9
+
+skinparam stereotypeCBackgroundColor  #e7f2fa
+skinparam stereotypeABackgroundColor  #e7f2fa
+skinparam stereotypeIBackgroundColor  #e7f2fa
+skinparam stereotypeEBackgroundColor  #e7f2fa
+
+skinparam componentArrowColor #f0b37e
+skinparam componentBackgroundColor    #e7f2fa
+skinparam componentBorderColor    #2980b9
+skinparam componentInterfaceBackgroundColor   #e7f2fa
+skinparam componentInterfaceBorderColor   #2980b9
+
+skinparam stateBackgroundColor #e7f2fa
+skinparam stateBorderColor #2980b9
+skinparam stateArrowColor #f0b37e
+skinparam stateStartColor black
+skinparam stateEndColor   black
+
+
+left to right direction
+
+(Project[0]) as (PR1)
+(Project[0] Plan[0]) as (PL1)
+(Project[0] Plan[1]) as (PL2)
+(Project[0] Plan[2]) as (PL3)
+(Project[0] Plan[3]) as (PL4)
+
+(Project[1]) as (PR2)
+(Project[1] Plan[0]) as (PL5)
+(Project[1] Plan[1]) as (PL6)
+
+    (PR1) - -> (PL1)
+    (PR1) - -> (PL2)
+    (PR1) - -> (PL3)
+    (PR1) - -> (PL4)
+
+    (PR2) - -> (PL5)
+    (PR2) - -> (PL6)
+@enduml
+
+PlantUML version 1.2020.19(Mon Oct 12 10:10:01 CDT 2020)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

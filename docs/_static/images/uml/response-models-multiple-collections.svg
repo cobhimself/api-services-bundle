@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="212px" preserveAspectRatio="none" style="width:523px;height:212px;" version="1.1" viewBox="0 0 523 212" width="523px" zoomAndPan="magnify"><defs><filter height="300%" id="f19drgd51h1gxa" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[b1bb0a86d96698712e936e2d96ca81cc]
+cluster ProjectCollection--><rect fill="#E7F2FA" filter="url(#f19drgd51h1gxa)" height="193" style="stroke: #2980B9; stroke-width: 1.5;" width="504" x="7" y="7"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="123" x="197.5" y="22.5352">ProjectCollection</text><!--MD5=[cf1c704eeb968f50dc554f685b7929a6]
+cluster PlanCollection 1--><rect fill="#E7F2FA" filter="url(#f19drgd51h1gxa)" height="80" style="stroke: #2980B9; stroke-width: 1.5;" width="298" x="189" y="96"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="118" x="279" y="111.5352">PlanCollection 1</text><!--MD5=[8b630625c69428a004f789aa50cbe5c7]
+cluster PlanCollection 2--><rect fill="#E7F2FA" filter="url(#f19drgd51h1gxa)" height="80" style="stroke: #2980B9; stroke-width: 1.5;" width="134" x="31" y="96"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="118" x="39" y="111.5352">PlanCollection 2</text><ellipse cx="338.234" cy="56.659" fill="#E7F2FA" filter="url(#f19drgd51h1gxa)" rx="36.234" ry="14.659" style="stroke: #2980B9; stroke-width: 1.5;"/><text fill="#2980B9" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="47" x="314.734" y="61.4031">Project</text><ellipse cx="98.098" cy="56.659" fill="#E7F2FA" filter="url(#f19drgd51h1gxa)" rx="42.598" ry="14.659" style="stroke: #2980B9; stroke-width: 1.5;"/><text fill="#2980B9" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="56" x="70.098" y="61.4031">Project2</text><ellipse cx="438.1985" cy="145.659" fill="#E7F2FA" filter="url(#f19drgd51h1gxa)" rx="32.6985" ry="14.659" style="stroke: #2980B9; stroke-width: 1.5;"/><text fill="#2980B9" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="42" x="417.1985" y="150.4031">Plan 1</text><ellipse cx="338.1985" cy="145.659" fill="#E7F2FA" filter="url(#f19drgd51h1gxa)" rx="32.6985" ry="14.659" style="stroke: #2980B9; stroke-width: 1.5;"/><text fill="#2980B9" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="42" x="317.1985" y="150.4031">Plan 2</text><ellipse cx="238.1985" cy="145.659" fill="#E7F2FA" filter="url(#f19drgd51h1gxa)" rx="32.6985" ry="14.659" style="stroke: #2980B9; stroke-width: 1.5;"/><text fill="#2980B9" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="42" x="217.1985" y="150.4031">Plan 3</text><ellipse cx="98.1985" cy="145.659" fill="#E7F2FA" filter="url(#f19drgd51h1gxa)" rx="32.6985" ry="14.659" style="stroke: #2980B9; stroke-width: 1.5;"/><text fill="#2980B9" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="42" x="77.1985" y="150.4031">Plan 4</text><!--MD5=[96d6640975343ebdbb1e7fc059b26c8a]
+link PR to PL1--><path d="M358.88,68.37 C368.22,73.7 379.11,80.56 388,88 C401.95,99.68 415.49,115.33 424.95,127.19 " fill="none" id="PR-to-PL1" style="stroke: #F0B37E; stroke-width: 2.0;"/><polygon fill="#F0B37E" points="428.24,131.38,425.8264,121.8315,425.1515,127.4479,419.5351,126.773,428.24,131.38" style="stroke: #F0B37E; stroke-width: 2.0;"/><!--MD5=[19fedac1e32bb14029730757f52d96d3]
+link PR to PL2--><path d="M338,71.09 C338,85.69 338,109 338,125.43 " fill="none" id="PR-to-PL2" style="stroke: #F0B37E; stroke-width: 2.0;"/><polygon fill="#F0B37E" points="338,130.71,342,121.71,338,125.71,334,121.71,338,130.71" style="stroke: #F0B37E; stroke-width: 2.0;"/><!--MD5=[73630e987d1643db1d128ae40a924926]
+link PR to PL3--><path d="M317.12,68.37 C307.78,73.7 296.89,80.56 288,88 C274.05,99.68 260.51,115.33 251.05,127.19 " fill="none" id="PR-to-PL3" style="stroke: #F0B37E; stroke-width: 2.0;"/><polygon fill="#F0B37E" points="247.76,131.38,256.4649,126.773,250.8485,127.4479,250.1736,121.8315,247.76,131.38" style="stroke: #F0B37E; stroke-width: 2.0;"/><!--MD5=[a48753a7dc5b17a27d0618f186134caf]
+link PR2 to PL4--><path d="M98,71.09 C98,85.69 98,109 98,125.43 " fill="none" id="PR2-to-PL4" style="stroke: #F0B37E; stroke-width: 2.0;"/><polygon fill="#F0B37E" points="98,130.71,102,121.71,98,125.71,94,121.71,98,130.71" style="stroke: #F0B37E; stroke-width: 2.0;"/><!--MD5=[c447b756131d819a275b21171b711e60]
+@startuml
+
+!include config/plantuml.cfg
+
+rectangle "ProjectCollection" {
+(Project) as (PR)
+    rectangle "PlanCollection 1" {
+        (Plan 1) as (PL1)
+        (Plan 2) as (PL2)
+        (Plan 3) as (PL3)
+    }
+(Project2) as (PR2)
+    rectangle "PlanCollection 2" {
+        (Plan 4) as (PL4)
+    }
+}
+
+child(PR, PL1)
+child(PR, PL2)
+child(PR, PL3)
+child(PR2, PL4)
+
+@enduml
+
+@startuml
+
+
+
+skinparam backgroundColor white
+
+skinparam note {
+BackgroundColor #e7f2fa
+BorderColor #2980b9
+}
+
+skinparam activity {
+BackgroundColor #e7f2fa
+ArrowColor #f0b37e
+BorderColor #2980b9
+StartColor #227BC6
+EndColor #227BC6
+BarColor #227BC6
+}
+
+skinparam usecase {
+ArrowThickness 2
+MessageAlign center
+ArrowColor #f0b37e
+BorderColor #2980b9
+GroupFontColor white
+Padding 0
+FontColor #2980b9
+FontSize 14
+BackgroundColor #e7f2fa
+}
+
+skinparam sequence {
+ArrowColor  #f0b37e
+DividerBackgroundColor  #e7f2fa
+GroupBackgroundColor    #e7f2fa
+LifeLineBackgroundColor #e7f2fa
+LifeLineBorderColor #2980b9
+ParticipantBackgroundColor  #e7f2fa
+ParticipantBorderColor  #2980b9
+BoxLineColor    #2980b9
+BoxBackgroundColor  #e7f2fa
+}
+
+skinparam state {
+ArrowColor #2980b9
+ArrowThickness 2
+BorderThickness 4
+StartColor #f0b37e
+EndColor #f0b37e
+FontSize 16
+AttributeFontSize 14
+AttributeFontColor #555
+BackgroundColor white
+BorderColor #555
+FontColor white
+
+FontColor<<promise>> #2980b9
+BorderColor<<promise>> #2980b9
+
+FontColor<<wait>> #9b59b6
+BorderColor<<wait>> #9b59b6
+BackgroundColor<<promise>> #2980b9
+FontColor<<fulfilled>> #1abc9c
+BorderColor<<fulfilled>> #1abc9c
+FontColor<<rejected>> #E74C3C
+BorderColor<<rejected>> #E74C3C
+BorderColor<<gray>> #555
+FontColor<<then>> #555
+BorderColor<<then>> #555
+BackgroundColor<<then>> #555
+}
+
+skinparam actorBackgroundColor #e7f2fa
+skinparam actorBorderColor    #2980b9
+
+skinparam usecaseArrowColor   #f0b37e
+skinparam usecaseBackgroundColor  #e7f2fa
+skinparam usecaseBorderColor  #2980b9
+
+skinparam classArrowColor #f0b37e
+skinparam classBackgroundColor    #e7f2fa
+skinparam classBorderColor    #2980b9
+
+skinparam objectArrowColor    #f0b37e
+skinparam objectBackgroundColor   #e7f2fa
+skinparam objectBorderColor   #2980b9
+
+skinparam packageBackgroundColor  #e7f2fa
+skinparam packageBorderColor  #2980b9
+
+skinparam stereotypeCBackgroundColor  #e7f2fa
+skinparam stereotypeABackgroundColor  #e7f2fa
+skinparam stereotypeIBackgroundColor  #e7f2fa
+skinparam stereotypeEBackgroundColor  #e7f2fa
+
+skinparam componentArrowColor #f0b37e
+skinparam componentBackgroundColor    #e7f2fa
+skinparam componentBorderColor    #2980b9
+skinparam componentInterfaceBackgroundColor   #e7f2fa
+skinparam componentInterfaceBorderColor   #2980b9
+
+skinparam stateBackgroundColor #e7f2fa
+skinparam stateBorderColor #2980b9
+skinparam stateArrowColor #f0b37e
+skinparam stateStartColor black
+skinparam stateEndColor   black
+
+
+rectangle "ProjectCollection" {
+(Project) as (PR)
+    rectangle "PlanCollection 1" {
+        (Plan 1) as (PL1)
+        (Plan 2) as (PL2)
+        (Plan 3) as (PL3)
+    }
+(Project2) as (PR2)
+    rectangle "PlanCollection 2" {
+        (Plan 4) as (PL4)
+    }
+}
+
+    (PR) - -> (PL1)
+    (PR) - -> (PL2)
+    (PR) - -> (PL3)
+    (PR2) - -> (PL4)
+
+@enduml
+
+PlantUML version 1.2020.19(Mon Oct 12 10:10:01 CDT 2020)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>
