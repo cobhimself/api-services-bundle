@@ -10,6 +10,7 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel;
 
+use Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig;
 use GuzzleHttp\Command\CommandInterface;
 use Cob\Bundle\ApiServicesBundle\Models\AbstractResponseModel;
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModelInterface;
@@ -24,35 +25,26 @@ class ResponseModelPostLoadFromCacheEvent extends ResponseModelEvent
     const NAME = 'api_services.response_model.post_load_from_cache';
 
     /**
-     * The command which would have been run had the response data not
-     * been cached.
+     * The hash string used to obtain the data from cache.
      *
-     * @var CommandInterface
+     * @var string
      */
-    protected $command;
+    protected $hash;
 
     /**
      * @var mixed
      */
     protected $cachedData;
 
-    /**
-     * @param ResponseModelInterface $model      the model associated with
-     *                                           this event
-     * @param CommandInterface       $command    the command which would have
-     *                                           been run had cache data not
-     *                                           existed
-     * @param mixed                  $cachedData the data from the cache
-     */
     public function __construct(
-        ResponseModelInterface $model,
-        CommandInterface $command,
+        ResponseModelConfig $config,
+        string $hash,
         $cachedData
     ) {
-        $this->command = $command;
         $this->cachedData = $cachedData;
+        $this->hash = $hash;
 
-        parent::__construct($model);
+        parent::__construct($config);
     }
 
     /**
@@ -63,5 +55,18 @@ class ResponseModelPostLoadFromCacheEvent extends ResponseModelEvent
     public function getCachedData()
     {
         return $this->cachedData;
+    }
+
+    public function setCachedData($data)
+    {
+        $this->cachedData = $data;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHash(): string
+    {
+        return $this->hash;
     }
 }

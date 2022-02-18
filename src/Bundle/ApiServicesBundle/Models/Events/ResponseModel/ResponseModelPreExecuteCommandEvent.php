@@ -10,6 +10,7 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel;
 
+use Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig;
 use GuzzleHttp\Command\CommandInterface;
 use Cob\Bundle\ApiServicesBundle\Models\AbstractResponseModel;
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModelInterface;
@@ -28,18 +29,12 @@ class ResponseModelPreExecuteCommandEvent extends ResponseModelEvent
      */
     protected $command;
 
-    /**
-     * @param ResponseModelInterface $model   the model whose command is about
-     *                                        to be executed
-     * @param CommandInterface       $command the command which is about to be
-     *                                        executed
-     */
     public function __construct(
-        ResponseModelInterface $model,
+        ResponseModelConfig $config,
         CommandInterface $command
     ) {
         $this->command = $command;
-        parent::__construct($model);
+        parent::__construct($config);
     }
 
     /**

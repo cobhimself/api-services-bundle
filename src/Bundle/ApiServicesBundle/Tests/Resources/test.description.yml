@@ -1,0 +1,25 @@
+name: api_services_bundle.descriptions.test
+apiVersion: 1
+baseUri: http://example.com/api/1
+description: Test API description file
+operations:
+  TestCommand:
+    httpMethod: GET
+    uri: /get/{id}
+    summary: Get data for ID 1
+    responseClass: JSONResponse
+    parameters:
+      id:
+        type: string
+        description: the test ID
+        required: true
+        location: uri
+models:
+  RawResponse:
+    type: class
+    class: Sentry\Bundle\ApiServicesBundle\Models\Http\RawResult
+  JSONResponse:
+    type: object
+    instanceOf: Cob\Bundle\ApiServiceBundle\Models\Response
+    additionalProperties:
+      location: json

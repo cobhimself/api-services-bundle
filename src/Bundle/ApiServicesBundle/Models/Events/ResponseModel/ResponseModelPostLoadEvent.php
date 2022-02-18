@@ -11,6 +11,7 @@
 namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel;
 
 use Cob\Bundle\ApiServicesBundle\Models\AbstractResponseModel;
+use Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig;
 
 /**
  * Final event run after a ResponseModelInterface is loaded.
@@ -20,4 +21,41 @@ use Cob\Bundle\ApiServicesBundle\Models\AbstractResponseModel;
 class ResponseModelPostLoadEvent extends ResponseModelEvent
 {
     const NAME = 'api_services.response_model.post_load';
+    /**
+     * @var array
+     */
+    private $commandArgs;
+    private $response;
+
+    public function __construct(ResponseModelConfig $config, array $commandArgs, $response)
+    {
+        $this->commandArgs = $commandArgs;
+        $this->response = $response;
+
+        parent::__construct($config);
+    }
+
+    /**
+     * @return array
+     */
+    public function getCommandArgs(): array
+    {
+        return $this->commandArgs;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getResponse()
+    {
+        return $this->response;
+    }
+
+    /**
+     * @param mixed $response
+     */
+    public function setResponse($response)
+    {
+        $this->response = $response;
+    }
 }

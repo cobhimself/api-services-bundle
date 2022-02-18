@@ -10,6 +10,7 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel;
 
+use Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig;
 use GuzzleHttp\Command\CommandInterface;
 use Cob\Bundle\ApiServicesBundle\Models\AbstractResponseModel;
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModelInterface;
@@ -24,30 +25,28 @@ class ResponseModelPreLoadFromCacheEvent extends ResponseModelEvent
     const NAME = 'api_services.response_model.pre_load_from_cache';
 
     /**
-     * @var CommandInterface
+     * The hash being used to load data for the model from cache.
+     *
+     * @var string
      */
-    protected $command;
+    protected $hash;
 
-    /**
-     * @param ResponseModelInterface $model   the model which is being loaded
-     *                                        from cache
-     * @param CommandInterface       $command the command which would have been
-     *                                        run had cache not existed
-     */
     public function __construct(
-        ResponseModelInterface $model,
-        CommandInterface $command
+        ResponseModelConfig $config,
+        string $hash
     ) {
-        $this->command = $command;
+        $this->hash = $hash;
 
-        parent::__construct($model);
+        parent::__construct($config);
     }
 
-    /**
-     * Get the command associated with this event.
-     */
-    public function getCommand(): CommandInterface
+    public function getHash(): string
     {
-        return $this->command;
+        return $this->hash;
+    }
+
+    public function setHash(string $newHash)
+    {
+        $this->hash = $newHash;
     }
 }

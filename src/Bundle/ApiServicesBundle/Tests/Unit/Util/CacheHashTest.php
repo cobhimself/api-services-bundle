@@ -1,0 +1,59 @@
+<?php
+
+namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Util;
+
+use Cob\Bundle\ApiServicesBundle\Models\Util\CacheHash;
+use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModel;
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @codeCoverageIgnore
+ * @coversDefaultClass \Cob\Bundle\ApiServicesBundle\Models\Util\CacheHash
+ */
+class CacheHashTest extends TestCase
+{
+
+    /**
+     * @covers ::getHashForResponseClassAndArgs
+     * @covers ::hashArray
+     * @uses \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModel
+     * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig
+     * @uses \Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil
+     */
+    public function testGetHashForSameInputProducesSameOutput()
+    {
+        $hash1 = CacheHash::getHashForResponseClassAndArgs(
+            MockBaseResponseModel::class,
+            ['one', 'two', 'three']
+        );
+
+        $hash2 = CacheHash::getHashForResponseClassAndArgs(
+            MockBaseResponseModel::class,
+            ['one', 'two', 'three']
+        );
+
+        $this->assertEquals($hash1, $hash2);
+    }
+
+    /**
+     * @covers ::getHashForResponseClassAndArgs
+     * @covers ::hashArray
+     * @uses \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModel
+     * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig
+     * @uses \Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil
+     */
+    public function testGetHashForDifferentInputProducesDifferentOutput()
+    {
+        $hash1 = CacheHash::getHashForResponseClassAndArgs(
+            MockBaseResponseModel::class,
+            ['one', 'two', 'three']
+        );
+
+        $hash2 = CacheHash::getHashForResponseClassAndArgs(
+            MockBaseResponseModel::class,
+            ['four', 'five', 'six']
+        );
+
+        $this->assertNotEquals($hash1, $hash2);
+    }
+}

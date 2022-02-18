@@ -10,26 +10,29 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel;
 
-use Cob\Bundle\ApiServicesBundle\Models\ResponseModelInterface;
+use Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
- * Base event for all ResponseModelInterface instances.
+ * Base event for all ResponseModel instances.
  */
 abstract class ResponseModelEvent extends Event
 {
-    private $model;
+    /**
+     * @var ResponseModelConfig
+     */
+    protected $responseModelConfig;
 
-    public function __construct(ResponseModelInterface $model)
+    public function __construct(ResponseModelConfig $config)
     {
-        $this->model = $model;
+        $this->responseModelConfig = $config;
     }
 
     /**
      * Get the ResponseModelInterface associated with this event.
      */
-    public function getModel(): ResponseModelInterface
+    public function getResponseModelConfig(): ResponseModelConfig
     {
-        return $this->model;
+        return $this->responseModelConfig;
     }
 }

@@ -10,6 +10,7 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel;
 
+use Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig;
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModelInterface;
 
 /**
@@ -59,11 +60,11 @@ class ResponseModelPreLoadEvent extends ResponseModelEvent
      *                                            the model should be cleared
      */
     public function __construct(
-        ResponseModelInterface $model,
+        ResponseModelConfig $config,
         array $commandArgs,
-        bool $clearCache
+        bool $clearCache = false
     ) {
-        parent::__construct($model);
+        parent::__construct($config);
         $this->commandArgs = $commandArgs;
         $this->clearCache = $clearCache;
     }

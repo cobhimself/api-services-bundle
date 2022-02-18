@@ -10,13 +10,13 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Exceptions;
 
-use Exception;
+use RuntimeException;
 use Throwable;
 
 /**
  * Main exception all ApiServiceBundle exceptions stem from.
  */
-class BaseApiServicesBundleException extends Exception
+class BaseApiServicesBundleException extends RuntimeException
 {
     /**
      * @param string         $message  message for the exception

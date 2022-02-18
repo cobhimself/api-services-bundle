@@ -152,6 +152,10 @@ class ServiceClient extends GuzzleClient implements ServiceClientInterface, Comm
         return $this->cacheProvider;
     }
 
+    public function canCache(): bool{
+        return !is_null($this->cacheProvider);
+    }
+
     /**
      * @inheritDoc
      */

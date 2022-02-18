@@ -8,12 +8,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Cob\Bundle\ApiServicesBundle\Tests\Mocks;
+namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks;
 
-use Cob\Bundle\ApiServicesBundle\Models\AbstractResponseModel;
+use Cob\Bundle\ApiServicesBundle\Models\BaseResponseModel;
 
-class BadMockResponseModel extends AbstractResponseModel
+class BadMockResponseModel extends BaseResponseModel
 {
-    const RAW_DATA_KEY = null;
-    const LOAD_ARGUMENTS = null;
+    //No setup here so we'll see an exception
 }

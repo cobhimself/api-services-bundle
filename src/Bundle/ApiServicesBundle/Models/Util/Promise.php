@@ -10,6 +10,7 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Util;
 
+use GuzzleHttp\Promise\Each;
 use GuzzleHttp\Promise\PromiseInterface;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\PostRunPromiseInAllEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\PostRunAllPromisesEvent;
@@ -19,7 +20,6 @@ use Cob\Bundle\ApiServicesBundle\Models\ServiceClient;
 use GuzzleHttp\Promise\Promise as GuzzlePromise;
 use GuzzleHttp\Promise\RejectedPromise;
 use Throwable;
-use function GuzzleHttp\Promise\each_limit_all;
 
 /**
  * A collection of methods which make it easier to create and run promises.
@@ -100,7 +100,7 @@ class Promise
                 );
             }
 
-            return each_limit_all(
+            return Each::ofLimitAll(
                 $promises,
                 $concurrency,
                 function ($value, $index) use (
