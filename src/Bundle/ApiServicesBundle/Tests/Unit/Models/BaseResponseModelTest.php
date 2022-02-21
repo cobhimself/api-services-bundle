@@ -22,7 +22,6 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModelWithInit;
  * @codeCoverageIgnore
  * @coversDefaultClass \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModel
  *
- * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelSetupTrait
  * @uses \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
  * @uses \Cob\Bundle\ApiServicesBundle\Exceptions\BaseApiServicesBundleException
  * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelTrait

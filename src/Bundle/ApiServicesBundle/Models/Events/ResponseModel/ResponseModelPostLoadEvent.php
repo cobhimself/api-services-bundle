@@ -10,13 +10,10 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel;
 
-use Cob\Bundle\ApiServicesBundle\Models\AbstractResponseModel;
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig;
 
 /**
  * Final event run after a ResponseModelInterface is loaded.
- *
- * @see AbstractResponseModel::finalizeResponseData
  */
 class ResponseModelPostLoadEvent extends ResponseModelEvent
 {

@@ -12,7 +12,6 @@ namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel;
 
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig;
 use GuzzleHttp\Command\CommandInterface;
-use Cob\Bundle\ApiServicesBundle\Models\ResponseModelInterface;
 
 /**
  * Run after a command produces results.
@@ -36,10 +35,10 @@ class ResponseModelPostExecuteCommandEvent extends ResponseModelEvent
     protected $response;
 
     /**
-     * @param ResponseModelInterface $model    the response model
-     * @param CommandInterface       $command  the command that was run
-     * @param mixed                  $response the response returned from
-     *                                         the command
+     * @param ResponseModelConfig $config   the response model config
+     * @param CommandInterface    $command  the command that was run
+     * @param mixed               $response the response returned from
+     *                                      the command
      */
     public function __construct(
         ResponseModelConfig $config,

@@ -1,0 +1,50 @@
+<?php
+
+namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Events\ResponseModel;
+
+use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPostLoadEvent;
+use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPostLoadFromCacheEvent;
+use Cob\Bundle\ApiServicesBundle\Tests\ServiceClientMockTrait;
+use Cob\Bundle\ApiServicesBundle\Tests\Unit\BaseResponseModelTestCase;
+use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModel;
+
+/**
+ * @codeCoverageIgnore
+ * @coversDefaultClass \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPostLoadFromCacheEvent
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModel
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Deserializer
+ */
+class ResponseModelPostLoadFromCacheEventTest extends BaseResponseModelTestCase
+{
+    use ServiceClientMockTrait;
+
+    /**
+     * @covers ::__construct
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelEvent
+     * @covers ::getResponseModelConfig
+     * @covers ::getHash
+     * @covers ::getCachedData
+     * @covers ::setCachedData
+     */
+    public function testGettersAndSetters()
+    {
+        $cachedData = ['test', 'test'];
+        $otherCachedData = ['blah'];
+        $hash = 'testhash';
+
+        $config = MockBaseResponseModel::getResponseModelConfig();
+
+        $event = new ResponseModelPostLoadFromCacheEvent(
+            $config, $hash, $cachedData
+        );
+
+        $this->assertEquals($config, $event->getResponseModelConfig());
+        $this->assertEquals($hash, $event->getHash());
+        $this->assertSame($cachedData, $event->getCachedData());
+
+        $event->setCachedData($otherCachedData);
+        $this->assertSame($otherCachedData, $event->getCachedData());
+    }
+}

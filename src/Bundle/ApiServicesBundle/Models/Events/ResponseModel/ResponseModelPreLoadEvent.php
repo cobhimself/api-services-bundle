@@ -11,7 +11,6 @@
 namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel;
 
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig;
-use Cob\Bundle\ApiServicesBundle\Models\ResponseModelInterface;
 
 /**
  * Run before a response model is loaded.
@@ -50,13 +49,13 @@ class ResponseModelPreLoadEvent extends ResponseModelEvent
     /**
      * @var string
      */
-    private $cancelReason;
+    private $cancelReason = '';
 
     /**
-     * @param ResponseModelInterface $model       the model about to be loaded
-     * @param array                  $commandArgs the arguments being used with
-     *                                            the LOAD_COMMAND of the model
-     * @param bool                   $clearCache  whether or not the cache for
+     * @param ResponseModelConfig $config      the model about to be loaded
+     * @param array               $commandArgs the arguments being used with
+     *                                         the LOAD_COMMAND of the model
+     * @param bool                $clearCache  whether or not the cache for
      *                                            the model should be cleared
      */
     public function __construct(

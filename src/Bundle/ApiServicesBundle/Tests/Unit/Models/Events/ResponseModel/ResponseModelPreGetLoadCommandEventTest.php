@@ -1,0 +1,45 @@
+<?php
+
+namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Events\ResponseModel;
+
+use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPostLoadEvent;
+use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreGetLoadCommandEvent;
+use Cob\Bundle\ApiServicesBundle\Tests\ServiceClientMockTrait;
+use Cob\Bundle\ApiServicesBundle\Tests\Unit\BaseResponseModelTestCase;
+use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModel;
+
+/**
+ * @codeCoverageIgnore
+ * @coversDefaultClass \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreGetLoadCommandEvent
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModel
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Deserializer
+ */
+class ResponseModelPreGetLoadCommandEventTest extends BaseResponseModelTestCase
+{
+    use ServiceClientMockTrait;
+
+    /**
+     * @covers ::__construct
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelEvent
+     * @covers ::getResponseModelConfig
+     * @covers ::getCommandArgs
+     * @covers ::setCommandArgs
+     */
+    public function testGettersAndSetters()
+    {
+        $additionalArgs = ['bing'];
+        $otherArgs = ['blah'];
+
+        $config = MockBaseResponseModel::getResponseModelConfig();
+
+        $event = new ResponseModelPreGetLoadCommandEvent($config, $additionalArgs);
+
+        $this->assertEquals($config, $event->getResponseModelConfig());
+        $this->assertEquals($additionalArgs, $event->getCommandArgs());
+
+        $event->setCommandArgs($otherArgs);
+        $this->assertSame($otherArgs, $event->getCommandArgs());
+    }
+}
