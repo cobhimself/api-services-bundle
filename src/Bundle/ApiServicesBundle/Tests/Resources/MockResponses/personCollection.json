@@ -1,0 +1,60 @@
+{
+  "size": 4,
+  "persons": [
+    {
+      "name": "Person 1",
+      "age": 1,
+      "alive": true,
+      "children": []
+    },
+    {
+      "name": "Person 2",
+      "age": 2,
+      "alive": false,
+      "children": [
+        {
+          "name": "Person 2.1",
+          "age": 21,
+          "alive": true
+        }
+      ]
+    },
+    {
+      "name": "Person 3",
+      "age": 3,
+      "alive": true,
+      "children": [
+        {
+          "name": "Person 3.1",
+          "age": 31,
+          "alive": true
+        },
+        {
+          "name": "Person 3.2",
+          "age": 32,
+          "alive": true
+        }
+      ]
+    },
+    {
+      "name": "Person 4",
+      "age": 4,
+      "alive": false,
+      "children": [
+        {
+          "name": "Person 4.1",
+          "age": 41,
+          "alive": false,
+          "children": [
+            {
+              "name": "Person 4.1.1",
+              "age": 411,
+              "alive": false,
+              "children": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

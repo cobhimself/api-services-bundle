@@ -44,7 +44,7 @@ class ClassUtil
         return static::isInstanceOf($model, ResponseModel::class);
     }
 
-    public static function isValidResponseCollectionModel($model): bool
+    public static function isValidResponseModelCollection($model): bool
     {
         return static::isInstanceOf($model, ResponseModelCollection::class);
     }
@@ -56,8 +56,8 @@ class ClassUtil
         }
     }
 
-    public static function confirmValidResponseCollectionModel($model) {
-        if(!$fqcn = static::isValidResponseCollectionModel($model)) {
+    public static function confirmValidResponseModelCollection($model) {
+        if(!$fqcn = static::isValidResponseModelCollection($model)) {
             throw new InvalidResponseModel($fqcn);
         }
     }

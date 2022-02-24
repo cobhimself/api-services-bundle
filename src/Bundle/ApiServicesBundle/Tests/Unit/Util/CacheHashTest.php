@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @codeCoverageIgnore
  * @coversDefaultClass \Cob\Bundle\ApiServicesBundle\Models\Util\CacheHash
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfigSharedTrait
  */
 class CacheHashTest extends TestCase
 {

@@ -13,6 +13,7 @@ namespace Cob\Bundle\ApiServicesBundle\Tests;
 use Cob\Bundle\ApiServicesBundle\Models\Deserializer;
 use Cob\Bundle\ApiServicesBundle\Models\Serializer;
 use Cob\Bundle\ApiServicesBundle\Models\ServiceClient;
+use Cob\Bundle\ApiServicesBundle\Models\ServiceClientInterface;
 use GuzzleHttp\Client;
 use GuzzleHttp\Command\Guzzle\Description;
 use GuzzleHttp\Handler\MockHandler;
@@ -47,7 +48,15 @@ trait ServiceClientMockTrait
         );
     }
 
-    public function getServiceClientMockWithResponseData(array $data)
+    public function getServiceClientMockWithJsonData(string $mockResponseDataFile): ServiceClientInterface {
+        $json = file_get_contents($mockResponseDataFile);
+
+        return $this->getServiceClientMock([
+            new Response(200, [], $json)
+        ]);
+    }
+
+    public function getServiceClientMockWithResponseData(array $data): ServiceClientInterface
     {
         return $this->getServiceClientMock([
             new Response(200, [], json_encode($data))

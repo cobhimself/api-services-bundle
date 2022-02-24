@@ -53,7 +53,7 @@ trait ResponseModelTrait
 
         if ($this->loadState->isWaiting()) {
             /**
-             * @var ResponseModelConfig $config
+             * @var ResponseModelCollectionConfig $config
              */
             $config = static::getResponseModelConfig();
             $response = $this->loadPromise->wait();
@@ -97,5 +97,28 @@ trait ResponseModelTrait
                 static::class
             ));
         }
+    }
+
+    public function isLoaded(): bool
+    {
+        return $this->loadState->isLoaded();
+    }
+
+    public function isLoadedWithData(): bool
+    {
+        return $this->loadState->isLoadedWithData();
+    }
+
+    public function isWaiting(): bool
+    {
+        return $this->loadState->isWaiting();
+    }
+
+    /**
+     * @return ServiceClientInterface
+     */
+    public function getClient(): ServiceClientInterface
+    {
+        return $this->client;
     }
 }

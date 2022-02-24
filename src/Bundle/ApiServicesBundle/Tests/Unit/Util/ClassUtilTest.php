@@ -15,6 +15,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @codeCoverageIgnore
  * @coversDefaultClass \Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfigSharedTrait
  */
 class ClassUtilTest extends TestCase
 {

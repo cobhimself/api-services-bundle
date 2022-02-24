@@ -11,13 +11,10 @@
 namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel;
 
 use Cob\Bundle\ApiServicesBundle\Exceptions\InvalidResponseModel;
-use Cob\Bundle\ApiServicesBundle\Models\ResponseModelSetupTrait;
 use Symfony\Component\EventDispatcher\Event;
 
 class PromiseEvent extends Event
 {
-    use ResponseModelSetupTrait;
-
     /**
      * @var mixed
      */

@@ -21,7 +21,7 @@ use Cob\Bundle\ApiServicesBundle\Models\Util\Promise;
 /**
  * Retrieves count information for a response model.
  */
-class Count extends AbstractResponseModel
+class Count
 {
     /**
      * Get count data for the given response model asynchronously.

@@ -2,6 +2,8 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Util;
 
+use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionConfig;
+
 class CacheHash
 {
     /**
@@ -37,5 +39,30 @@ class CacheHash
     protected static function hashArray(array $array): string
     {
         return md5(serialize($array));
+    }
+
+    public static function getHashForResponseCollectionClassAndArgs(
+        string $collectionClass,
+        array $commandArgs
+    ): string {
+        ClassUtil::confirmValidResponseModelCollection($collectionClass);
+
+        /**
+         * @var ResponseModelCollectionConfig $config
+         */
+        $config = call_user_func_array(
+            [$collectionClass, 'getResponseModelCollectionConfig'],
+            [$collectionClass]
+        );
+
+        return  self::hashArray([
+            $collectionClass,
+            $config->getCommand(),
+            $config->getDefaultArgs(),
+            $commandArgs,
+            $config->getCountCommand() ?? '',
+            join(',', $config->getCountArgs()),
+            $config->getLoadMaxResults()
+        ]);
     }
 }

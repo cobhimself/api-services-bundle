@@ -1,0 +1,17 @@
+{
+  "name": "Person 1",
+  "age": 1,
+  "alive": true,
+  "children": [
+    {
+      "name": "Person 1.1",
+      "age": 11,
+      "alive": true
+    },
+    {
+      "name": "Person 1.2",
+      "age": 12,
+      "alive": false
+    }
+  ]
+}

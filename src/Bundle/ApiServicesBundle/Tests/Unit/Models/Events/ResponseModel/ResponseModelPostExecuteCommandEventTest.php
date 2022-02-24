@@ -1,6 +1,6 @@
 <?php
 
-namespace Cob\Bundle\ApiServicesBundle\Tests\Models\Events\ResponseModel;
+namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Events\ResponseModel;
 
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPostExecuteCommandEvent;
 use Cob\Bundle\ApiServicesBundle\Tests\ServiceClientMockTrait;
@@ -10,6 +10,7 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModel;
 /**
  * @codeCoverageIgnore
  * @coversDefaultClass \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPostExecuteCommandEvent
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfigSharedTrait
  * @uses \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
  * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig
  * @uses \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModel

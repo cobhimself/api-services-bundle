@@ -2,22 +2,11 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models;
 
+use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException;
+
 class ResponseModelConfig
 {
-    /**
-     * @var string
-     */
-    private $command;
-
-    /**
-     * @var array
-     */
-    private $defaultArgs;
-
-    /**
-     * @var array an array of callbacks to be called upon initialization of this model after loading.
-     */
-    private $initCallbacks = [];
+    use ResponseModelConfigSharedTrait;
 
     /**
      * @var bool whether or not the response model this config is associated with holds raw data or if it is structured.
@@ -25,51 +14,14 @@ class ResponseModelConfig
     private $holdsRawData = false;
 
     /**
-     * @var string the FQCN of the response model this config belongs to
+     * @var ServiceClientInterface
      */
-    private $responseModelClass;
+    private $client;
 
     public function __construct(string $command, array $defaultArgs)
     {
         $this->command = $command;
         $this->defaultArgs = $defaultArgs;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCommand(): string
-    {
-        return $this->command;
-    }
-
-    /**
-     * @return array
-     */
-    public function getDefaultArgs(): array
-    {
-        return $this->defaultArgs;
-    }
-
-    /**
-     * @param string $responseModelClass
-     */
-    public function setResponseModelClass(string $responseModelClass)
-    {
-        $this->responseModelClass = $responseModelClass;
-    }
-
-    /**
-     * @return string
-     */
-    public function getResponseModelClass(): string
-    {
-        return $this->responseModelClass;
-    }
-
-    public function addInitCallback(callable $initCallback)
-    {
-        $this->initCallbacks[] = $initCallback;
     }
 
     public function doInits(ResponseModel $model)
@@ -93,5 +45,19 @@ class ResponseModelConfig
     public function setHoldsRawData(bool $holdsRawData)
     {
         $this->holdsRawData = $holdsRawData;
+    }
+
+    public function setServiceClient(ServiceClientInterface $client)
+    {
+        $this->client = $client;
+    }
+
+    public function getServiceClient(): ServiceClientInterface
+    {
+        if (is_null($this->client)) {
+            throw new ResponseModelSetupException("Service client has not been established yet!");
+        }
+
+        return $this->client;
     }
 }

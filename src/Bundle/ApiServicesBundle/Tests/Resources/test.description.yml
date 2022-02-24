@@ -14,6 +14,11 @@ operations:
         description: the test ID
         required: true
         location: uri
+  GetPerson:
+    httpMethod: GET
+    uri: /person/{id}
+    summary: Get a person
+    responseClass: JSONResponse
 models:
   RawResponse:
     type: class
