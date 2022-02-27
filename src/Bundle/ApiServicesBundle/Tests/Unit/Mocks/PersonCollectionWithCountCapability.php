@@ -8,19 +8,27 @@ use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionConfig;
 /**
  * @codeCoverageIgnore
  */
-class PersonCollection extends BaseResponseModelCollection
+class PersonCollectionWithCountCapability extends BaseResponseModelCollection
 {
     protected static function setup(): ResponseModelCollectionConfig
     {
         $config = new ResponseModelCollectionConfig(
             'GetPersons',
             [],
-            'persons'
+            'persons',
+            'GetPersonsCount'
         );
         $config->setResponseModelClass(static::class);
         $config->setChildResponseModelClass(Person::class);
+        $config->setCountValuePath('total');
+        $config->setChunkCommandMaxResults(2);
+        $config->setBuildCountArgsCallback(function ($commandArguments, $index, $maxResults) {
+            return [
+                'start-index' => (int) $index,
+                'max-results' => (int) $maxResults
+            ];
+        });
 
         return $config;
     }
-
 }

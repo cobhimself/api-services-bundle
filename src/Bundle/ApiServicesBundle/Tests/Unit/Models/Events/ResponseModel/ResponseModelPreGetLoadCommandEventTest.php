@@ -23,7 +23,7 @@ class ResponseModelPreGetLoadCommandEventTest extends BaseResponseModelTestCase
     /**
      * @covers ::__construct
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelEvent
-     * @covers ::getResponseModelConfig
+     * @covers ::getConfig
      * @covers ::getCommandArgs
      * @covers ::setCommandArgs
      */
@@ -32,11 +32,11 @@ class ResponseModelPreGetLoadCommandEventTest extends BaseResponseModelTestCase
         $additionalArgs = ['bing'];
         $otherArgs = ['blah'];
 
-        $config = MockBaseResponseModel::getResponseModelConfig();
+        $config = MockBaseResponseModel::getConfig();
 
         $event = new ResponseModelPreGetLoadCommandEvent($config, $additionalArgs);
 
-        $this->assertEquals($config, $event->getResponseModelConfig());
+        $this->assertEquals($config, $event->getConfig());
         $this->assertEquals($additionalArgs, $event->getCommandArgs());
 
         $event->setCommandArgs($otherArgs);

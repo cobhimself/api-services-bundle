@@ -33,17 +33,25 @@ class BaseResponseModelCollection
         LoadState $desiredLoadState,
         PromiseInterface $loadPromise
     ) {
+        //Initialize with zero elements
         parent::__construct([]);
 
         $this->client = $client;
         $this->loadPromise = $loadPromise;
         $this->loadState = $desiredLoadState;
 
-        $config = static::getResponseModelCollectionConfig();
+        $config = static::getConfig();
 
+        //Callback which adds to our collection based on response data
         $config->addInitCallback(function () use ($config) {
-            $data = $this->getData()->dot($config->getCollectionPath());
-            foreach ($this->getData()->dot($config->getCollectionPath()) as $child) {
+            //If we've been loaded with data, we simply need to use the collection of data
+            //we've been given. Otherwise, we need to use the collection path where we expect
+            //the correct data to be upon obtaining the response.
+            $dataPath = ($this->isLoadedWithData())
+                ? ''
+                : $config->getCollectionPath();
+            $data = $this->getData()->dot($dataPath);
+            foreach ($data as $child) {
                 $this->addResponse($this->client, $child);
             }
         });
@@ -52,7 +60,7 @@ class BaseResponseModelCollection
         //the first time we attempt to get data.
         if ($desiredLoadState->isLoaded() || $desiredLoadState->isLoadedWithData()) {
             $this->data = new DotData($this->loadPromise->wait());
-            static::getResponseModelCollectionConfig()->doInits($this);
+            static::getConfig()->doInits($this);
         }
     }
 
@@ -61,7 +69,7 @@ class BaseResponseModelCollection
         throw new ResponseModelSetupException(static::class . " must override the setup method!");
     }
 
-    public static function getResponseModelCollectionConfig(): ResponseModelCollectionConfig
+    public static function getConfig(): ResponseModelCollectionConfig
     {
         static $config;
 
@@ -76,41 +84,46 @@ class BaseResponseModelCollection
 
     public static function loadAsync(
         ServiceClientInterface $client,
-        array $commandArgs = []
+        array $commandArgs = [],
+        array $countCommandArgs = []
     ): ResponseModelCollection {
         return AsyncCollectionLoader::load(
-            static::getResponseModelCollectionConfig(),
+            static::getConfig(),
             $client,
-            $commandArgs
+            $commandArgs,
+            $countCommandArgs
         );
     }
     
     public static function load(
         ServiceClientInterface $client,
-        array $commandArgs = []
+        array $commandArgs = [],
+        array $countCommandArgs = []
     ): ResponseModelCollection {
         return CollectionLoader::load(
-            static::getResponseModelCollectionConfig(),
+            static::getConfig(),
             $client,
-            $commandArgs
+            $commandArgs,
+            $countCommandArgs
         );
     }
 
     public static function withData(
         ServiceClientInterface $client,
-        array $data
+        array $data = []
     ): ResponseModelCollection {
         return WithDataCollectionLoader::load(
-            static::getResponseModelCollectionConfig(),
+            static::getConfig(),
             $client,
             [], //Don't need to supply command args as we already have the data for the model
+            [], //Don't need to supply count command args either
             $data
         );
     }
 
     private function addResponse(ServiceClientInterface $client, array $responseData = [])
     {
-        $config = static::getResponseModelCollectionConfig();
+        $config = static::getConfig();
         /**
          * @var ResponseModel $model
          */
@@ -121,5 +134,12 @@ class BaseResponseModelCollection
         );
 
         $this->add($model);
+    }
+
+    public function count()
+    {
+        $this->confirmLoaded();
+
+        return parent::count();
     }
 }

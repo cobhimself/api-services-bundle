@@ -24,7 +24,7 @@ class ResponseModelPreLoadEventTest extends BaseResponseModelTestCase
     /**
      * @covers ::__construct
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelEvent
-     * @covers ::getResponseModelConfig
+     * @covers ::getConfig
      * @covers ::getCommandArgs
      * @covers ::setCommandArgs
      * @covers ::doClearCache
@@ -41,11 +41,11 @@ class ResponseModelPreLoadEventTest extends BaseResponseModelTestCase
         $additionalArgs = ['bing'];
         $otherArgs = ['blah'];
 
-        $config = MockBaseResponseModel::getResponseModelConfig();
+        $config = MockBaseResponseModel::getConfig();
 
         $event = new ResponseModelPreLoadEvent($config, $additionalArgs);
 
-        $this->assertEquals($config, $event->getResponseModelConfig());
+        $this->assertEquals($config, $event->getConfig());
         $this->assertEquals($additionalArgs, $event->getCommandArgs());
         $this->assertFalse($event->doClearCache());
         $this->assertFalse($event->failOnCancel());

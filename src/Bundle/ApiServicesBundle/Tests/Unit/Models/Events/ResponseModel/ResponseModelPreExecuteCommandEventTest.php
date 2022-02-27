@@ -25,17 +25,17 @@ class ResponseModelPreExecuteCommandEventTest extends BaseResponseModelTestCase
     /**
      * @covers ::__construct
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelEvent
-     * @covers ::getResponseModelConfig
+     * @covers ::getConfig
      * @covers ::getCommand
      */
     public function testGettersAndSetters()
     {
-        $config = MockBaseResponseModel::getResponseModelConfig();
+        $config = MockBaseResponseModel::getConfig();
         $command = new Command("command name", []);
 
         $event = new ResponseModelPreExecuteCommandEvent($config, $command);
 
-        $this->assertEquals($config, $event->getResponseModelConfig());
+        $this->assertEquals($config, $event->getConfig());
         $this->assertEquals($command, $event->getCommand());
     }
 }

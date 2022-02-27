@@ -16,11 +16,14 @@ class WithDataCollectionLoader extends AbstractCollectionLoader
      *
      * This is useful when you have data for the model you don't need to retrieve through the service client.
      *
-     * @param ResponseModelCollectionConfig    $config      the response model config to use for the model we want to initialize with
-     *                                            the given data.
-     * @param ServiceClientInterface $client      the service client our model should use
-     * @param array                  $commandArgs not used with this loader
-     * @param array                  $data        the data to establish in the model
+     * @param ResponseModelCollectionConfig $config           the response model config to use for the model we want to
+     *                                                        initialize with the given data.
+     * @param ServiceClientInterface        $client           the service client our model should use
+     * @param array                         $commandArgs      arguments to be used with thee load command (not used
+     *                                                        with this loader)
+     * @param array                         $countCommandArgs arguments to be used with the count command (not used
+     *                                                        with this loader)
+     * @param array                         $data             the data to establish in the model
      *
      * @return ResponseModelCollection
      */
@@ -28,6 +31,7 @@ class WithDataCollectionLoader extends AbstractCollectionLoader
         ResponseModelCollectionConfig $config,
         ServiceClientInterface        $client,
         array                         $commandArgs = [],
+        array                         $countCommandArgs = [],
         array                         $data = []
     ): ResponseModelCollection {
         return self::getNewResponseCollectionClass(

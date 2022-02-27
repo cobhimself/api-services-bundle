@@ -11,7 +11,7 @@ use Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig;
 class Person extends BaseResponseModel
 {
     /**
-     * @var PersonCollection
+     * @var PersonCollectionWithCountCapability
      */
     private $children;
 

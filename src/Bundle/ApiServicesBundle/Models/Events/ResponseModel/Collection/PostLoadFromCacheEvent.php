@@ -10,13 +10,16 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection;
 
-use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionInterface;
+use Cob\Bundle\ApiServicesBundle\Models\Events\CanGetHashTrait;
+use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionConfig;
 
 /**
  * Run when a ResponseModelCollectionInterface instance is loaded from cache.
  */
-class PostLoadFromCacheEvent extends Event
+class PostLoadFromCacheEvent extends ResponseModelCollectionEvent
 {
+    use CanGetHashTrait;
+
     const NAME = 'api_services.response_model.collection.post_load_from_cache';
 
     /**
@@ -27,15 +30,18 @@ class PostLoadFromCacheEvent extends Event
     /**
      * Run after our responses have been retrieved from cache.
      *
-     * @param ResponseModelCollectionInterface $collection
-     * @param array                            $responses
+     * @param ResponseModelCollectionConfig $config
+     * @param array                         $responses
      */
     public function __construct(
-        ResponseModelCollectionInterface $collection,
+        ResponseModelCollectionConfig $config,
+        string $hash,
         array $responses
     ) {
+        parent::__construct($config);
+
         $this->responses = $responses;
-        parent::__construct($collection);
+        $this->hash = $hash;
     }
 
     /**

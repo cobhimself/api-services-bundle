@@ -10,12 +10,12 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Subscribers;
 
-use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPostExecuteCommandEvent;
-use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPostLoadEvent;
-use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPostLoadFromCacheEvent;
-use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreExecuteCommandEvent;
-use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreLoadEvent;
-use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreLoadFromCacheEvent;
+use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\ResponseModelPostExecuteCommandEvent;
+use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\ResponseModelPostLoadEvent;
+use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\ResponseModelPostLoadFromCacheEvent;
+use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\ResponseModelPreExecuteCommandEvent;
+use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\ResponseModelPreLoadEvent;
+use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\ResponseModelPreLoadFromCacheEvent;
 
 /**
  * Reports the progress of loading a response model

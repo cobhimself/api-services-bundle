@@ -10,12 +10,12 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks;
 
-use Cob\Bundle\ApiServicesBundle\Models\BaseResponseModel;
+use Cob\Bundle\ApiServicesBundle\Models\BaseResponseModelCollection;
 
 /**
  * @codeCoverageIgnore
  */
-class BadMockResponseModel extends BaseResponseModel
+class BadMockResponseModelCollection extends BaseResponseModelCollection
 {
     //No setup here so we'll see an exception
 }

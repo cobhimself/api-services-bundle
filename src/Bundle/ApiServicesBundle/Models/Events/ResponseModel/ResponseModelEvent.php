@@ -31,7 +31,7 @@ abstract class ResponseModelEvent extends Event
     /**
      * Get the ResponseModelInterface associated with this event.
      */
-    public function getResponseModelConfig(): ResponseModelConfig
+    public function getConfig(): ResponseModelConfig
     {
         return $this->responseModelConfig;
     }

@@ -48,12 +48,21 @@ trait ServiceClientMockTrait
         );
     }
 
-    public function getServiceClientMockWithJsonData(string $mockResponseDataFile): ServiceClientInterface {
-        $json = file_get_contents($mockResponseDataFile);
+    public function getServiceClientMockWithJsonData(array $mockResponseDataFiles): ServiceClientInterface {
 
-        return $this->getServiceClientMock([
-            new Response(200, [], $json)
-        ]);
+        return $this->getServiceClientMock(
+            array_map(
+                function (string $fileName) {
+                    return new Response(200, [], $this->getMockResponseDataFromFile($fileName));
+                },
+                $mockResponseDataFiles
+            )
+        );
+    }
+
+    public function getMockResponseDataFromFile(string $mockResponseDataFile): string
+    {
+        return file_get_contents($mockResponseDataFile);
     }
 
     public function getServiceClientMockWithResponseData(array $data): ServiceClientInterface

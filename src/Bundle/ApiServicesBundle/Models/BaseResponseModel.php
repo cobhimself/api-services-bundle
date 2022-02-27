@@ -33,7 +33,7 @@ class BaseResponseModel implements ResponseModel
         $this->client = $client;
         $this->loadPromise = $loadPromise;
 
-        $config = static::getResponseModelConfig();
+        $config = static::getConfig();
         $config->setServiceClient($client);
 
         //We can go ahead and set the data for the model if it has already been loaded. Otherwise we wait until
@@ -51,7 +51,7 @@ class BaseResponseModel implements ResponseModel
         throw new ResponseModelSetupException(static::class . " must override the setup method!");
     }
 
-    public static function getResponseModelConfig(): ResponseModelConfig
+    public static function getConfig(): ResponseModelConfig
     {
         static $config;
 
@@ -69,7 +69,7 @@ class BaseResponseModel implements ResponseModel
         array $commandArgs = []
     ): ResponseModel {
         return AsyncLoader::load(
-            static::getResponseModelConfig(),
+            static::getConfig(),
             $client,
             $commandArgs
         );
@@ -80,7 +80,7 @@ class BaseResponseModel implements ResponseModel
         array $commandArgs = []
     ): ResponseModel {
         return Loader::load(
-            static::getResponseModelConfig(),
+            static::getConfig(),
             $client,
             $commandArgs
         );
@@ -91,7 +91,7 @@ class BaseResponseModel implements ResponseModel
         array $data
     ): ResponseModel {
         return WithDataLoader::load(
-            static::getResponseModelConfig(),
+            static::getConfig(),
             $client,
             [], //Don't need to supply command args as we already have the data for the model
             $data

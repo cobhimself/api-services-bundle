@@ -25,7 +25,7 @@ class ResponseModelPreLoadFromCacheEventTest extends BaseResponseModelTestCase
     /**
      * @covers ::__construct
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelEvent
-     * @covers ::getResponseModelConfig
+     * @covers ::getConfig
      * @covers ::getHash
      * @covers ::setHash
      */
@@ -34,11 +34,11 @@ class ResponseModelPreLoadFromCacheEventTest extends BaseResponseModelTestCase
         $hash = 'hashOne';
         $otherHash = 'hashTwo';
 
-        $config = MockBaseResponseModel::getResponseModelConfig();
+        $config = MockBaseResponseModel::getConfig();
 
         $event = new ResponseModelPreLoadFromCacheEvent($config, $hash);
 
-        $this->assertEquals($config, $event->getResponseModelConfig());
+        $this->assertEquals($config, $event->getConfig());
         $this->assertEquals($hash, $event->getHash());
 
         $event->setHash($otherHash);

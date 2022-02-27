@@ -10,14 +10,13 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Util;
 
-use GuzzleHttp\Promise\Each;
-use GuzzleHttp\Promise\PromiseInterface;
-use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\PostRunPromiseInAllEvent;
-use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\PostRunAllPromisesEvent;
-use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\PreRunAllPromisesEvent;
+use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostRunAllPromisesEvent;
+use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostRunPromiseInAllEvent;
+use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreRunAllPromisesEvent;
 use Cob\Bundle\ApiServicesBundle\Models\ServiceClient;
-
+use GuzzleHttp\Promise\Each;
 use GuzzleHttp\Promise\Promise as GuzzlePromise;
+use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Promise\RejectedPromise;
 use Throwable;
 

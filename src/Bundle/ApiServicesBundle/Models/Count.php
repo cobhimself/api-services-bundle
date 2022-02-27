@@ -21,7 +21,7 @@ use Cob\Bundle\ApiServicesBundle\Models\Util\Promise;
 /**
  * Retrieves count information for a response model.
  */
-class Count
+class Count extends BaseResponseModel
 {
     /**
      * Get count data for the given response model asynchronously.
@@ -40,39 +40,27 @@ class Count
      * @throws UnknownCommandException
      * @throws ResponseModelSetupException
      */
-    public static function dataForAsync(
-        ServiceClient $client,
-        string $model,
-        array $commandArgs = []
+    public static function getAsync(
+        ResponseModelCollectionConfig $config,
+        ServiceClient $client
     ): PromiseInterface {
-        static::confirmValidResponseModel($model);
+        return Promise::async(function () use ($config, $client) {
+            $countCommand = $config->getCountCommand();
+            $countArgs = $config->getCountArgs();
+            $countValuePath = $config->getCountValuePath();
 
-        $arguments = call_user_func([$model, 'getCountArguments']);
-        //Add in any arguments sent in
-        $arguments = array_merge($arguments, $commandArgs);
+            $command = $client->getCommand($countCommand, $countArgs);
 
-        $count = new self([], null, $client);
+            $response = $client->execute($command);
 
-        $command = $client->getCommand(
-            call_user_func([$model, 'getCountCommand']),
-            $arguments
-        );
+            $data = new DotData($response);
 
-        return Promise::async(function () use (
-            $client,
-            $count,
-            $model,
-            $command
-        ) {
-            $response = $client->executeAsync($command)->wait();
-            $count->setData($response);
-
-            return $count->dot(call_user_func([$model, 'getCountValuePath']));
-        })->otherwise(function ($reason) use ($command, $model, $arguments) {
+            return $data->dot($countValuePath, false);
+        })->otherwise(function ($reason) use ($config) {
             //Unfortunately, we can't just ignore an issue like this...
             ClientCommandExceptionHandler::passThruAndWrapWith(
                 CountDataException::class,
-                [$command, $model, $arguments]
+                [$config]
             )->handle($reason);
         });
     }
@@ -91,10 +79,10 @@ class Count
      * @throws UnknownCommandException
      * @throws ResponseModelSetupException
      */
-    public static function dataFor(
-        ServiceClient $client,
-        string $model
-    ): PromiseInterface {
-        return static::dataForAsync($client, $model)->wait();
+    public static function get(
+        ResponseModelCollectionConfig $config,
+        ServiceClient $client
+    ): int {
+        return static::getAsync($config, $client)->wait();
     }
 }

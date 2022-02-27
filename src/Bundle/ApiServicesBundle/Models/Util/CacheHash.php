@@ -21,7 +21,7 @@ class CacheHash
         ClassUtil::confirmValidResponseModel($responseClass);
 
         $responseModelConfig = call_user_func_array(
-            [$responseClass, 'getResponseModelConfig'],
+            [$responseClass, 'getConfig'],
             [$responseClass]
         );
 
@@ -51,7 +51,7 @@ class CacheHash
          * @var ResponseModelCollectionConfig $config
          */
         $config = call_user_func_array(
-            [$collectionClass, 'getResponseModelCollectionConfig'],
+            [$collectionClass, 'getConfig'],
             [$collectionClass]
         );
 

@@ -10,35 +10,35 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection;
 
-use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionInterface;
-use Symfony\Component\EventDispatcher\Event as DispatcherEvent;
+use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionConfig;
+use Symfony\Component\EventDispatcher\Event;
 
 /**
  * Base Event for all ResponseModelCollectionInterface dispatched events.
  */
-abstract class Event extends DispatcherEvent
+abstract class ResponseModelCollectionEvent extends Event
 {
     /**
      * The collection associated with this event.
      *
-     * @var ResponseModelCollectionInterface|null
+     * @var ResponseModelCollectionConfig
      */
-    private $collection;
+    private $config;
 
     /**
      * Event constructor.
      */
     public function __construct(
-        ResponseModelCollectionInterface $collection = null
+        ResponseModelCollectionConfig $config
     ) {
-        $this->collection = $collection;
+        $this->config = $config;
     }
 
     /**
-     * Get the ResponseModelCollectionInterface associated with this event.
+     * @return ResponseModelCollectionConfig|null
      */
-    public function getCollection(): ResponseModelCollectionInterface
+    public function getConfig(): ResponseModelCollectionConfig
     {
-        return $this->collection;
+        return $this->config;
     }
 }

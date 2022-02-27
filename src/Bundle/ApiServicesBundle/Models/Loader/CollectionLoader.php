@@ -17,12 +17,15 @@ class CollectionLoader extends AbstractCollectionLoader
     public static function load(
         ResponseModelCollectionConfig $config,
         ServiceClientInterface $client,
-        array $commandArgs = [], array $data = []
+        array $commandArgs = [],
+        array $countCommandArgs = [],
+        array $data = []
     ): ResponseModelCollection {
         $loaded = static::getLoadPromise(
             $config,
             $client,
-            $commandArgs
+            $commandArgs,
+            $countCommandArgs
         )->wait();
 
         return static::getNewResponseCollectionClass(

@@ -23,7 +23,7 @@ class ResponseModelPostLoadFromCacheEventTest extends BaseResponseModelTestCase
     /**
      * @covers ::__construct
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelEvent
-     * @covers ::getResponseModelConfig
+     * @covers ::getConfig
      * @covers ::getHash
      * @covers ::getCachedData
      * @covers ::setCachedData
@@ -34,13 +34,13 @@ class ResponseModelPostLoadFromCacheEventTest extends BaseResponseModelTestCase
         $otherCachedData = ['blah'];
         $hash = 'testhash';
 
-        $config = MockBaseResponseModel::getResponseModelConfig();
+        $config = MockBaseResponseModel::getConfig();
 
         $event = new ResponseModelPostLoadFromCacheEvent(
             $config, $hash, $cachedData
         );
 
-        $this->assertEquals($config, $event->getResponseModelConfig());
+        $this->assertEquals($config, $event->getConfig());
         $this->assertEquals($hash, $event->getHash());
         $this->assertSame($cachedData, $event->getCachedData());
 

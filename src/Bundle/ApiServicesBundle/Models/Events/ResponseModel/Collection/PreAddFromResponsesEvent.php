@@ -10,12 +10,12 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection;
 
-use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionInterface;
+use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollection;
 
 /**
  * Run before a collection of response data is added to a collection.
  */
-class PreAddFromResponsesEvent extends Event
+class PreAddFromResponsesEvent extends ResponseModelCollectionEvent
 {
     const NAME = 'api_services.response_model.collection.pre_add_from_responses';
 
@@ -29,7 +29,7 @@ class PreAddFromResponsesEvent extends Event
      * Run before a set of responses are added to a collection.
      */
     public function __construct(
-        ResponseModelCollectionInterface $model,
+        ResponseModelCollection $model,
         array $responses
     ) {
         $this->setResponses($responses);

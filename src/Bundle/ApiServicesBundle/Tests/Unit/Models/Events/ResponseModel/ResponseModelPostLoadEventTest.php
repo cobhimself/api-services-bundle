@@ -22,7 +22,7 @@ class ResponseModelPostLoadEventTest extends BaseResponseModelTestCase
     /**
      * @covers ::__construct
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelEvent
-     * @covers ::getResponseModelConfig
+     * @covers ::getConfig
      * @covers ::getCommandArgs
      * @covers ::getResponse
      * @covers ::setResponse
@@ -33,13 +33,13 @@ class ResponseModelPostLoadEventTest extends BaseResponseModelTestCase
         $otherResponse = ['blah'];
         $additionalArgs = ['bing'];
 
-        $config = MockBaseResponseModel::getResponseModelConfig();
+        $config = MockBaseResponseModel::getConfig();
 
         $event = new ResponseModelPostLoadEvent(
             $config, $additionalArgs, $response
         );
 
-        $this->assertEquals($config, $event->getResponseModelConfig());
+        $this->assertEquals($config, $event->getConfig());
         $this->assertEquals($additionalArgs, $event->getCommandArgs());
         $this->assertSame($response, $event->getResponse());
 

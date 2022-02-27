@@ -10,9 +10,8 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection;
 
-use Cob\Bundle\ApiServicesBundle\Models\AbstractResponseModelCollection;
-use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionInterface;
-use Cob\Bundle\ApiServicesBundle\Models\ResponseModelInterface;
+use Cob\Bundle\ApiServicesBundle\Models\ResponseModel;
+use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollection;
 
 /**
  * Run after a single ResponseModel has been created and is about to be added
@@ -22,27 +21,27 @@ use Cob\Bundle\ApiServicesBundle\Models\ResponseModelInterface;
  *
  * @see AbstractResponseModelCollection::add()
  */
-class PostAddModelToCollectionEvent extends Event
+class PostAddModelToCollectionEvent extends ResponseModelCollectionEvent
 {
     const NAME = 'api_services.response_model.collection.post_add_model_to_collection';
 
     /**
      * The ResponseModelInterface associated with this event.
      *
-     * @var ResponseModelInterface|null
+     * @var ResponseModel|null
      */
     private $model;
 
     /**
-     * @param ResponseModelInterface           $model      the model which was
+     * @param ResponseModel $model      the model which was
      *                                                     just created
-     * @param ResponseModelCollectionInterface $collection the collection this
+     * @param ResponseModelCollection $collection the collection this
      *                                                     model will be
      *                                                     added to
      */
     public function __construct(
-        ResponseModelInterface $model,
-        ResponseModelCollectionInterface $collection
+        ResponseModel $model,
+        ResponseModelCollection $collection
     ) {
         $this->model = $model;
 
@@ -52,7 +51,7 @@ class PostAddModelToCollectionEvent extends Event
     /**
      * Get the model being loaded.
      *
-     * @return ResponseModelInterface|null
+     * @return ResponseModel|null
      */
     public function getModel()
     {

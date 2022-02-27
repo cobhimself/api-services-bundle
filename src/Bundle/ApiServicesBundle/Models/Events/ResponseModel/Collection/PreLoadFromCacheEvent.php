@@ -10,45 +10,43 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection;
 
-use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionInterface;
+use Cob\Bundle\ApiServicesBundle\Models\Events\CanGetHashTrait;
+use Cob\Bundle\ApiServicesBundle\Models\Events\CanSetHashTrait;
+use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionConfig;
 
 /**
- * Run when a ResponseModelCollectionInterface instance is about to be
+ * Run when a ResponseModelCollection instance is about to be
  * loaded from cache.
  */
-class PreLoadFromCacheEvent extends Event
+class PreLoadFromCacheEvent extends ResponseModelCollectionEvent
 {
+    use CanGetHashTrait;
+    use CanSetHashTrait;
+
     const NAME = 'api_services.response_model.collection.pre_load_from_cache';
+
     /**
-     * @var array
+     * @var string
      */
-    private $responseData;
+    private $hash;
 
     public function __construct(
-        ResponseModelCollectionInterface $collection,
-        array $responseData
+        ResponseModelCollectionConfig $config,
+        array $hash
     ) {
-        parent::__construct($collection);
-        $this->responseData = $responseData;
+        parent::__construct($config);
+        $this->hash = $hash;
     }
 
     /**
-     * @return array
-     */
-    public function getResponseData(): array
-    {
-        return $this->responseData;
-    }
-
-    /**
-     * @param array $responseData
+     * @param string $hash
      *
      * @return PreLoadFromCacheEvent
      */
     public function setResponseData(
-        array $responseData
+        string $hash
     ): PreLoadFromCacheEvent {
-        $this->responseData = $responseData;
+        $this->hash = $hash;
 
         return $this;
     }

@@ -10,16 +10,15 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection;
 
-use GuzzleHttp\Promise\Promise;
-use Cob\Bundle\ApiServicesBundle\Models\AbstractResponseModelCollection;
-use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionInterface;
+use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionConfig;
 use GuzzleHttp\Command\CommandInterface;
+use GuzzleHttp\Promise\Promise;
 
 /**
  * Event triggered right before a ResponseModelCollectionInterface instance
  * has a single command within a group of commands fulfilled.
  */
-class CommandFulfilledEvent extends Event
+class CommandFulfilledEvent extends ResponseModelCollectionEvent
 {
     const NAME = 'api_services.response_model.collection.command_fulfilled';
 
@@ -56,7 +55,7 @@ class CommandFulfilledEvent extends Event
      *                                      being run
      */
     public function __construct(
-        ResponseModelCollectionInterface $collection,
+        ResponseModelCollectionConfig $config,
         array $commands,
         int $index,
         $value,
@@ -67,7 +66,7 @@ class CommandFulfilledEvent extends Event
         $this->value     = $value;
         $this->aggregate = $aggregate;
 
-        parent::__construct($collection);
+        parent::__construct($config);
     }
 
     /**

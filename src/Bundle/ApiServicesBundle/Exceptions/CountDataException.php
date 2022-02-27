@@ -10,6 +10,7 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Exceptions;
 
+use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionConfig;
 use GuzzleHttp\Command\CommandInterface;
 use Throwable;
 
@@ -26,17 +27,15 @@ class CountDataException extends BaseApiServicesBundleException
      *                                    to load count data
      */
     public function __construct(
-        CommandInterface $command,
-        string $model,
-        array $arguments,
-        Throwable $previous
+        ResponseModelCollectionConfig $config,
+        Throwable $previous = null
     ) {
         parent::__construct(
             sprintf(
                 'Could not get count data for %s using %s command. Using count arguments:' . PHP_EOL . '%s' . PHP_EOL,
-                $model,
-                $command->getName(),
-                var_export($arguments, true)
+                $config->getResponseModelClass(),
+                $config->getCountCommand(),
+                var_export($config->getCountArgs(), true)
             ),
             $previous
         );

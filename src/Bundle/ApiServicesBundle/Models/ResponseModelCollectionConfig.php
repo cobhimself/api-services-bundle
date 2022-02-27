@@ -3,26 +3,53 @@
 namespace Cob\Bundle\ApiServicesBundle\Models;
 
 use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelCollectionException;
+use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException;
 
 class ResponseModelCollectionConfig
 {
     use ResponseModelConfigSharedTrait;
 
+    const CHUNK_COMMAND_MAX_RESULTS_DEFAULT = 25;
+
+    /**
+     * @var string
+     */
     private $countCommand;
 
+    /**
+     * @var array
+     */
     private $countArgs;
+
+    /**
+     * @var string
+     */
+    private $countValuePath;
 
     /**
      * @var string
      */
     private $collectionPath;
 
+    /**
+     * @var int
+     */
     private $loadMaxResults = 150;
 
     /**
      * @var string
      */
     private $childResponseModelClass;
+
+    /**
+     * @var callable
+     */
+    private $buildCountArgsCallback;
+
+    /**
+     * @var int
+     */
+    private $chunkCommandMaxResults;
 
     public function __construct(
         string $command,
@@ -71,9 +98,9 @@ class ResponseModelCollectionConfig
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getCountCommand(): string
+    public function getCountCommand()
     {
         return $this->countCommand;
     }
@@ -113,5 +140,47 @@ class ResponseModelCollectionConfig
     public function getCollectionPath(): string
     {
         return $this->collectionPath;
+    }
+
+    public function setBuildCountArgsCallback(callable $callback)
+    {
+        $this->buildCountArgsCallback = $callback;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCountValuePath(): string
+    {
+        return $this->countValuePath;
+    }
+
+    /**
+     * @param string $countValuePath
+     */
+    public function setCountValuePath(string $countValuePath)
+    {
+        $this->countValuePath = $countValuePath;
+    }
+
+    public function getBuildCountArgsCallback()
+    {
+        if (is_null($this->buildCountArgsCallback)) {
+            throw new ResponseModelSetupException(
+                'Cannot obtain the buildCountArgsCallback for ' . $this->getResponseModelClass()
+            );
+        }
+
+        return $this->buildCountArgsCallback;
+    }
+
+    public function setChunkCommandMaxResults(int $max)
+    {
+        $this->chunkCommandMaxResults = $max;
+    }
+
+    public function getChunkCommandMaxResults(): int
+    {
+        return $this->chunkCommandMaxResults ?? self::CHUNK_COMMAND_MAX_RESULTS_DEFAULT;
     }
 }

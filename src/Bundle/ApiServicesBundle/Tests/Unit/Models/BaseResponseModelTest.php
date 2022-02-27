@@ -36,13 +36,14 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\Person;
  * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfigSharedTrait
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractLoader
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataCollectionLoader
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataLoader
  * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionConfig
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelEvent
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPostExecuteCommandEvent
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPostLoadEvent
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreExecuteCommandEvent
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreGetLoadCommandEvent
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreLoadEvent
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreGetLoadCommandEvent
  */
 class BaseResponseModelTest extends BaseResponseModelTestCase
 {
@@ -52,7 +53,7 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
      * @covers ::__construct
      * @covers ::withData
      * @covers ::isLoadedWithData
-     * @covers ::getResponseModelConfig
+     * @covers ::getConfig
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataLoader
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractCollectionLoader
      */
@@ -73,8 +74,9 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
     /**
      * @covers ::__construct
      * @covers ::load
-     * @covers ::getResponseModelConfig
+     * @covers ::getConfig
      * @covers ::isLoaded
+     * @covers ::withData
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Loader
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractCollectionLoader
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\Promise
@@ -85,9 +87,9 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
          * @var Person $mockModel
          */
         $mockModel = Person::load(
-            $this->getServiceClientMockWithJsonData(
+            $this->getServiceClientMockWithJsonData([
                 __DIR__ . '/../../Resources/MockResponses/person.json'
-            ),
+            ]),
             []
         );
 
@@ -100,9 +102,10 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
     /**
      * @covers ::__construct
      * @covers ::loadAsync
-     * @covers ::getResponseModelConfig
+     * @covers ::getConfig
      * @covers ::isLoaded
      * @covers ::isWaiting
+     * @covers ::withData
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractCollectionLoader
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AsyncLoader
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\Promise
@@ -113,9 +116,9 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
          * @var Person $mockModel
          */
         $mockModel = Person::loadAsync(
-            $this->getServiceClientMockWithJsonData(
+            $this->getServiceClientMockWithJsonData([
                 __DIR__ . '/../../Resources/MockResponses/person.json'
-            ),
+            ]),
             []
         );
 
@@ -129,7 +132,7 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
 
     /**
      * @covers ::__construct
-     * @covers ::getResponseModelConfig
+     * @covers ::getConfig
      * @covers ::withData
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractLoader::getNewResponseClass
      * @covers \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig::doInits
@@ -148,7 +151,7 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
 
     /**
      * @covers ::setup
-     * @covers ::getResponseModelConfig
+     * @covers ::getConfig
      * @covers ::withData
      */
     public function testSetupException()
@@ -160,7 +163,7 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
     /**
      * @covers ::__construct
      * @covers ::load
-     * @covers ::getResponseModelConfig
+     * @covers ::getConfig
      * @covers ::isLoaded
      * @covers ::withData
      * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractCollectionLoader
@@ -173,9 +176,9 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
          * @var Person $mockModel
          */
         $mockModel = Person::load(
-            $this->getServiceClientMockWithJsonData(
+            $this->getServiceClientMockWithJsonData([
                 __DIR__ . '/../../Resources/MockResponses/personWithChildren.json'
-            ),
+            ]),
             []
         );
 

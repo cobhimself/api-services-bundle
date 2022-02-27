@@ -1,7 +1,9 @@
 name: api_services_bundle.descriptions.test
 apiVersion: 1
-baseUri: http://example.com/api/1
-description: Test API description file
+baseUri: https://example.com/api/1
+description: >
+  A test description file. None of the operations here are real but they allow us to confirm
+  we are able to at least validate our operation calls and parameter options.
 operations:
   TestCommand:
     httpMethod: GET
@@ -19,6 +21,27 @@ operations:
     uri: /person/{id}
     summary: Get a person
     responseClass: JSONResponse
+  GetPersonsCount:
+    httpMethod: GET
+    uri: /persons/count
+    summary: Simulates an endpoint which provides us with the total number of persons
+    responseClass: JSONResponse
+  GetPersons:
+    httpMethod: GET
+    uri: /persons/
+    summary: Simulates an endpoint where a collection of persons could be obtained.
+    responseClass: JSONResponse
+    parameters:
+      start-index:
+        type: integer
+        description: the start index to use as the offset when obtaining only a portion of the collection
+        required: false
+        location: uri
+      max-results:
+        type: integer
+        description: the maximum number of results to return in the collection
+        required: false
+        location: uri
 models:
   RawResponse:
     type: class

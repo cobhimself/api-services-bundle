@@ -8,14 +8,15 @@
  * file that was distributed with this source code.
  */
 
-namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection;
+namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\Collection;
 
-use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionInterface;
+use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\ResponseModelCollectionEvent;
+use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollection;
 
 /**
  * Run after a collection of response data has been added to a collection.
  */
-class PostAddFromResponsesEvent extends Event
+class PostAddFromResponsesEvent extends ResponseModelCollectionEvent
 {
     const NAME = 'api_services.response_model.collection.post_add_from_responses';
 
@@ -29,7 +30,7 @@ class PostAddFromResponsesEvent extends Event
      * Run after a set of responses have been added to a collection.
      */
     public function __construct(
-        ResponseModelCollectionInterface $model,
+        ResponseModelCollection$model,
         array $responses
     ) {
         $this->responses = $responses;

@@ -23,7 +23,7 @@ class ResponseModelPostExecuteCommandEventTest extends BaseResponseModelTestCase
     /**
      * @covers ::__construct
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelEvent
-     * @covers ::getResponseModelConfig
+     * @covers ::getConfig
      * @covers ::getCommand
      * @covers ::getResponse
      * @covers ::setResponse
@@ -33,7 +33,7 @@ class ResponseModelPostExecuteCommandEventTest extends BaseResponseModelTestCase
         $response = ['test', 'test'];
         $otherResponse = ['blah'];
 
-        $config = MockBaseResponseModel::getResponseModelConfig();
+        $config = MockBaseResponseModel::getConfig();
         $client = $this->getServiceClientMock();
         $command = $client->getCommand(
             $config->getCommand(),
@@ -44,7 +44,7 @@ class ResponseModelPostExecuteCommandEventTest extends BaseResponseModelTestCase
             $config, $command, $response
         );
 
-        $this->assertEquals($config, $event->getResponseModelConfig());
+        $this->assertEquals($config, $event->getConfig());
         $this->assertEquals($command, $event->getCommand());
         $this->assertSame($response, $event->getResponse());
 

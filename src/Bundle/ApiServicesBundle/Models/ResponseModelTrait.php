@@ -4,6 +4,7 @@ namespace Cob\Bundle\ApiServicesBundle\Models;
 
 use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelException;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\State\LoadState;
+use Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil;
 use GuzzleHttp\Promise\PromiseInterface;
 
 /**
@@ -53,26 +54,30 @@ trait ResponseModelTrait
 
         if ($this->loadState->isWaiting()) {
             /**
-             * @var ResponseModelCollectionConfig $config
+             * @var ResponseModelConfig|ResponseModelCollectionConfig $config
              */
-            $config = static::getResponseModelConfig();
+            $config = static::getConfig();
             $response = $this->loadPromise->wait();
 
-            if ($config->holdsRawData()) {
+            if (
+                //We only worry about raw data with response models, not collections
+                ClassUtil::isValidResponseModel(static::class)
+                && $config->holdsRawData()
+            ) {
                 $this->data->setRawData($response);
             } else {
                 $this->data->setData($response);
             }
 
-            $config->doInits($this);
-
             $this->loadState = LoadState::loaded();
+
+            $config->doInits($this);
         }
     }
 
     public function getRawData()
     {
-        if (!static::getResponseModelConfig()->holdsRawData()) {
+        if (!static::getConfig()->holdsRawData()) {
             throw new ResponseModelException(sprintf(
                 "%s holds structured data; use the dot method instead!",
                 static::class
@@ -91,7 +96,12 @@ trait ResponseModelTrait
 
     private function confirmNoRawData(string $msgTemplate)
     {
-        if (static::getResponseModelConfig()->holdsRawData()) {
+        //Collections cannot contain raw data
+        if (ClassUtil::isValidResponseModelCollection(static::class)) {
+            return;
+        }
+
+        if (static::getConfig()->holdsRawData()) {
             throw new ResponseModelException(sprintf(
                 $msgTemplate,
                 static::class

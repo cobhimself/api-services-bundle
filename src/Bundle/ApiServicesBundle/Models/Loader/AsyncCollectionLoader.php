@@ -24,12 +24,14 @@ class AsyncCollectionLoader extends AbstractCollectionLoader
         ResponseModelCollectionConfig $config,
         ServiceClientInterface        $client,
         array                         $commandArgs = [],
+        array                         $countCommandArgs = [],
         array                         $data = []
     ): ResponseModelCollection {
         $promise = static::getLoadPromise(
             $config,
             $client,
-            $commandArgs
+            $commandArgs,
+            $countCommandArgs
         );
 
         return self::getNewResponseCollectionClass(

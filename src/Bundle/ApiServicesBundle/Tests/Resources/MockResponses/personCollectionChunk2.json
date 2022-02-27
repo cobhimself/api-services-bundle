@@ -1,0 +1,16 @@
+{
+  "description": "This simulates getting a chunk of a person collection.",
+  "persons": [
+    {
+      "name": "Person Chunk 2.1",
+      "age": 21,
+      "alive": true,
+      "children": []
+    }, {
+      "name": "Person Chunk 2.2",
+      "age": 22,
+      "alive": true,
+      "children": []
+    }
+  ]
+}

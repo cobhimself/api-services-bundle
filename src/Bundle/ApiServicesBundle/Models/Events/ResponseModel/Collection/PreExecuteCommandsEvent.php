@@ -10,14 +10,15 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection;
 
-use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionInterface;
+use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollection;
+use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionConfig;
 use GuzzleHttp\Command\CommandInterface;
 
 /**
  * Run before a group of commands are run to populate a
  * ResponseModelCollectionInterface instance.
  */
-class PreExecuteCommandsEvent extends Event
+class PreExecuteCommandsEvent extends ResponseModelCollectionEvent
 {
     const NAME = 'api_services.response_model.collection.pre_execute_commands';
 
@@ -32,11 +33,11 @@ class PreExecuteCommandsEvent extends Event
      * @param CommandInterface[] $commands
      */
     public function __construct(
-        ResponseModelCollectionInterface $model,
+        ResponseModelCollectionConfig $config,
         array $commands
     ) {
         $this->commands = $commands;
-        parent::__construct($model);
+        parent::__construct($config);
     }
 
     /**

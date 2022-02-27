@@ -1,0 +1,4 @@
+{
+  "description": "This mock response will be used to simulate a call to an endpoint which provides us with the total number of persons in a collection. When we have the ability to make a quick call for the total number, we can split up calls to commands in batch to load the entire collection quicker.",
+  "total": 4
+}

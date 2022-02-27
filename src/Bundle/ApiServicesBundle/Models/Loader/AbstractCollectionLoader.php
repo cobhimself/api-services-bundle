@@ -2,16 +2,20 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Loader;
 
+use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelCollectionException;
+use Cob\Bundle\ApiServicesBundle\Models\Count;
+use Cob\Bundle\ApiServicesBundle\Models\DotData;
+use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\CommandFulfilledEvent;
+use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostExecuteCommandsEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostLoadEvent;
-use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostLoadFromCacheEvent;
+use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreExecuteCommandsEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreLoadEvent;
+use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostLoadFromCacheEvent;
+use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostExecuteCommandEvent;
+use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreExecuteCommandEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreLoadFromCacheEvent;
-use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPostExecuteCommandEvent;
-use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPostLoadEvent;
-use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPostLoadFromCacheEvent;
-use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreExecuteCommandEvent;
-use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreGetLoadCommandEvent;
-use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreLoadFromCacheEvent;
+use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\ResponseModelCollectionPreGetLoadCommandEvent;
+use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ExceptionHandlerInterface;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\State\LoadState;
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollection;
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionConfig;
@@ -61,30 +65,35 @@ abstract class AbstractCollectionLoader implements CollectionLoaderInterface
     protected static function getLoadPromise(
         ResponseModelCollectionConfig $config,
         ServiceClientInterface $client,
-        array $commandArgs = []
+        array $commandArgs = [],
+        array $countCommandArgs = []
     ): PromiseInterface
     {
         $responseModelClass = $config->getResponseModelClass();
 
         ClassUtil::confirmValidResponseModelCollection($responseModelClass);
 
-        return Promise::async(function () use ($config, $client, $commandArgs) {
+        return Promise::async(function () use ($config, $client, &$commandArgs) {
             /**
              * @var PreLoadEvent $event
              */
-            $client->dispatchEvent(
+            $event = $client->dispatchEvent(
                 PreLoadEvent::class,
                 $config,
                 $commandArgs
             );
-        })->then(function () use ($config, $client, $commandArgs) {
+
+            //Allow our event to update the command arguments
+            $commandArgs = $event->getCommandArgs();
+
+        })->then(function () use ($config, $client, $commandArgs, $countCommandArgs) {
             //Can we load from cache?
-            list($hash, $cache) = static::getCachedData($config, $client, $commandArgs);
+            list($hash, $cache) = static::getCachedData($config, $client, $commandArgs, $countCommandArgs);
 
             if (!is_null($cache)) {
                 return new FulfilledPromise($cache);
             } else if ($config->hasCountCommand()) {
-                return static::getLoadPromiseUsingCount($config, $client, $commandArgs);
+                return static::getLoadPromiseUsingCount($config, $client, $commandArgs, $hash);
             } else {
                 $command = static::getLoadCommand($config, $client, $commandArgs);
 
@@ -92,7 +101,7 @@ abstract class AbstractCollectionLoader implements CollectionLoaderInterface
             }
         })->then(function ($response) use ($config, $client, $commandArgs) {
             /**
-             * @var ResponseModelPostLoadEvent $event
+             * @var PostLoadEvent $event
              */
             $event = $client->dispatchEvent(
                 PostLoadEvent::class,
@@ -110,14 +119,15 @@ abstract class AbstractCollectionLoader implements CollectionLoaderInterface
         ServiceClientInterface $client,
         array $commandArgs
     ): array {
+        $hash = CacheHash::getHashForResponseCollectionClassAndArgs(
+            $config->getResponseModelClass(),
+            $commandArgs
+        );
+
         if ($client->canCache()) {
-            $hash = CacheHash::getHashForResponseCollectionClassAndArgs(
-                $config->getResponseModelClass(),
-                $commandArgs
-            );
 
             /**
-             * @var ResponseModelPreLoadFromCacheEvent $event
+             * @var PreLoadFromCacheEvent $event
              */
             $event = $client->dispatchEvent(
                 PreLoadFromCacheEvent::class,
@@ -131,7 +141,7 @@ abstract class AbstractCollectionLoader implements CollectionLoaderInterface
             $data = $client->getCache()->fetch($hash);
 
             /**
-             * @var ResponseModelPostLoadFromCacheEvent $event
+             * @var PostLoadFromCacheEvent $event
              */
             $event = $client->dispatchEvent(
                 PostLoadFromCacheEvent::class,
@@ -141,10 +151,10 @@ abstract class AbstractCollectionLoader implements CollectionLoaderInterface
             );
 
             //We allow our event to have data that is modified.
-            return [$hash, $event->getCachedData()];
+            return [$hash, $event->getResponseData()];
         }
 
-        return [null, null];
+        return [$hash, null];
     }
 
     private static function getLoadCommand(
@@ -153,10 +163,10 @@ abstract class AbstractCollectionLoader implements CollectionLoaderInterface
         array $commandArgs
     ): CommandInterface {
         /**
-         * @var ResponseModelPreGetLoadCommandEvent $event
+         * @var ResponseModelCollectionPreGetLoadCommandEvent $event
          */
         $event = $client->dispatchEvent(
-            ResponseModelPreGetLoadCommandEvent::class,
+            ResponseModelCollectionPreGetLoadCommandEvent::class,
             $config,
             $commandArgs
         );
@@ -179,10 +189,10 @@ abstract class AbstractCollectionLoader implements CollectionLoaderInterface
     ): PromiseInterface {
         return Promise::async(function () use ($config, $client, $command) {
             /**
-             * @var ResponseModelPreExecuteCommandEvent $event
+             * @var PreExecuteCommandEvent $event
              */
             $event = $client->dispatchEvent(
-                ResponseModelPreExecuteCommandEvent::class,
+                PreExecuteCommandEvent::class,
                 $config,
                 $command
             );
@@ -200,10 +210,10 @@ abstract class AbstractCollectionLoader implements CollectionLoaderInterface
             }
 
             /**
-             * @var ResponseModelPostExecuteCommandEvent $event
+             * @var PostExecuteCommandEvent $event
              */
             $event = $client->dispatchEvent(
-                ResponseModelPostExecuteCommandEvent::class,
+                PostExecuteCommandEvent::class,
                 $config,
                 $command,
                 $response
@@ -216,14 +226,110 @@ abstract class AbstractCollectionLoader implements CollectionLoaderInterface
     private static function getLoadPromiseUsingCount(
         ResponseModelCollectionConfig $config,
         ServiceClientInterface $client,
-        array $commandArgs
+        array $commandArgs,
+        string $hash
     ): PromiseInterface {
         return Promise::async(function () use ($config, $client, $commandArgs) {
-            $finalArgs = array_merge_recursive($config->getDefaultArgs(), $commandArgs);
-            $command = $client->getCommand($config->getCountCommand(), $finalArgs);
-            return $client->execute($command);
-        })->then(function ($countResponse) {
+            return Count::get($config, $client);
+        })->then(function ($countResponse) use ($client, $config, $commandArgs, $hash) {
+            $commands = $client->getChunkedCommands(
+                $config->getCommand(),
+                $commandArgs,
+                $countResponse,
+                $config->getBuildCountArgsCallback(),
+                $config->getChunkCommandMaxResults()
+            );
 
+            return static::executeCommandCollection($client, $config, $commands, $hash);
         });
+    }
+
+    protected static function executeCommandCollection(
+        ServiceClientInterface $client,
+        ResponseModelCollectionConfig $config,
+        array $commands,
+        string $hash,
+        ExceptionHandlerInterface $handler = null
+    ): PromiseInterface {
+        return Promise::async(function () use ($client, $config, $commands, $hash, $handler) {
+            //Allow others to modify the commands before execution.
+            /* @var PreExecuteCommandsEvent $event */
+            $event = $client->dispatchEvent(
+                PreExecuteCommandsEvent::class,
+                $config,
+                $commands
+            );
+
+            //Use the command from the dispatched event if it's not null
+            $commands = $event->getCommands() ?? $commands;
+
+            $allResponse = [];
+            static::executeAllCommands($config, $client, $commands, $allResponse, $handler)->wait();
+
+            /**
+             * @var PostExecuteCommandsEvent $event
+             */
+            $event = $client->dispatchEvent(
+                PostExecuteCommandsEvent::class,
+                $config,
+                $commands,
+                $allResponse
+            );
+
+            $allResponse = $event->getCombinedResponse();
+
+            if ($client->canCache()) {
+                $client->getCache()->save($hash, $allResponse);
+            }
+
+            return new FulfilledPromise($allResponse);
+        })->otherwise(function ($reason) {
+            throw new ResponseModelCollectionException('Could not load data from command collection!', $reason);
+        });
+    }
+
+    private static function executeAllCommands(
+        ResponseModelCollectionConfig $config,
+        ServiceClientInterface $client,
+        array $commands,
+        array &$response,
+        ExceptionHandlerInterface $handler = null
+    ): PromiseInterface {
+        return $client->executeAllAsync($commands, [
+            //If our responses were received correctly...
+            'fulfilled' => function (
+                $value,
+                $index,
+                PromiseInterface $aggregate
+            ) use ($config, $client, $commands, &$response) {
+                //Allow others to modify the commands before execution.
+                /** @var CommandFulfilledEvent $event */
+                $event = $client->dispatchEvent(
+                    CommandFulfilledEvent::class,
+                    $config,
+                    $commands,
+                    $index,
+                    $value,
+                    $aggregate
+                );
+
+                //Use the command from the dispatched event in case it
+                //was modified.
+                $value = new DotData($event->getValue() ?? []);
+                $path = $config->getCollectionPath();
+                $response[$path] = array_merge(
+                    $response[$path] ?? [],
+                    $value->dot($path)
+                );
+            },
+            'rejected'  => function ($reason) use ($handler) {
+                $handler  = $handler ?? $this->getDefaultExceptionHandler();
+                $response = $handler->handle($reason);
+                if (is_array($response)) {
+
+                    //$this->addResponse($response);
+                }
+            },
+        ]);
     }
 }
