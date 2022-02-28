@@ -10,7 +10,7 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection;
 
-use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollection;
+use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionConfig;
 
 /**
  * Run after count information is retrieved for a collection.
@@ -19,25 +19,28 @@ class PostCountEvent extends ResponseModelCollectionEvent
 {
     const NAME = 'api_services.response_model.collection.post_count';
 
-    private $countData;
+    /**
+     * @var int
+     */
+    private $count;
 
     /**
      * @inheritDoc
      */
     public function __construct(
-        ResponseModelCollection $collection,
-        array $countData
+        ResponseModelCollectionConfig $config,
+        int                           $count
     ) {
-        $this->countData = $countData;
+        $this->count = $count;
 
-        parent::__construct($collection);
+        parent::__construct($config);
     }
 
     /**
-     * @return array
+     * @return int
      */
-    public function getCountData(): array
+    public function getCount(): int
     {
-        return $this->countData;
+        return $this->count;
     }
 }

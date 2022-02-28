@@ -3,6 +3,8 @@
 namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection;
 
 use Cob\Bundle\ApiServicesBundle\Models\Events\CanGetCommandTrait;
+use Cob\Bundle\ApiServicesBundle\Models\Events\CanGetResponseTrait;
+use Cob\Bundle\ApiServicesBundle\Models\Events\CanSetResponseTrait;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\ResponseModelCollectionEvent;
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionConfig;
 use GuzzleHttp\Command\CommandInterface;
@@ -10,6 +12,8 @@ use GuzzleHttp\Command\CommandInterface;
 class PostExecuteCommandEvent extends ResponseModelCollectionEvent
 {
     use CanGetCommandTrait;
+    use CanGetResponseTrait;
+    use CanSetResponseTrait;
 
     const NAME = 'api_services.response_model.collection.post_execute_command';
 
@@ -25,22 +29,6 @@ class PostExecuteCommandEvent extends ResponseModelCollectionEvent
     ) {
         parent::__construct($config);
         $this->command = $command;
-        $this->response = $response;
-    }
-
-    /**
-     * @return array
-     */
-    public function getResponse(): array
-    {
-        return $this->response;
-    }
-
-    /**
-     * @param array $response
-     */
-    public function setResponse(array $response)
-    {
         $this->response = $response;
     }
 }

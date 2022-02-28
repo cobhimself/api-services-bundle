@@ -15,7 +15,6 @@ use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException;
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollection;
 use Cob\Bundle\ApiServicesBundle\Tests\ServiceClientMockTrait;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\BaseResponseModelTestCase;
-use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\BadMockResponseModel;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\BadMockResponseModelCollection;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModelWithInit;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\Person;
@@ -27,6 +26,7 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\PersonCollectionWithCountCapab
  * @coversDefaultClass \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModelCollection
  * @covers ::addResponse
  * @covers ::getConfig
+ * @covers ::finalizeChildrenData
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractCollectionLoader
  * @covers \Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionConfig
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\CanGetCommandArgsTrait
@@ -40,7 +40,9 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\PersonCollectionWithCountCapab
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreExecuteCommandEvent
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreLoadEvent
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\ResponseModelCollectionEvent
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\ResponseModelCollectionPreGetLoadCommandEvent
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreGetLoadCommandEvent
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostCountEvent
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostAddModelToCollectionEvent
  * @uses \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModel
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Deserializer
  * @uses \Cob\Bundle\ApiServicesBundle\Models\DotData

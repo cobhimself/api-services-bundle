@@ -44,6 +44,8 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\Person;
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreExecuteCommandEvent
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreLoadEvent
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreGetLoadCommandEvent
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostAddModelToCollectionEvent
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\ResponseModelCollectionEvent
  */
 class BaseResponseModelTest extends BaseResponseModelTestCase
 {

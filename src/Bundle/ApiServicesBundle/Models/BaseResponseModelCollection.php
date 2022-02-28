@@ -3,6 +3,7 @@
 namespace Cob\Bundle\ApiServicesBundle\Models;
 
 use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException;
+use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostAddModelToCollectionEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\AsyncCollectionLoader;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\CollectionLoader;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\State\LoadState;
@@ -43,17 +44,8 @@ class BaseResponseModelCollection
         $config = static::getConfig();
 
         //Callback which adds to our collection based on response data
-        $config->addInitCallback(function () use ($config) {
-            //If we've been loaded with data, we simply need to use the collection of data
-            //we've been given. Otherwise, we need to use the collection path where we expect
-            //the correct data to be upon obtaining the response.
-            $dataPath = ($this->isLoadedWithData())
-                ? ''
-                : $config->getCollectionPath();
-            $data = $this->getData()->dot($dataPath);
-            foreach ($data as $child) {
-                $this->addResponse($this->client, $child);
-            }
+        $config->addInitCallback(function () {
+            $this->finalizeChildrenData();
         });
 
         //We can go ahead and set the data for the model if it has already been loaded. Otherwise we wait until
@@ -61,6 +53,22 @@ class BaseResponseModelCollection
         if ($desiredLoadState->isLoaded() || $desiredLoadState->isLoadedWithData()) {
             $this->data = new DotData($this->loadPromise->wait());
             static::getConfig()->doInits($this);
+        }
+    }
+
+    protected function finalizeChildrenData()
+    {
+        $config = $this::getConfig();
+
+        //If we've been loaded with data, we simply need to use the collection of data
+        //we've been given. Otherwise, we need to use the collection path where we expect
+        //the correct data to be upon obtaining the response.
+        $dataPath = ($this->isLoadedWithData())
+            ? ''
+            : $config->getCollectionPath();
+        $data = $this->getData()->dot($dataPath);
+        foreach ($data as $child) {
+            $this->addResponse($this->client, $child);
         }
     }
 
@@ -124,6 +132,7 @@ class BaseResponseModelCollection
     private function addResponse(ServiceClientInterface $client, array $responseData = [])
     {
         $config = static::getConfig();
+
         /**
          * @var ResponseModel $model
          */
@@ -134,9 +143,15 @@ class BaseResponseModelCollection
         );
 
         $this->add($model);
+
+        $client->dispatchEvent(
+            PostAddModelToCollectionEvent::class,
+            $config,
+            $model
+        );
     }
 
-    public function count()
+    public function count(): int
     {
         $this->confirmLoaded();
 

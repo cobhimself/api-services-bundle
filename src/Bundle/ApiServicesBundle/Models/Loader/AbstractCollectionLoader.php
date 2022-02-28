@@ -14,7 +14,7 @@ use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostLoad
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostExecuteCommandEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreExecuteCommandEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreLoadFromCacheEvent;
-use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\ResponseModelCollectionPreGetLoadCommandEvent;
+use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreGetLoadCommandEvent;
 use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ExceptionHandlerInterface;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\State\LoadState;
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollection;
@@ -163,10 +163,10 @@ abstract class AbstractCollectionLoader implements CollectionLoaderInterface
         array $commandArgs
     ): CommandInterface {
         /**
-         * @var ResponseModelCollectionPreGetLoadCommandEvent $event
+         * @var PreGetLoadCommandEvent $event
          */
         $event = $client->dispatchEvent(
-            ResponseModelCollectionPreGetLoadCommandEvent::class,
+            PreGetLoadCommandEvent::class,
             $config,
             $commandArgs
         );
@@ -205,9 +205,7 @@ abstract class AbstractCollectionLoader implements CollectionLoaderInterface
 
             //Save our response in cache if we can. We specifically do not wait until after we dispatch the post
             //execute command event because we may not always have the same response data from the event.
-            if($client->canCache() && !is_null($cacheHash)) {
-                $client->getCache()->save($cacheHash, $response);
-            }
+            static::attemptSaveCache($client, $cacheHash, $response);
 
             /**
              * @var PostExecuteCommandEvent $event
@@ -264,6 +262,7 @@ abstract class AbstractCollectionLoader implements CollectionLoaderInterface
             $commands = $event->getCommands() ?? $commands;
 
             $allResponse = [];
+
             static::executeAllCommands($config, $client, $commands, $allResponse, $handler)->wait();
 
             /**
@@ -276,11 +275,9 @@ abstract class AbstractCollectionLoader implements CollectionLoaderInterface
                 $allResponse
             );
 
-            $allResponse = $event->getCombinedResponse();
+            $allResponse = $event->getResponse();
 
-            if ($client->canCache()) {
-                $client->getCache()->save($hash, $allResponse);
-            }
+            static::attemptSaveCache($client, $hash, $allResponse);
 
             return new FulfilledPromise($allResponse);
         })->otherwise(function ($reason) {
@@ -302,7 +299,6 @@ abstract class AbstractCollectionLoader implements CollectionLoaderInterface
                 $index,
                 PromiseInterface $aggregate
             ) use ($config, $client, $commands, &$response) {
-                //Allow others to modify the commands before execution.
                 /** @var CommandFulfilledEvent $event */
                 $event = $client->dispatchEvent(
                     CommandFulfilledEvent::class,
@@ -331,5 +327,15 @@ abstract class AbstractCollectionLoader implements CollectionLoaderInterface
                 }
             },
         ]);
+    }
+
+    private static function attemptSaveCache(
+        ServiceClientInterface $client,
+        string $cacheHash,
+        $data
+    ) {
+        if ($client->canCache()) {
+            $client->getCache()->save($cacheHash, $data);
+        }
     }
 }

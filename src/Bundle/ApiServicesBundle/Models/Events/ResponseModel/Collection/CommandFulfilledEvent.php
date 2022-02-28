@@ -13,6 +13,7 @@ namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection;
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionConfig;
 use GuzzleHttp\Command\CommandInterface;
 use GuzzleHttp\Promise\Promise;
+use GuzzleHttp\Promise\PromiseInterface;
 
 /**
  * Event triggered right before a ResponseModelCollectionInterface instance
@@ -51,7 +52,7 @@ class CommandFulfilledEvent extends ResponseModelCollectionEvent
      * @param CommandInterface[] $commands  full array of commands being run
      * @param int                $index     index of fulfilled command
      * @param mixed              $value     the command return value
-     * @param Promise            $aggregate the aggregate group of promises
+     * @param PromiseInterface   $aggregate the aggregate group of promises
      *                                      being run
      */
     public function __construct(
@@ -59,7 +60,7 @@ class CommandFulfilledEvent extends ResponseModelCollectionEvent
         array $commands,
         int $index,
         $value,
-        Promise $aggregate
+        PromiseInterface $aggregate
     ) {
         $this->commands  = $commands;
         $this->index     = $index;
@@ -94,9 +95,9 @@ class CommandFulfilledEvent extends ResponseModelCollectionEvent
     }
 
     /**
-     * @return Promise the promise containing all of the command promises
+     * @return PromiseInterface the promise containing all of the command promises
      */
-    public function getAggregate(): Promise
+    public function getAggregate(): PromiseInterface
     {
         return $this->aggregate;
     }

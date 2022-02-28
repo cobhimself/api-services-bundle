@@ -10,7 +10,8 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection;
 
-use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollection;
+use Cob\Bundle\ApiServicesBundle\Models\Events\CanGetResponseTrait;
+use Cob\Bundle\ApiServicesBundle\Models\Events\CanSetResponseTrait;
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionConfig;
 use GuzzleHttp\Command\CommandInterface;
 
@@ -20,16 +21,15 @@ use GuzzleHttp\Command\CommandInterface;
  */
 class PostExecuteCommandsEvent extends ResponseModelCollectionEvent
 {
+    use CanGetResponseTrait;
+    use CanSetResponseTrait;
+
     const NAME = 'api_services.response_model.collection.post_execute_commands';
 
     /**
      * @var CommandInterface[] an array of commands which were just executed
      */
     protected $commands;
-    /**
-     * @var array
-     */
-    private $combinedResponse;
 
     /**
      * Run after a chunked set of commands are run for the collection.
@@ -41,7 +41,7 @@ class PostExecuteCommandsEvent extends ResponseModelCollectionEvent
         array $commands,
         array $combinedResponse = []
     ) {
-        $this->combinedResponse = $combinedResponse;
+        $this->response = $combinedResponse;
         $this->commands = $commands;
         parent::__construct($config);
     }
@@ -54,21 +54,5 @@ class PostExecuteCommandsEvent extends ResponseModelCollectionEvent
     public function getCommands(): array
     {
         return $this->commands;
-    }
-
-    /**
-     * @return array
-     */
-    public function getCombinedResponse(): array
-    {
-        return $this->combinedResponse;
-    }
-
-    /**
-     * @param array $combinedResponse
-     */
-    public function setCombinedResponse(array $combinedResponse)
-    {
-        $this->combinedResponse = $combinedResponse;
     }
 }

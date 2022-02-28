@@ -23,24 +23,25 @@ class PostLoadFromCacheEvent extends ResponseModelCollectionEvent
     const NAME = 'api_services.response_model.collection.post_load_from_cache';
 
     /**
-     * @var array the responses loaded from cache
+     * @var array the response data loaded from cache
      */
-    private $responses;
+    private $response;
 
     /**
      * Run after our responses have been retrieved from cache.
      *
      * @param ResponseModelCollectionConfig $config
-     * @param array                         $responses
+     * @param string                        $hash
+     * @param array                         $response
      */
     public function __construct(
         ResponseModelCollectionConfig $config,
         string $hash,
-        array $responses
+        array $response
     ) {
         parent::__construct($config);
 
-        $this->responses = $responses;
+        $this->response = $response;
         $this->hash = $hash;
     }
 
@@ -49,6 +50,6 @@ class PostLoadFromCacheEvent extends ResponseModelCollectionEvent
      */
     public function getResponseData(): array
     {
-        return $this->responses;
+        return $this->response;
     }
 }

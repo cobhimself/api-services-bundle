@@ -10,6 +10,8 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models;
 
+use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostCountEvent;
+use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreCountEvent;
 use GuzzleHttp\Promise\PromiseInterface;
 use Cob\Bundle\ApiServicesBundle\Exceptions\CountDataException;
 use Cob\Bundle\ApiServicesBundle\Exceptions\InvalidResponseModel;
@@ -45,6 +47,11 @@ class Count extends BaseResponseModel
         ServiceClient $client
     ): PromiseInterface {
         return Promise::async(function () use ($config, $client) {
+            $client->dispatchEvent(
+                PreCountEvent::class,
+                $config
+            );
+
             $countCommand = $config->getCountCommand();
             $countArgs = $config->getCountArgs();
             $countValuePath = $config->getCountValuePath();
@@ -53,9 +60,15 @@ class Count extends BaseResponseModel
 
             $response = $client->execute($command);
 
-            $data = new DotData($response);
+            $count = DotData::of($response)->dot($countValuePath, false);
 
-            return $data->dot($countValuePath, false);
+            $client->dispatchEvent(
+                PostCountEvent::class,
+                $config,
+                $count
+            );
+
+            return $count;
         })->otherwise(function ($reason) use ($config) {
             //Unfortunately, we can't just ignore an issue like this...
             ClientCommandExceptionHandler::passThruAndWrapWith(

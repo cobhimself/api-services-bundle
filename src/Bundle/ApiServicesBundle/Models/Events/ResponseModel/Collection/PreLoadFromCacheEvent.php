@@ -32,22 +32,9 @@ class PreLoadFromCacheEvent extends ResponseModelCollectionEvent
 
     public function __construct(
         ResponseModelCollectionConfig $config,
-        array $hash
+        string $hash
     ) {
         parent::__construct($config);
         $this->hash = $hash;
-    }
-
-    /**
-     * @param string $hash
-     *
-     * @return PreLoadFromCacheEvent
-     */
-    public function setResponseData(
-        string $hash
-    ): PreLoadFromCacheEvent {
-        $this->hash = $hash;
-
-        return $this;
     }
 }

@@ -6,7 +6,7 @@ use Cob\Bundle\ApiServicesBundle\Models\Events\CanGetCommandArgsTrait;
 use Cob\Bundle\ApiServicesBundle\Models\Events\CanSetCommandArgsTrait;
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionConfig;
 
-class ResponseModelCollectionPreGetLoadCommandEvent extends ResponseModelCollectionEvent
+class PreGetLoadCommandEvent extends ResponseModelCollectionEvent
 {
     use CanGetCommandArgsTrait;
     use CanSetCommandArgsTrait;
