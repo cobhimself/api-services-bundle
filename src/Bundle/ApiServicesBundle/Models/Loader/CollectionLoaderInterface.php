@@ -13,6 +13,7 @@ interface CollectionLoaderInterface
         ServiceClientInterface $client,
         array $commandArgs = [],
         array $countCommandArgs = [],
-        array $data = []
+        array $data = [],
+        $parent = null
     ): ResponseModelCollection;
 }

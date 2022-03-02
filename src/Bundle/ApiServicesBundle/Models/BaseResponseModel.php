@@ -15,6 +15,7 @@ use GuzzleHttp\Promise\PromiseInterface;
 class BaseResponseModel implements ResponseModel
 {
     use ResponseModelTrait;
+    use HasParentTrait;
 
     /**
      * Establish a new response model with a specific load state and load promise.
@@ -28,10 +29,15 @@ class BaseResponseModel implements ResponseModel
     public function __construct(
         ServiceClientInterface $client,
         LoadState $desiredLoadState,
-        PromiseInterface $loadPromise
+        PromiseInterface $loadPromise,
+        $parent = null
     ) {
         $this->client = $client;
         $this->loadPromise = $loadPromise;
+
+        if (!is_null($parent)) {
+            $this->setParent($parent);
+        }
 
         $config = static::getConfig();
         $config->setServiceClient($client);
@@ -66,35 +72,43 @@ class BaseResponseModel implements ResponseModel
 
     public static function loadAsync(
         ServiceClientInterface $client,
-        array $commandArgs = []
+        array $commandArgs = [],
+        $parent = null
     ): ResponseModel {
         return AsyncLoader::load(
             static::getConfig(),
             $client,
-            $commandArgs
+            $commandArgs,
+            [], //No data yet!
+            $parent
         );
     }
     
     public static function load(
         ServiceClientInterface $client,
-        array $commandArgs = []
+        array $commandArgs = [],
+        $parent = null
     ): ResponseModel {
         return Loader::load(
             static::getConfig(),
             $client,
-            $commandArgs
+            $commandArgs,
+            [], //No data yet!
+            $parent
         );
     }
 
     public static function withData(
         ServiceClientInterface $client,
-        array $data
+        array $data,
+        $parent = null
     ): ResponseModel {
         return WithDataLoader::load(
             static::getConfig(),
             $client,
             [], //Don't need to supply command args as we already have the data for the model
-            $data
+            $data,
+            $parent
         );
     }
 

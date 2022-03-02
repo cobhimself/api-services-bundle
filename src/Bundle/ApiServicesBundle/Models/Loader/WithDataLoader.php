@@ -27,13 +27,15 @@ class WithDataLoader extends AbstractLoader
         ResponseModelConfig $config,
         ServiceClientInterface $client,
         array $commandArgs = [],
-        array $data = []
+        array $data = [],
+        $parent = null
     ): ResponseModel {
         return self::getNewResponseClass(
             $config,
             $client,
             LoadState::loadedWithData(),
-            new FulfilledPromise($data)
+            new FulfilledPromise($data),
+            $parent
         );
     }
 }

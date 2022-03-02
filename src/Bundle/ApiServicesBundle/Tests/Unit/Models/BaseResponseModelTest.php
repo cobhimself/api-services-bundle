@@ -46,11 +46,10 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\Person;
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreGetLoadCommandEvent
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostAddModelToCollectionEvent
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\ResponseModelCollectionEvent
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\HasParentTrait
  */
 class BaseResponseModelTest extends BaseResponseModelTestCase
 {
-    use ServiceClientMockTrait;
-
     /**
      * @covers ::__construct
      * @covers ::withData
@@ -63,14 +62,17 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
     {
         $client = $this->getServiceClientMock();
 
+        $mockParentModel = $this->getMockParentModel();
+
         /**
          * @var MockBaseResponseModel $mockModel
          */
-        $mockModel = MockBaseResponseModel::withData($client, self::MOCK_RESPONSE_DATA);
+        $mockModel = MockBaseResponseModel::withData($client, self::MOCK_RESPONSE_DATA, $mockParentModel);
 
         $this->assertTrue($mockModel->isLoadedWithData());
         $this->assertSame(self::MOCK_RESPONSE_DATA, $mockModel->toArray());
         $this->assertEquals(1, $mockModel->dot('data.one'));
+        $this->assertEquals($mockParentModel, $mockModel->getParent());
     }
 
     /**
@@ -85,6 +87,8 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
      */
     public function testLoad()
     {
+        $mockParentModel = $this->getMockParentModel();
+
         /**
          * @var Person $mockModel
          */
@@ -92,13 +96,15 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
             $this->getServiceClientMockWithJsonData([
                 __DIR__ . '/../../Resources/MockResponses/person.json'
             ]),
-            []
+            [],
+            $mockParentModel
         );
 
         $this->assertTrue($mockModel->isLoaded());
         $this->assertEquals("Person 1", $mockModel->getName());
         $this->assertEquals(1, $mockModel->getAge());
         $this->assertEmpty($mockModel->getChildren());
+        $this->assertEquals($mockParentModel, $mockModel->getParent());
     }
 
     /**
@@ -114,6 +120,8 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
      */
     public function testLoadAsync()
     {
+        $mockParentModel = $this->getMockParentModel();
+
         /**
          * @var Person $mockModel
          */
@@ -121,7 +129,8 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
             $this->getServiceClientMockWithJsonData([
                 __DIR__ . '/../../Resources/MockResponses/person.json'
             ]),
-            []
+            [],
+            $mockParentModel
         );
 
         $this->assertTrue($mockModel->isWaiting());
@@ -130,6 +139,8 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
         $this->assertTrue($mockModel->isLoaded());
         $this->assertEquals(1, $mockModel->getAge());
         $this->assertEmpty($mockModel->getChildren());
+
+        $this->assertEquals($mockParentModel, $mockModel->getParent());
     }
 
     /**

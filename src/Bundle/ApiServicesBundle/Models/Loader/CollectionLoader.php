@@ -19,7 +19,8 @@ class CollectionLoader extends AbstractCollectionLoader
         ServiceClientInterface $client,
         array $commandArgs = [],
         array $countCommandArgs = [],
-        array $data = []
+        array $data = [],
+        $parent = null
     ): ResponseModelCollection {
         $loaded = static::getLoadPromise(
             $config,
@@ -32,7 +33,8 @@ class CollectionLoader extends AbstractCollectionLoader
             $config,
             $client,
             LoadState::loaded(),
-            new FulfilledPromise($loaded)
+            new FulfilledPromise($loaded),
+            $parent
         );
     }
 }

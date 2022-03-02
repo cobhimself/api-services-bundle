@@ -54,6 +54,7 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\PersonCollectionWithCountCapab
  * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelTrait
  * @uses \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\HasParentTrait
  */
 class BaseResponseModelCollectionTest extends BaseResponseModelTestCase
 {

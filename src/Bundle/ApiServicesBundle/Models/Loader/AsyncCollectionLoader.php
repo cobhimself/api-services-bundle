@@ -25,7 +25,8 @@ class AsyncCollectionLoader extends AbstractCollectionLoader
         ServiceClientInterface        $client,
         array                         $commandArgs = [],
         array                         $countCommandArgs = [],
-        array                         $data = []
+        array                         $data = [],
+                                      $parent = null
     ): ResponseModelCollection {
         $promise = static::getLoadPromise(
             $config,
@@ -38,7 +39,8 @@ class AsyncCollectionLoader extends AbstractCollectionLoader
             $config,
             $client,
             LoadState::waiting(),
-            $promise
+            $promise,
+            $parent
         );
     }
 }

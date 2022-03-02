@@ -23,7 +23,8 @@ class Loader extends AbstractLoader
         ResponseModelConfig $config,
         ServiceClientInterface $client,
         array $commandArgs = [],
-        array $data = []
+        array $data = [],
+        $parent = null
     ): ResponseModel {
         $loaded = static::getLoadPromise(
             $config,
@@ -35,7 +36,8 @@ class Loader extends AbstractLoader
             $config,
             $client,
             LoadState::loaded(),
-            new FulfilledPromise($loaded)
+            new FulfilledPromise($loaded),
+            $parent
         );
     }
 }

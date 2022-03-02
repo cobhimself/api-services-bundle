@@ -32,13 +32,15 @@ class WithDataCollectionLoader extends AbstractCollectionLoader
         ServiceClientInterface        $client,
         array                         $commandArgs = [],
         array                         $countCommandArgs = [],
-        array                         $data = []
+        array                         $data = [],
+                                      $parent = null
     ): ResponseModelCollection {
         return self::getNewResponseCollectionClass(
             $config,
             $client,
             LoadState::loadedWithData(),
-            new FulfilledPromise($data)
+            new FulfilledPromise($data),
+            $parent
         );
     }
 }

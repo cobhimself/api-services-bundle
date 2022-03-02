@@ -19,6 +19,7 @@ class BaseResponseModelCollection
     implements ResponseModelCollection
 {
     use ResponseModelTrait;
+    use HasParentTrait;
 
     /**
      * Establish a new response model with a specific load state and load promise.
@@ -32,10 +33,15 @@ class BaseResponseModelCollection
     public function __construct(
         ServiceClientInterface $client,
         LoadState $desiredLoadState,
-        PromiseInterface $loadPromise
+        PromiseInterface $loadPromise,
+        $parent = null
     ) {
         //Initialize with zero elements
         parent::__construct([]);
+
+        if (!is_null($parent)) {
+            $this->setParent($parent);
+        }
 
         $this->client = $client;
         $this->loadPromise = $loadPromise;
@@ -93,39 +99,47 @@ class BaseResponseModelCollection
     public static function loadAsync(
         ServiceClientInterface $client,
         array $commandArgs = [],
-        array $countCommandArgs = []
+        array $countCommandArgs = [],
+        $parent = null
     ): ResponseModelCollection {
         return AsyncCollectionLoader::load(
             static::getConfig(),
             $client,
             $commandArgs,
-            $countCommandArgs
+            $countCommandArgs,
+            [], //No data yet!
+            $parent
         );
     }
     
     public static function load(
         ServiceClientInterface $client,
         array $commandArgs = [],
-        array $countCommandArgs = []
+        array $countCommandArgs = [],
+        $parent = null
     ): ResponseModelCollection {
         return CollectionLoader::load(
             static::getConfig(),
             $client,
             $commandArgs,
-            $countCommandArgs
+            $countCommandArgs,
+            [], //No data established yet!
+            $parent
         );
     }
 
     public static function withData(
         ServiceClientInterface $client,
-        array $data = []
+        array $data = [],
+        $parent = null
     ): ResponseModelCollection {
         return WithDataCollectionLoader::load(
             static::getConfig(),
             $client,
             [], //Don't need to supply command args as we already have the data for the model
             [], //Don't need to supply count command args either
-            $data
+            $data,
+            $parent
         );
     }
 
@@ -139,7 +153,8 @@ class BaseResponseModelCollection
         $model = call_user_func(
             [$config->getChildResponseModelClass(), 'withData'],
             $client,
-            $responseData
+            $responseData,
+            $this
         );
 
         $this->add($model);

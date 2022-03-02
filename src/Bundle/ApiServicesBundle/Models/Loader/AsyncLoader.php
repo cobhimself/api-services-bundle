@@ -23,7 +23,8 @@ class AsyncLoader extends AbstractLoader
         ResponseModelConfig $config,
         ServiceClientInterface $client,
         array $commandArgs = [],
-        array $data = []
+        array $data = [],
+        $parent = null
     ): ResponseModel {
         $promise = static::getLoadPromise(
             $config,
@@ -35,7 +36,8 @@ class AsyncLoader extends AbstractLoader
             $config,
             $client,
             LoadState::waiting(),
-            $promise
+            $promise,
+            $parent
         );
     }
 }

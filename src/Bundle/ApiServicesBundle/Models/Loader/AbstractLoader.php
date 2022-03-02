@@ -36,13 +36,14 @@ abstract class AbstractLoader implements LoaderInterface
         ResponseModelConfig $config,
         ServiceClientInterface $client,
         LoadState $loadState,
-        PromiseInterface $promise
+        PromiseInterface $promise,
+        $parent = null
     ): ResponseModel {
         $responseClass = $config->getResponseModelClass();
 
         ClassUtil::confirmValidResponseModel($responseClass);
 
-        return new $responseClass($client, $loadState, $promise);
+        return new $responseClass($client, $loadState, $promise, $parent);
     }
 
     /**

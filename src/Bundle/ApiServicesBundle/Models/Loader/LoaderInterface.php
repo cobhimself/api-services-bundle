@@ -12,6 +12,7 @@ interface LoaderInterface
         ResponseModelConfig $config,
         ServiceClientInterface $client,
         array $commandArgs = [],
-        array $data = []
+        array $data = [],
+        $parent = null
     ): ResponseModel;
 }

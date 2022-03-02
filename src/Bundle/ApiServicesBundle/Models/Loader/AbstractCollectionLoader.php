@@ -44,13 +44,14 @@ abstract class AbstractCollectionLoader implements CollectionLoaderInterface
         ResponseModelCollectionConfig $config,
         ServiceClientInterface $client,
         LoadState $loadState,
-        PromiseInterface $promise
+        PromiseInterface $promise,
+        $parent = null
     ): ResponseModelCollection {
         $responseClass = $config->getResponseModelClass();
 
         ClassUtil::confirmValidResponseModelCollection($responseClass);
 
-        return new $responseClass($client, $loadState, $promise);
+        return new $responseClass($client, $loadState, $promise, $parent);
     }
 
     /**
