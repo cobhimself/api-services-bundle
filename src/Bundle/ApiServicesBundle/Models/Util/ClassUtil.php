@@ -53,13 +53,19 @@ class ClassUtil
     public static function confirmValidResponseModel($model)
     {
         if(!static::isValidResponseModel($model)) {
-            throw new InvalidResponseModel(static::className($model));
+            throw new InvalidResponseModel(
+                static::className($model),
+                [ResponseModel::class]
+            );
         }
     }
 
     public static function confirmValidResponseModelCollection($model) {
         if(!static::isValidResponseModelCollection($model)) {
-            throw new InvalidResponseModel(static::className($model));
+            throw new InvalidResponseModel(
+                static::className($model),
+                [ResponseModelCollection::class]
+            );
         }
     }
 
@@ -68,7 +74,10 @@ class ClassUtil
             !static::isValidResponseModel($model)
             && !static::isValidResponseModelCollection($model)
         ) {
-            throw new InvalidResponseModel(static::className($model));
+            throw new InvalidResponseModel(
+                static::className($model),
+                [ResponseModel::class, ResponseModelCollection::class]
+            );
         }
     }
 

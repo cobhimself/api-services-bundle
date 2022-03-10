@@ -22,14 +22,15 @@ class InvalidResponseModel extends BaseApiServicesBundleException
     /**
      * @param string $class the FQCN of the model we were checking
      */
-    public function __construct(string $class)
+    public function __construct(string $class, array $acceptableClasses)
     {
-        $message = sprintf(
-           '%s must implement one of: ' . PHP_EOL . "\t%s" . PHP_EOL . "\t%s",
-           $class,
-           ResponseModelCollection::class,
-           ResponseModel::class
-       );
+        $message = "$class must implement";
+
+        if (count($acceptableClasses) > 1) {
+            $message .= "one of";
+        }
+
+        $message .= ":\n\t" . join("\n\t", $acceptableClasses);
 
         parent::__construct($message);
     }
