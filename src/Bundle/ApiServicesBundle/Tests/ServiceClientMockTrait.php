@@ -27,7 +27,7 @@ use Prophecy\Prophecy\ObjectProphecy;
  */
 trait ServiceClientMockTrait
 {
-    public function getServiceClientMock(array $responses = null)
+    public function getServiceClientMock(array $responses = null): ServiceClient
     {
         // Create a mock and queue responses.
         $mockHandler = new MockHandler($responses);
