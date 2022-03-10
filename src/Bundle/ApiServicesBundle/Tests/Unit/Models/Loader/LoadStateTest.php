@@ -1,6 +1,6 @@
 <?php
 
-namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Loaders;
+namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Loader;
 
 use Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState;
 use PHPUnit\Framework\TestCase;
