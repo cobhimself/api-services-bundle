@@ -27,7 +27,7 @@ class InvalidResponseModel extends BaseApiServicesBundleException
         $message = "$class must implement";
 
         if (count($acceptableClasses) > 1) {
-            $message .= "one of";
+            $message .= " one of";
         }
 
         $message .= ":\n\t" . join("\n\t", $acceptableClasses);

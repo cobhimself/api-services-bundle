@@ -2,8 +2,10 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Loader\Config;
 
+use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ResponseModelExceptionHandler;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfigBuilder;
 use Cob\Bundle\ApiServicesBundle\Tests\ServiceClientMockTrait;
+use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\Person;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\PersonCollection;
 
 /**
@@ -140,6 +142,7 @@ class CollectionLoadConfigBuilderTest extends CollectionLoadConfigTestCase
      * @covers ::loadAsync
      * @covers ::provide
      * @covers ::validateModelClass
+     * @covers ::withParent
      * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\AsyncCollectionLoader
      * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataLoader
      */
@@ -150,6 +153,9 @@ class CollectionLoadConfigBuilderTest extends CollectionLoadConfigTestCase
             $this->getServiceClientMockWithJsonData([self::PERSON_COLLECTION_JSON])
         );
 
+        //Add a parent to confirm it's set in our constructor
+        $builder->withParent(Person::using($this->getServiceClientMock())->withData([]));
+
         /**
          * @var PersonCollection $collection
          */
@@ -159,6 +165,7 @@ class CollectionLoadConfigBuilderTest extends CollectionLoadConfigTestCase
         $this->assertTrue($collection->isWaiting());
         $this->assertNotEmpty($collection->dot(''));
         $this->assertTrue($collection->isLoaded());
+        $this->assertInstanceOf(Person::class, $collection->getParent());
     }
 
     /**
