@@ -60,6 +60,13 @@ class LoadConfigBuilder
         return $this;
     }
 
+    public function existingData(array $existingData): LoadConfigBuilder
+    {
+        $this->existingData = $existingData;
+
+        return $this;
+    }
+
     protected function validateModelClass(string $modelClass)
     {
         ClassUtil::confirmValidResponseModel($modelClass);
