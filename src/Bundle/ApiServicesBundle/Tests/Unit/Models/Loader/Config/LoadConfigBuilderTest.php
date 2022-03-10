@@ -91,31 +91,6 @@ class LoadConfigBuilderTest extends LoadConfigTestCase
 
     /**
      * @covers ::__construct
-     * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig
-     * @covers \Cob\Bundle\ApiServicesBundle\Exceptions\LoadConfigRequiredPropertyException
-     */
-    public function testExceptionThrownOnNullExistingData()
-    {
-        $this->expectException(LoadConfigRequiredPropertyException::class);
-        $this->expectExceptionMessage("Could not obtain the required load configuration property 'existingData'.");
-
-        $client = $this->getServiceClientMock([]);
-
-        $loadConfig = new LoadConfig(
-            $client,
-            null,
-            null,
-            null,
-            null,
-            null
-        );
-
-        //All other properties can be null but we specifically confirm existing data was set before we get it
-        $loadConfig->getExistingData();
-    }
-
-    /**
-     * @covers ::__construct
      * @covers ::build
      * @covers ::load
      * @covers ::provide

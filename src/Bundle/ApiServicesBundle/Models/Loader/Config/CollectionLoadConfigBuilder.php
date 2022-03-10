@@ -65,6 +65,13 @@ class CollectionLoadConfigBuilder
         return $this;
     }
 
+    public function existingData(array $existingData): CollectionLoadConfigBuilder
+    {
+        $this->existingData = $existingData;
+
+        return $this;
+    }
+
     public function validateModelClass(string $modelClass)
     {
         ClassUtil::confirmValidResponseModelCollection($modelClass);
