@@ -2,6 +2,7 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Loader\Config;
 
+use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ExceptionHandlerInterface;
 use Cob\Bundle\ApiServicesBundle\Models\ServiceClientInterface;
 
 class LoadConfig
@@ -10,16 +11,16 @@ class LoadConfig
 
     public function __construct(
         ServiceClientInterface $client,
-        $commandArgs = [],
+        array $commandArgs = null,
         $parent = null,
-        $clearCache = false,
-        $handler = null,
-        $existingData = []
+        bool $clearCache = null,
+        ExceptionHandlerInterface $handler = null,
+        array $existingData = null
     ) {
         $this->client = $client;
-        $this->commandArgs = $commandArgs;
+        $this->commandArgs = $commandArgs ?? [];
         $this->parent = $parent;
-        $this->clearCache = $clearCache;
+        $this->clearCache = $clearCache ?? false;
         $this->handler = $handler;
         $this->existingData = $existingData;
     }
