@@ -6,7 +6,10 @@ use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostAddModelToCollectionEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\AsyncCollectionLoader;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\CollectionLoader;
-use Cob\Bundle\ApiServicesBundle\Models\Loader\State\LoadState;
+use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfig;
+use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfigBuilder;
+use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigBuilder;
+use Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataCollectionLoader;
 use Doctrine\Common\Collections\ArrayCollection;
 use GuzzleHttp\Promise\PromiseInterface;
@@ -29,6 +32,7 @@ class BaseResponseModelCollection
      * @param ServiceClientInterface $client
      * @param LoadState $desiredLoadState
      * @param PromiseInterface $loadPromise
+     * @param null $parent
      */
     public function __construct(
         ServiceClientInterface $client,
@@ -96,66 +100,45 @@ class BaseResponseModelCollection
         return $config;
     }
 
-    public static function loadAsync(
-        ServiceClientInterface $client,
-        array $commandArgs = [],
-        array $countCommandArgs = [],
-        $parent = null
-    ): ResponseModelCollection {
+    public static function loadAsync(CollectionLoadConfig $loadConfig): ResponseModelCollection {
         return AsyncCollectionLoader::load(
             static::getConfig(),
-            $client,
-            $commandArgs,
-            $countCommandArgs,
-            [], //No data yet!
-            $parent
+            $loadConfig
         );
     }
     
     public static function load(
-        ServiceClientInterface $client,
-        array $commandArgs = [],
-        array $countCommandArgs = [],
-        $parent = null
+        CollectionLoadConfig $loadConfig
     ): ResponseModelCollection {
         return CollectionLoader::load(
             static::getConfig(),
-            $client,
-            $commandArgs,
-            $countCommandArgs,
-            [], //No data established yet!
-            $parent
+            $loadConfig
         );
     }
 
     public static function withData(
-        ServiceClientInterface $client,
-        array $data = [],
-        $parent = null
+        CollectionLoadConfig $loadConfig
     ): ResponseModelCollection {
         return WithDataCollectionLoader::load(
             static::getConfig(),
-            $client,
-            [], //Don't need to supply command args as we already have the data for the model
-            [], //Don't need to supply count command args either
-            $data,
-            $parent
+            $loadConfig
         );
     }
 
     private function addResponse(ServiceClientInterface $client, array $responseData = [])
     {
         $config = static::getConfig();
+        $childClass = $config->getChildResponseModelClass();
+
+        /**
+         * @var LoadConfigBuilder
+         */
+        $loadConfigBuilder = call_user_func([$childClass, 'using'], $client);
 
         /**
          * @var ResponseModel $model
          */
-        $model = call_user_func(
-            [$config->getChildResponseModelClass(), 'withData'],
-            $client,
-            $responseData,
-            $this
-        );
+        $model = $loadConfigBuilder->withParent($this)->withData($responseData);
 
         $this->add($model);
 
@@ -171,5 +154,10 @@ class BaseResponseModelCollection
         $this->confirmLoaded();
 
         return parent::count();
+    }
+
+    public static function using(ServiceClient $client): CollectionLoadConfigBuilder
+    {
+        return CollectionLoadConfig::builder(static::class, $client);
     }
 }

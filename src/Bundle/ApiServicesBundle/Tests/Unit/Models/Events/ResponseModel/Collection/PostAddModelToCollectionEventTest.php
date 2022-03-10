@@ -19,11 +19,14 @@ use PHPUnit\Framework\TestCase;
  * @uses \Cob\Bundle\ApiServicesBundle\Models\DotData
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Deserializer
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractLoader
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\State\LoadState
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataLoader
  * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig
  * @uses \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigBuilder
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigSharedTrait
  */
 class PostAddModelToCollectionEventTest extends TestCase
 {
@@ -37,7 +40,7 @@ class PostAddModelToCollectionEventTest extends TestCase
     public function testGettersAndSetters()
     {
         $config = PersonCollection::getConfig();
-        $model = Person::withData($this->getServiceClientMock(), []);
+        $model = Person::using($this->getServiceClientMock())->withData([]);
 
         $event = new PostAddModelToCollectionEvent($config, $model);
 

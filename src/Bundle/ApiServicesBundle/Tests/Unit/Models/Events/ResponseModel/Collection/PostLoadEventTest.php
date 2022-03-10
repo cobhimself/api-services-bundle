@@ -2,12 +2,10 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Events\ResponseModel\Collection;
 
-use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\CommandFulfilledEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostLoadEvent;
-use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreLoadEvent;
+use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfig;
+use Cob\Bundle\ApiServicesBundle\Tests\ServiceClientMockTrait;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\PersonCollection;
-use GuzzleHttp\Command\Command;
-use GuzzleHttp\Promise\FulfilledPromise;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -20,24 +18,30 @@ use PHPUnit\Framework\TestCase;
  */
 class PostLoadEventTest extends TestCase
 {
+    use ServiceClientMockTrait;
+
     /**
      * @covers ::__construct
      * @covers ::getConfig
-     * @covers ::getCommandArgs
+     * @covers ::getLoadConfig
      * @covers ::getResponse
      * @covers ::setResponse
+     * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfig
+     * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfigBuilder
+     * @uses \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
+     * @uses \Cob\Bundle\ApiServicesBundle\Models\Deserializer
      */
     public function testGettersAndSetters()
     {
         $config = PersonCollection::getConfig();
-        $commandArgs = $config->getDefaultArgs();
+        $loadConfig = new CollectionLoadConfig($this->getServiceClientMock([]));
         $response = ['foo' => 'bar'];
         $responseNew = ['boo' => 'baz'];
 
-        $event = new PostLoadEvent($config, $commandArgs, $response);
+        $event = new PostLoadEvent($config, $loadConfig, $response);
 
         $this->assertEquals($config, $event->getConfig());
-        $this->assertEquals($commandArgs, $event->getCommandArgs());
+        $this->assertEquals($loadConfig, $event->getLoadConfig());
         $this->assertEquals($response, $event->getResponse());
 
         $event->setResponse($responseNew);

@@ -10,8 +10,9 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection;
 
-use Cob\Bundle\ApiServicesBundle\Models\Events\CanGetCommandArgsTrait;
-use Cob\Bundle\ApiServicesBundle\Models\Events\CanSetCommandArgsTrait;
+use Cob\Bundle\ApiServicesBundle\Models\Events\CanGetCollectionLoadConfigTrait;
+use Cob\Bundle\ApiServicesBundle\Models\Events\CanSetCollectionLoadConfigTrait;
+use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfig;
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionConfig;
 
 /**
@@ -19,14 +20,14 @@ use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionConfig;
  */
 class PreLoadEvent extends ResponseModelCollectionEvent
 {
-    use CanGetCommandArgsTrait;
-    use CanSetCommandArgsTrait;
+    use CanGetCollectionLoadConfigTrait;
+    use CanSetCollectionLoadConfigTrait;
 
     const NAME = 'api_services.response_model.collection.pre_load';
 
-    public function __construct(ResponseModelCollectionConfig $config, array $commandArgs = [])
+    public function __construct(ResponseModelCollectionConfig $config, CollectionLoadConfig $loadConfig)
     {
         parent::__construct($config);
-        $this->commandArgs = $commandArgs;
+        $this->loadConfig = $loadConfig;
     }
 }

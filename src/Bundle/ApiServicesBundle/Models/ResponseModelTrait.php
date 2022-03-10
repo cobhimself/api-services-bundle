@@ -3,7 +3,9 @@
 namespace Cob\Bundle\ApiServicesBundle\Models;
 
 use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelException;
-use Cob\Bundle\ApiServicesBundle\Models\Loader\State\LoadState;
+use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ExceptionHandlerInterface;
+use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ResponseModelExceptionHandler;
+use Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState;
 use Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil;
 use GuzzleHttp\Promise\PromiseInterface;
 
@@ -130,5 +132,23 @@ trait ResponseModelTrait
     public function getClient(): ServiceClientInterface
     {
         return $this->client;
+    }
+
+    /**
+     * Setup a sane default exception handler for use with our loading method.
+     *
+     * We're going to pass through any exception by default. This means any
+     * connection issues which we might be ok with swallowing will be passed
+     * through. @see ClientCommandExceptionHandler for ways to handle specific
+     * HTTP error codes.
+     *
+     * @return ExceptionHandlerInterface
+     */
+    protected function getDefaultExceptionHandler(): ExceptionHandlerInterface
+    {
+        return ResponseModelExceptionHandler::passThruAndWrapWith(
+            ResponseModelException::class,
+            [sprintf('Could not load response model %s', static::class)]
+        );
     }
 }

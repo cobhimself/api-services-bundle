@@ -1,6 +1,6 @@
 <?php
 
-namespace Cob\Bundle\ApiServicesBundle\Models\Loader\State;
+namespace Cob\Bundle\ApiServicesBundle\Models\Loader;
 
 class LoadState
 {

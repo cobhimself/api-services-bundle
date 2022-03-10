@@ -10,12 +10,12 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Exceptions;
 
-use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionInterface;
-use Cob\Bundle\ApiServicesBundle\Models\ResponseModelInterface;
+use Cob\Bundle\ApiServicesBundle\Models\ResponseModel;
+use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollection;
 
 /**
  * Exception called when a model is expected to be an instance of
- * ResponseModelInterface or ResponseModelCollectionInterface but is not.
+ * ResponseModel or ResponseModelCollection but is not.
  */
 class InvalidResponseModel extends BaseApiServicesBundleException
 {
@@ -27,8 +27,8 @@ class InvalidResponseModel extends BaseApiServicesBundleException
         $message = sprintf(
            '%s must implement one of: ' . PHP_EOL . "\t%s" . PHP_EOL . "\t%s",
            $class,
-           ResponseModelCollectionInterface::class,
-           ResponseModelInterface::class
+           ResponseModelCollection::class,
+           ResponseModel::class
        );
 
         parent::__construct($message);

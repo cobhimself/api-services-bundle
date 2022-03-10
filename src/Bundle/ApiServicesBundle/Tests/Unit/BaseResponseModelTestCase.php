@@ -25,7 +25,8 @@ abstract class BaseResponseModelTestCase extends TestCase
         static $mockParentModel;
 
         if (is_null($mockParentModel)) {
-            $mockParentModel = MockBaseResponseModel::withData($this->getServiceClientMock(), []);
+            $mockParentModel = MockBaseResponseModel::using($this->getServiceClientMock())
+                ->withData([]);
         }
 
         return $mockParentModel;

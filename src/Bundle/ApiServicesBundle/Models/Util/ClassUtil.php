@@ -2,6 +2,7 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Util;
 
+use Cob\Bundle\ApiServicesBundle\Exceptions\IncorrectParentResponseModel;
 use Cob\Bundle\ApiServicesBundle\Exceptions\InvalidResponseModel;
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModel;
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollection;
@@ -51,14 +52,37 @@ class ClassUtil
 
     public static function confirmValidResponseModel($model)
     {
-        if(!$fqcn = static::isValidResponseModel($model)) {
-            throw new InvalidResponseModel($fqcn);
+        if(!static::isValidResponseModel($model)) {
+            throw new InvalidResponseModel(static::className($model));
         }
     }
 
     public static function confirmValidResponseModelCollection($model) {
-        if(!$fqcn = static::isValidResponseModelCollection($model)) {
-            throw new InvalidResponseModel($fqcn);
+        if(!static::isValidResponseModelCollection($model)) {
+            throw new InvalidResponseModel(static::className($model));
+        }
+    }
+
+    public static function confirmValidResponseModelOrCollection($model) {
+        if(
+            !static::isValidResponseModel($model)
+            && !static::isValidResponseModelCollection($model)
+        ) {
+            throw new InvalidResponseModel(static::className($model));
+        }
+    }
+
+    public static function confirmValidParentModel($parent, $child)
+    {
+        if (
+            !ClassUtil::isValidResponseModel($parent)
+            && !ClassUtil::isValidResponseModelCollection($parent)
+        ) {
+            throw new IncorrectParentResponseModel(
+                $child,
+                ResponseModel::class . ' OR ' . ResponseModelCollection::class,
+                get_class($parent)
+            );
         }
     }
 }

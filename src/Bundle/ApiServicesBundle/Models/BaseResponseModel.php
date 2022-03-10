@@ -4,8 +4,10 @@ namespace Cob\Bundle\ApiServicesBundle\Models;
 
 use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\AsyncLoader;
+use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig;
+use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigBuilder;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\Loader;
-use Cob\Bundle\ApiServicesBundle\Models\Loader\State\LoadState;
+use Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataLoader;
 use GuzzleHttp\Promise\PromiseInterface;
 
@@ -25,6 +27,7 @@ class BaseResponseModel implements ResponseModel
      * @param ServiceClientInterface $client
      * @param LoadState $desiredLoadState
      * @param PromiseInterface $loadPromise
+     * @param null $parent
      */
     public function __construct(
         ServiceClientInterface $client,
@@ -70,46 +73,21 @@ class BaseResponseModel implements ResponseModel
         return $config;
     }
 
-    public static function loadAsync(
-        ServiceClientInterface $client,
-        array $commandArgs = [],
-        $parent = null
-    ): ResponseModel {
-        return AsyncLoader::load(
-            static::getConfig(),
-            $client,
-            $commandArgs,
-            [], //No data yet!
-            $parent
-        );
+    public static function loadAsync(LoadConfig $loadConfig): ResponseModel {
+        return AsyncLoader::load(static::getConfig(), $loadConfig);
     }
     
-    public static function load(
-        ServiceClientInterface $client,
-        array $commandArgs = [],
-        $parent = null
-    ): ResponseModel {
-        return Loader::load(
-            static::getConfig(),
-            $client,
-            $commandArgs,
-            [], //No data yet!
-            $parent
-        );
+    public static function load(LoadConfig $loadConfig): ResponseModel {
+        return Loader::load(static::getConfig(), $loadConfig);
     }
 
-    public static function withData(
-        ServiceClientInterface $client,
-        array $data,
-        $parent = null
-    ): ResponseModel {
-        return WithDataLoader::load(
-            static::getConfig(),
-            $client,
-            [], //Don't need to supply command args as we already have the data for the model
-            $data,
-            $parent
-        );
+    public static function withData(LoadConfig $loadConfig): ResponseModel {
+        return WithDataLoader::load(static::getConfig(), $loadConfig);
+    }
+
+    public static function using(ServiceClient $client): LoadConfigBuilder
+    {
+        return LoadConfig::builder(static::class, $client);
     }
 
     public function isLoaded(): bool

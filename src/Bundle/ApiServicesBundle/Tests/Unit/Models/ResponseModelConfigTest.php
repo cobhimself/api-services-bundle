@@ -14,10 +14,13 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModel;
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Deserializer
  * @uses \Cob\Bundle\ApiServicesBundle\Models\DotData
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractLoader
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\State\LoadState
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataLoader
  * @uses \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigBuilder
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigSharedTrait
  */
 class ResponseModelConfigTest extends BaseResponseModelTestCase
 {
@@ -59,7 +62,7 @@ class ResponseModelConfigTest extends BaseResponseModelTestCase
         /**
          * @var MockBaseResponseModel $model
          */
-        $model = MockBaseResponseModel::withData($client, []);
+        $model = MockBaseResponseModel::using($client)->withData([]);
 
         $config = new ResponseModelConfig(self::TEST_COMMAND_NAME, self::TEST_COMMAND_ARGS);
         $config->addInitCallback(function (MockBaseResponseModel $innerModel) use ($model) {

@@ -2,7 +2,7 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Loader;
 
-use Cob\Bundle\ApiServicesBundle\Models\Loader\State\LoadState;
+use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig;
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModel;
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig;
 use Cob\Bundle\ApiServicesBundle\Models\ServiceClientInterface;
@@ -21,23 +21,18 @@ class AsyncLoader extends AbstractLoader
      */
     public static function load(
         ResponseModelConfig $config,
-        ServiceClientInterface $client,
-        array $commandArgs = [],
-        array $data = [],
-        $parent = null
+        LoadConfig $loadConfig
     ): ResponseModel {
         $promise = static::getLoadPromise(
             $config,
-            $client,
-            $commandArgs
+            $loadConfig
         );
 
         return self::getNewResponseClass(
             $config,
-            $client,
+            $loadConfig,
             LoadState::waiting(),
-            $promise,
-            $parent
+            $promise
         );
     }
 }

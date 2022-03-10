@@ -2,12 +2,12 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Loaders;
 
-use Cob\Bundle\ApiServicesBundle\Models\Loader\State\LoadState;
+use Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @codeCoverageIgnore
- * @coversDefaultClass \Cob\Bundle\ApiServicesBundle\Models\Loader\State\LoadState
+ * @coversDefaultClass \Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState
  */
 class LoadStateTest extends TestCase
 {

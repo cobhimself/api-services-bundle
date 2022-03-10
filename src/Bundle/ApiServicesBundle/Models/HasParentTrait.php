@@ -2,7 +2,6 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models;
 
-use Cob\Bundle\ApiServicesBundle\Exceptions\IncorrectParentResponseModel;
 use Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil;
 
 trait HasParentTrait
@@ -27,16 +26,7 @@ trait HasParentTrait
 
     public function setParent($model)
     {
-        if (
-            !ClassUtil::isValidResponseModel($model)
-            && !ClassUtil::isValidResponseModelCollection($model)
-        ) {
-            throw new IncorrectParentResponseModel(
-                $model,
-                ResponseModel::class . ' OR ' . ResponseModelCollection::class,
-                get_class($model)
-            );
-        }
+        ClassUtil::confirmValidParentModel($model, $this);
 
         $this->parent = $model;
     }

@@ -16,6 +16,9 @@ use PHPUnit\Framework\TestCase;
  * @codeCoverageIgnore
  * @coversDefaultClass \Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil
  * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfigSharedTrait
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigBuilder
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigSharedTrait
  */
 class ClassUtilTest extends TestCase
 {
@@ -75,7 +78,7 @@ class ClassUtilTest extends TestCase
      * @uses \Cob\Bundle\ApiServicesBundle\Models\Deserializer
      * @uses \Cob\Bundle\ApiServicesBundle\Models\DotData
      * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractLoader
-     * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\State\LoadState
+     * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState
      * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataLoader
      * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig
      * @uses \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
@@ -85,7 +88,7 @@ class ClassUtilTest extends TestCase
         $this->assertTrue(ClassUtil::isValidResponseModel(MockBaseResponseModel::class));
         $this->assertTrue(
             ClassUtil::isValidResponseModel(
-                MockBaseResponseModel::withData($this->getServiceClientMock(), [])
+                MockBaseResponseModel::using($this->getServiceClientMock())->withData([])
             )
         );
     }

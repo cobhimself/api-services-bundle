@@ -2,10 +2,9 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Loader;
 
-use Cob\Bundle\ApiServicesBundle\Models\Loader\State\LoadState;
+use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig;
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModel;
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig;
-use Cob\Bundle\ApiServicesBundle\Models\ServiceClientInterface;
 use GuzzleHttp\Promise\FulfilledPromise;
 
 class WithDataLoader extends AbstractLoader
@@ -15,27 +14,17 @@ class WithDataLoader extends AbstractLoader
      *
      * This is useful when you have data for the model you don't need to retrieve through the service client.
      *
-     * @param ResponseModelConfig    $config      the response model config to use for the model we want to initialize with
+     * @param ResponseModelConfig $config the response model config to use for the model we want to initialize with
      *                                            the given data.
-     * @param ServiceClientInterface $client      the service client our model should use
-     * @param array                  $commandArgs not used with this loader
-     * @param array                  $data        the data to establish in the model
-     *
+     * @param LoadConfig $loadConfig
      * @return ResponseModel
      */
-    public static function load(
-        ResponseModelConfig $config,
-        ServiceClientInterface $client,
-        array $commandArgs = [],
-        array $data = [],
-        $parent = null
-    ): ResponseModel {
+    public static function load(ResponseModelConfig $config, LoadConfig $loadConfig): ResponseModel {
         return self::getNewResponseClass(
             $config,
-            $client,
+            $loadConfig,
             LoadState::loadedWithData(),
-            new FulfilledPromise($data),
-            $parent
+            new FulfilledPromise($loadConfig->getExistingData())
         );
     }
 }

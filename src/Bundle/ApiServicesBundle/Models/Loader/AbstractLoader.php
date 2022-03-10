@@ -9,7 +9,7 @@ use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreExe
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreGetLoadCommandEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreLoadEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreLoadFromCacheEvent;
-use Cob\Bundle\ApiServicesBundle\Models\Loader\State\LoadState;
+use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig;
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModel;
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig;
 use Cob\Bundle\ApiServicesBundle\Models\ServiceClientInterface;
@@ -25,74 +25,80 @@ abstract class AbstractLoader implements LoaderInterface
     /**
      * Quickly obtain a response class after confirming it represents a {@link ResponseModel}.
      *
-     * @param ResponseModelConfig    $config    the response model config we want to get a new model for
-     * @param ServiceClientInterface $client    the service client used to load data
-     * @param LoadState              $loadState the load state we desire the response model to be initialized with
-     * @param PromiseInterface       $promise   the Promise the response model will use to obtain its data
+     * @param ResponseModelConfig $config the response model config we want to get a new model for
+     * @param LoadConfig $loadConfig
+     * @param LoadState $loadState the load state we desire the response model to be initialized with
+     * @param PromiseInterface $promise the Promise the response model will use to obtain its data
      *
      * @return ResponseModel
      */
     protected static function getNewResponseClass(
         ResponseModelConfig $config,
-        ServiceClientInterface $client,
+        LoadConfig $loadConfig,
         LoadState $loadState,
-        PromiseInterface $promise,
-        $parent = null
+        PromiseInterface $promise
     ): ResponseModel {
         $responseClass = $config->getResponseModelClass();
 
         ClassUtil::confirmValidResponseModel($responseClass);
 
-        return new $responseClass($client, $loadState, $promise, $parent);
+        return new $responseClass(
+            $loadConfig->getClient(),
+            $loadState,
+            $promise,
+            $loadConfig->getParent()
+        );
     }
 
     /**
      * Get the {@link PromiseInterface} needed to load data for a given {@link LoadConfiguration}.
      *
-     * @param ResponseModelConfig    $config      the response model config to use when loading
-     * @param ServiceClientInterface $client      the service client used to load data
-     * @param array                  $commandArgs the command arguments to use when loading
-     *
+     * @param ResponseModelConfig $config the response model config to use when loading
+     * @param LoadConfig $loadConfig
      * @return PromiseInterface
      */
     protected static function getLoadPromise(
         ResponseModelConfig $config,
-        ServiceClientInterface $client,
-        array $commandArgs = []
+        LoadConfig $loadConfig
     ): PromiseInterface
     {
         $responseModelClass = $config->getResponseModelClass();
 
         ClassUtil::confirmValidResponseModel($responseModelClass);
 
-        return Promise::async(function () use ($config, $client, $commandArgs) {
+        return Promise::async(function () use ($config, $loadConfig) {
             /**
              * @var ResponseModelPreLoadEvent $event
              */
-            $client->dispatchEvent(
+            $loadConfig->getClient()->dispatchEvent(
                 ResponseModelPreLoadEvent::class,
                 $config,
-                $commandArgs
+                $loadConfig->getCommandArgs()
             );
-        })->then(function () use ($config, $client, $commandArgs) {
+        })->then(function () use ($config, $loadConfig) {
             //Can we load from cache?
-            list($hash, $cache) = static::getCachedData($config, $client, $commandArgs);
+            list($hash, $cache) = static::getCachedData($config, $loadConfig);
 
-            if (!is_null($cache)) {
+            if (!is_null($cache) && $cache !== false) {
                 return new FulfilledPromise($cache);
             }
 
-            $command = static::getLoadCommand($config, $client, $commandArgs);
+            $command = static::getLoadCommand($config, $loadConfig);
 
-            return static::getExecuteCommandPromise($config, $client, $command, $hash)->wait();
-        })->then(function ($response) use ($config, $client, $commandArgs) {
+            return static::getExecuteCommandPromise(
+                $config,
+                $loadConfig->getClient(),
+                $command,
+                $hash
+            )->wait();
+        })->then(function ($response) use ($config, $loadConfig) {
             /**
              * @var ResponseModelPostLoadEvent $event
              */
-            $event = $client->dispatchEvent(
+            $event = $loadConfig->getClient()->dispatchEvent(
                 ResponseModelPostLoadEvent::class,
                 $config,
-                $commandArgs,
+                $loadConfig->getCommandArgs(),
                 $response
             );
 
@@ -102,9 +108,11 @@ abstract class AbstractLoader implements LoaderInterface
 
     private static function getCachedData(
         ResponseModelConfig $config,
-        ServiceClientInterface $client,
-        array $commandArgs
+        LoadConfig $loadConfig
     ): array {
+        $client = $loadConfig->getClient();
+        $commandArgs = $loadConfig->getCommandArgs();
+
         if ($client->canCache()) {
             $hash = CacheHash::getHashForResponseClassAndArgs(
                 $config->getResponseModelClass(),
@@ -144,9 +152,11 @@ abstract class AbstractLoader implements LoaderInterface
 
     private static function getLoadCommand(
         ResponseModelConfig $config,
-        ServiceClientInterface $client,
-        array $commandArgs
+        LoadConfig $loadConfig
     ): CommandInterface {
+        $client = $loadConfig->getClient();
+        $commandArgs = $loadConfig->getCommandArgs();
+
         /**
          * @var ResponseModelPreGetLoadCommandEvent $event
          */

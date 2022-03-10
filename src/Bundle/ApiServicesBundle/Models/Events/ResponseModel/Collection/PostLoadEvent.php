@@ -10,9 +10,10 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection;
 
-use Cob\Bundle\ApiServicesBundle\Models\Events\CanGetCommandArgsTrait;
+use Cob\Bundle\ApiServicesBundle\Models\Events\CanGetCollectionLoadConfigTrait;
 use Cob\Bundle\ApiServicesBundle\Models\Events\CanGetResponseTrait;
 use Cob\Bundle\ApiServicesBundle\Models\Events\CanSetResponseTrait;
+use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfig;
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionConfig;
 
 /**
@@ -23,17 +24,17 @@ class PostLoadEvent extends ResponseModelCollectionEvent
 {
     use CanGetResponseTrait;
     use CanSetResponseTrait;
-    use CanGetCommandArgsTrait;
+    use CanGetCollectionLoadConfigTrait;
 
     const NAME = 'api_services.response_model.collection.post_load';
 
     public function __construct(
         ResponseModelCollectionConfig $config,
-        array $commandArgs = [],
+        CollectionLoadConfig $loadConfig,
         array $response = []
     ) {
         parent::__construct($config);
         $this->response = $response;
-        $this->commandArgs = $commandArgs;
+        $this->loadConfig = $loadConfig;
     }
 }

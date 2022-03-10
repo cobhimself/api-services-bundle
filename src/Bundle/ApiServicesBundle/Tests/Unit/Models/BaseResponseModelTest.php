@@ -12,17 +12,29 @@
 namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Models;
 
 use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException;
-use Cob\Bundle\ApiServicesBundle\Tests\ServiceClientMockTrait;
+use Cob\Bundle\ApiServicesBundle\Models\CacheProvider;
+use Cob\Bundle\ApiServicesBundle\Models\CacheProviderInterface;
+use Cob\Bundle\ApiServicesBundle\Models\Util\CacheHash;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\BaseResponseModelTestCase;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\BadMockResponseModel;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModel;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModelWithInit;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\Person;
+use Prophecy\Argument;
+use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * @codeCoverageIgnore
  * @coversDefaultClass \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModel
  *
+ * @covers ::__construct
+ * @covers ::using
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractLoader
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigBuilder
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigSharedTrait
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfig
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfigBuilder
  * @uses \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
  * @uses \Cob\Bundle\ApiServicesBundle\Exceptions\BaseApiServicesBundleException
  * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelTrait
@@ -31,7 +43,7 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\Person;
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Deserializer
  * @uses \Cob\Bundle\ApiServicesBundle\Models\DotData
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\Loader
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\State\LoadState
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState
  * @uses \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModelCollection
  * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfigSharedTrait
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractLoader
@@ -50,8 +62,10 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\Person;
  */
 class BaseResponseModelTest extends BaseResponseModelTestCase
 {
+    const PERSON_JSON = __DIR__ . '/../../Resources/MockResponses/person.json';
+    const PERSON_WITH_CHILDREN_JSON = __DIR__ . '/../../Resources/MockResponses/personWithChildren.json';
+
     /**
-     * @covers ::__construct
      * @covers ::withData
      * @covers ::isLoadedWithData
      * @covers ::getConfig
@@ -67,7 +81,9 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
         /**
          * @var MockBaseResponseModel $mockModel
          */
-        $mockModel = MockBaseResponseModel::withData($client, self::MOCK_RESPONSE_DATA, $mockParentModel);
+        $mockModel = MockBaseResponseModel::using($client)
+            ->withParent($mockParentModel)
+            ->withData(self::MOCK_RESPONSE_DATA);
 
         $this->assertTrue($mockModel->isLoadedWithData());
         $this->assertSame(self::MOCK_RESPONSE_DATA, $mockModel->toArray());
@@ -76,7 +92,6 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
     }
 
     /**
-     * @covers ::__construct
      * @covers ::load
      * @covers ::getConfig
      * @covers ::isLoaded
@@ -88,17 +103,12 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
     public function testLoad()
     {
         $mockParentModel = $this->getMockParentModel();
+        $client = $this->getServiceClientMockWithJsonData([self::PERSON_JSON]);
 
         /**
          * @var Person $mockModel
          */
-        $mockModel = Person::load(
-            $this->getServiceClientMockWithJsonData([
-                __DIR__ . '/../../Resources/MockResponses/person.json'
-            ]),
-            [],
-            $mockParentModel
-        );
+        $mockModel = Person::using($client)->withParent($mockParentModel)->load();
 
         $this->assertTrue($mockModel->isLoaded());
         $this->assertEquals("Person 1", $mockModel->getName());
@@ -108,7 +118,6 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
     }
 
     /**
-     * @covers ::__construct
      * @covers ::loadAsync
      * @covers ::getConfig
      * @covers ::isLoaded
@@ -121,17 +130,12 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
     public function testLoadAsync()
     {
         $mockParentModel = $this->getMockParentModel();
+        $client = $this->getServiceClientMockWithJsonData([self::PERSON_JSON]);
 
         /**
          * @var Person $mockModel
          */
-        $mockModel = Person::loadAsync(
-            $this->getServiceClientMockWithJsonData([
-                __DIR__ . '/../../Resources/MockResponses/person.json'
-            ]),
-            [],
-            $mockParentModel
-        );
+        $mockModel = Person::using($client)->withParent($mockParentModel)->loadAsync();
 
         $this->assertTrue($mockModel->isWaiting());
         $this->assertEquals("Person 1", $mockModel->getName());
@@ -144,10 +148,8 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
     }
 
     /**
-     * @covers ::__construct
      * @covers ::getConfig
      * @covers ::withData
-     * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractLoader::getNewResponseClass
      * @covers \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig::doInits
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataLoader
      */
@@ -155,11 +157,9 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage(MockBaseResponseModelWithInit::EXPECTED_EXCEPTION_MSG);
+        $client = $this->getServiceClientMock([]);
 
-        MockBaseResponseModelWithInit::withData(
-            $this->getServiceClientMock([]),
-            []
-        );
+        MockBaseResponseModelWithInit::using($client)->withData([]);
     }
 
     /**
@@ -169,12 +169,13 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
      */
     public function testSetupException()
     {
+        $client = $this->getServiceClientMock();
         $this->expectException(ResponseModelSetupException::class);
-        BadMockResponseModel::withData($this->getServiceClientMock(), []);
+
+        BadMockResponseModel::using($client)->withData([]);
     }
 
     /**
-     * @covers ::__construct
      * @covers ::load
      * @covers ::getConfig
      * @covers ::isLoaded
@@ -185,15 +186,12 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
      */
     public function testChildCollectionSetCorrectly()
     {
+        $client = $this->getServiceClientMockWithJsonData([self::PERSON_WITH_CHILDREN_JSON]);
+
         /**
          * @var Person $mockModel
          */
-        $mockModel = Person::load(
-            $this->getServiceClientMockWithJsonData([
-                __DIR__ . '/../../Resources/MockResponses/personWithChildren.json'
-            ]),
-            []
-        );
+        $mockModel = Person::using($client)->load();
 
         $this->assertTrue($mockModel->isLoaded());
         $this->assertEquals("Person 1", $mockModel->getName());
@@ -217,5 +215,79 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
         $this->assertEquals('Person 1.2', $child2->getName());
         $this->assertEquals(12, $child2->getAge());
         $this->assertFalse($child2->isAlive());
+    }
+
+    /**
+     * @covers ::getConfig
+     * @covers ::isLoaded
+     * @covers ::loadAsync
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\CacheProvider
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreLoadFromCacheEvent
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPostLoadFromCacheEvent
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AsyncLoader::load
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\CacheHash
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\Promise
+     */
+    public function testLoadFromCache()
+    {
+        $data = (array) json_decode($this->getMockResponseDataFromFile(self::PERSON_JSON));
+        $client = $this->getServiceClientMockWithResponseData($data);
+
+        $config = Person::getConfig();
+        $hash = CacheHash::getHashForResponseClassAndArgs($config->getResponseModelClass(), $config->getDefaultArgs());
+
+        /**
+         * @var CacheProviderInterface|ObjectProphecy
+         */
+        $mockCacheProvider = $this->prophesize(CacheProvider::class);
+        $mockCacheProvider->fetch($hash)->willReturn($data);
+        $mockCacheProvider->save(Argument::any(), Argument::any())->shouldNotBeCalled();
+
+        $client->setCacheProvider($mockCacheProvider->reveal());
+
+        /**
+         * @var Person $mockModel
+         */
+        $mockModel = Person::using($client)->loadAsync();
+
+        $this->assertFalse($mockModel->isLoaded());
+        $this->assertEquals('Person 1', $mockModel->getName());
+    }
+
+    /**
+     * @covers ::getConfig
+     * @covers ::isLoaded
+     * @covers ::loadAsync
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\CacheProvider
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreLoadFromCacheEvent
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPostLoadFromCacheEvent
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AsyncLoader::load
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\CacheHash
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\Promise
+     */
+    public function testSaveToCache()
+    {
+        $data = (array) json_decode($this->getMockResponseDataFromFile(self::PERSON_JSON));
+        $client = $this->getServiceClientMockWithResponseData($data);
+
+        $config = Person::getConfig();
+        $hash = CacheHash::getHashForResponseClassAndArgs($config->getResponseModelClass(), $config->getDefaultArgs());
+
+        /**
+         * @var CacheProviderInterface|ObjectProphecy
+         */
+        $mockCacheProvider = $this->prophesize(CacheProvider::class);
+        $mockCacheProvider->fetch($hash)->willReturn(false);
+        $mockCacheProvider->save($hash, $data)->willReturn(true);
+
+        $client->setCacheProvider($mockCacheProvider->reveal());
+
+        /**
+         * @var Person $mockModel
+         */
+        $mockModel = Person::using($client)->loadAsync();
+
+        $this->assertFalse($mockModel->isLoaded());
+        $this->assertEquals('Person 1', $mockModel->getName());
     }
 }

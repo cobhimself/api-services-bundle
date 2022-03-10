@@ -41,7 +41,8 @@ class Person extends BaseResponseModel
     public function getChildren(): PersonCollection
     {
         if (is_null($this->children)) {
-            $this->children = PersonCollection::withData($this->getClient(), $this->dot('children'));
+            $this->children = PersonCollection::using($this->getClient())
+                ->withData($this->dot('children'));
         }
 
         return $this->children;

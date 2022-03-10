@@ -2,7 +2,7 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Loader;
 
-use Cob\Bundle\ApiServicesBundle\Models\Loader\State\LoadState;
+use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfig;
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollection;
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionConfig;
 use Cob\Bundle\ApiServicesBundle\Models\ServiceClientInterface;
@@ -16,25 +16,18 @@ class CollectionLoader extends AbstractCollectionLoader
 {
     public static function load(
         ResponseModelCollectionConfig $config,
-        ServiceClientInterface $client,
-        array $commandArgs = [],
-        array $countCommandArgs = [],
-        array $data = [],
-        $parent = null
+        CollectionLoadConfig $loadConfig
     ): ResponseModelCollection {
         $loaded = static::getLoadPromise(
             $config,
-            $client,
-            $commandArgs,
-            $countCommandArgs
+            $loadConfig
         )->wait();
 
         return static::getNewResponseCollectionClass(
             $config,
-            $client,
+            $loadConfig,
             LoadState::loaded(),
-            new FulfilledPromise($loaded),
-            $parent
+            new FulfilledPromise($loaded)
         );
     }
 }

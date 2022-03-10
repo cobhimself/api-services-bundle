@@ -2,7 +2,8 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models;
 
-use Cob\Bundle\ApiServicesBundle\Models\Loader\State\LoadState;
+use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfig;
+use Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState;
 use GuzzleHttp\Promise\PromiseInterface;
 
 interface ResponseModelCollection extends UsesDot, HasParent
@@ -15,6 +16,7 @@ interface ResponseModelCollection extends UsesDot, HasParent
      * @param ServiceClientInterface $client
      * @param LoadState $desiredLoadState
      * @param PromiseInterface $loadPromise
+     * @param null $parent
      */
     public function __construct(
         ServiceClientInterface $client,
@@ -23,25 +25,11 @@ interface ResponseModelCollection extends UsesDot, HasParent
         $parent = null
     );
 
-    public static function loadAsync(
-        ServiceClientInterface $client,
-        array $commandArgs = [],
-        array $countCommandArgs = [],
-        $parent = null
-    );
+    public static function loadAsync(CollectionLoadConfig $loadConfig);
 
-    public static function load(
-        ServiceClientInterface $client,
-        array $commandArgs = [],
-        array $countCommandArgs = [],
-        $parent = null
-    );
+    public static function load(CollectionLoadConfig $loadConfig);
 
-    public static function withData(
-        ServiceClientInterface $client,
-        array $data = [],
-        $parent = null
-    );
+    public static function withData(CollectionLoadConfig $loadConfig);
 
     public function toArray(): array;
 }

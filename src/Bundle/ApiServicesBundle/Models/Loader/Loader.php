@@ -2,10 +2,9 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Loader;
 
-use Cob\Bundle\ApiServicesBundle\Models\Loader\State\LoadState;
+use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig;
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModel;
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig;
-use Cob\Bundle\ApiServicesBundle\Models\ServiceClientInterface;
 use GuzzleHttp\Promise\FulfilledPromise;
 
 class Loader extends AbstractLoader
@@ -13,31 +12,24 @@ class Loader extends AbstractLoader
     /**
      * Load the data for the response model synchronously.
      *
-     * @param ResponseModelConfig    $config      the response model configuration to use when loading the model
-     * @param ServiceClientInterface $client      the service client to use when running commands
-     * @param array                  $commandArgs arguments to provide to the command for this response model
-     * @param array                  $data        ignored by this loader
+     * @param ResponseModelConfig $config the response model configuration to use when loading the model
+     * @param LoadConfig $loadConfig
      * @return ResponseModel
      */
     public static function load(
         ResponseModelConfig $config,
-        ServiceClientInterface $client,
-        array $commandArgs = [],
-        array $data = [],
-        $parent = null
+        LoadConfig $loadConfig
     ): ResponseModel {
         $loaded = static::getLoadPromise(
             $config,
-            $client,
-            $commandArgs
+            $loadConfig
         )->wait();
 
         return static::getNewResponseClass(
             $config,
-            $client,
+            $loadConfig,
             LoadState::loaded(),
-            new FulfilledPromise($loaded),
-            $parent
+            new FulfilledPromise($loaded)
         );
     }
 }

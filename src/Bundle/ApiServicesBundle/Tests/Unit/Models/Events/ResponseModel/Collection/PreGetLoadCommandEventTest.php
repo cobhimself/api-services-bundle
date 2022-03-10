@@ -2,13 +2,10 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Events\ResponseModel\Collection;
 
-use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\CommandFulfilledEvent;
-use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostLoadEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreGetLoadCommandEvent;
-use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreLoadEvent;
+use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfig;
+use Cob\Bundle\ApiServicesBundle\Tests\ServiceClientMockTrait;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\PersonCollection;
-use GuzzleHttp\Command\Command;
-use GuzzleHttp\Promise\FulfilledPromise;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -18,27 +15,50 @@ use PHPUnit\Framework\TestCase;
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\ResponseModelCollectionEvent
  * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionConfig
  * @uses \CoB\Bundle\ApiServicesBundle\Models\ResponseModelConfigSharedTrait
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Deserializer
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfig
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigBuilderSharedTrait
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigSharedTrait
  */
 class PreGetLoadCommandEventTest extends TestCase
 {
+    use ServiceClientMockTrait;
+
     /**
      * @covers ::__construct
      * @covers ::getConfig
-     * @covers ::getCommandArgs
-     * @covers ::setCommandArgs
+     * @covers ::getLoadConfig
+     * @covers ::setCollectionLoadConfig
      */
     public function testGettersAndSetters()
     {
         $config = PersonCollection::getConfig();
-        $commandArgs = $config->getDefaultArgs();
-        $commandArgsNew = ['foo' => 'bar'];
+        $commandArgs = ['foo' => 'bar'];
+        $commandArgsNew = ['baz' => 'blah'];
 
-        $event = new PreGetLoadCommandEvent($config, $commandArgs);
+        $loadConfig = new CollectionLoadConfig(
+            $this->getServiceClientMock([]),
+            $commandArgs
+        );
+
+        $loadConfigNew = new CollectionLoadConfig(
+            $this->getServiceClientMock([]),
+            $commandArgsNew
+        );
+
+        $event = new PreGetLoadCommandEvent($config, $loadConfig);
 
         $this->assertEquals($config, $event->getConfig());
-        $this->assertEquals($commandArgs, $event->getCommandArgs());
+        $this->assertEquals($loadConfig, $event->getLoadConfig());
 
-        $event->setCommandArgs($commandArgsNew);
-        $this->assertEquals($commandArgsNew, $event->getCommandArgs());
+        //Simulate setting a new load config:
+        $event->setCollectionLoadConfig($loadConfigNew);
+
+        $this->assertEquals($loadConfigNew, $event->getLoadConfig());
+        $this->assertEquals(
+            $commandArgsNew,
+            $event->getLoadConfig()->getCommandArgs()
+        );
     }
 }

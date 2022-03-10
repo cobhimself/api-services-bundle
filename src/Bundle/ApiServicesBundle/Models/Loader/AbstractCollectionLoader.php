@@ -6,17 +6,17 @@ use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelCollectionException;
 use Cob\Bundle\ApiServicesBundle\Models\Count;
 use Cob\Bundle\ApiServicesBundle\Models\DotData;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\CommandFulfilledEvent;
+use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostExecuteCommandEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostExecuteCommandsEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostLoadEvent;
-use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreExecuteCommandsEvent;
-use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreLoadEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostLoadFromCacheEvent;
-use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostExecuteCommandEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreExecuteCommandEvent;
-use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreLoadFromCacheEvent;
+use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreExecuteCommandsEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreGetLoadCommandEvent;
+use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreLoadEvent;
+use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreLoadFromCacheEvent;
 use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ExceptionHandlerInterface;
-use Cob\Bundle\ApiServicesBundle\Models\Loader\State\LoadState;
+use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfig;
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollection;
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionConfig;
 use Cob\Bundle\ApiServicesBundle\Models\ServiceClientInterface;
@@ -32,82 +32,85 @@ abstract class AbstractCollectionLoader implements CollectionLoaderInterface
     /**
      * Quickly obtain a response collection class after confirming it represents a {@link ResponseModelCollection}.
      *
-     * @param ResponseModelCollectionConfig $config    the response model config we want to get a new model for
-     * @param ServiceClientInterface        $client    the service client used to load data
-     * @param LoadState                     $loadState the load state we desire the response model to be
+     * @param ResponseModelCollectionConfig $config the response model config we want to get a new model for
+     * @param CollectionLoadConfig $loadConfig
+     * @param LoadState $loadState the load state we desire the response model to be
      *                                                 initialized with
-     * @param PromiseInterface              $promise   the Promise the response model will use to obtain its data
+     * @param PromiseInterface $promise the Promise the response model will use to obtain its data
      *
      * @return ResponseModelCollection
      */
     protected static function getNewResponseCollectionClass(
         ResponseModelCollectionConfig $config,
-        ServiceClientInterface $client,
+        CollectionLoadConfig $loadConfig,
         LoadState $loadState,
-        PromiseInterface $promise,
-        $parent = null
+        PromiseInterface $promise
     ): ResponseModelCollection {
         $responseClass = $config->getResponseModelClass();
 
         ClassUtil::confirmValidResponseModelCollection($responseClass);
 
-        return new $responseClass($client, $loadState, $promise, $parent);
+        return new $responseClass(
+            $loadConfig->getClient(),
+            $loadState,
+            $promise,
+            $loadConfig->getParent()
+        );
     }
 
     /**
-     * Get the {@link PromiseInterface} needed to load data for a given {@link LoadConfiguration}.
+     * Get the {@link PromiseInterface} needed to load data for a given {@link CollectionLoadConfig}.
      *
-     * @param ResponseModelCollectionConfig    $config      the response model config to use when loading
-     * @param ServiceClientInterface $client      the service client used to load data
-     * @param array                  $commandArgs the command arguments to use when loading
-     *
+     * @param ResponseModelCollectionConfig $config the response model config to use when loading
+     * @param CollectionLoadConfig $loadConfig
      * @return PromiseInterface
      */
     protected static function getLoadPromise(
         ResponseModelCollectionConfig $config,
-        ServiceClientInterface $client,
-        array $commandArgs = [],
-        array $countCommandArgs = []
+        CollectionLoadConfig $loadConfig
     ): PromiseInterface
     {
         $responseModelClass = $config->getResponseModelClass();
 
         ClassUtil::confirmValidResponseModelCollection($responseModelClass);
 
-        return Promise::async(function () use ($config, $client, &$commandArgs) {
+        //Since we allow the PreLoadEvent to modify the load configuration, provide a clone
+        $loadConfig = clone $loadConfig;
+
+        return Promise::async(function () use ($config, &$loadConfig) {
             /**
              * @var PreLoadEvent $event
              */
-            $event = $client->dispatchEvent(
+            $event = $loadConfig->getClient()->dispatchEvent(
                 PreLoadEvent::class,
                 $config,
-                $commandArgs
+                $loadConfig
             );
 
             //Allow our event to update the command arguments
-            $commandArgs = $event->getCommandArgs();
+            $loadConfig = $event->getLoadConfig();
 
-        })->then(function () use ($config, $client, $commandArgs, $countCommandArgs) {
+        })->then(function () use ($config, $loadConfig) {
             //Can we load from cache?
-            list($hash, $cache) = static::getCachedData($config, $client, $commandArgs, $countCommandArgs);
+            list($hash, $cache) = static::getCachedData($config, $loadConfig);
 
             if (!is_null($cache)) {
                 return new FulfilledPromise($cache);
             } else if ($config->hasCountCommand()) {
-                return static::getLoadPromiseUsingCount($config, $client, $commandArgs, $hash);
+                return static::getLoadPromiseUsingCount($config, $loadConfig, $hash);
             } else {
-                $command = static::getLoadCommand($config, $client, $commandArgs);
+                $command = static::getLoadCommand($config, $loadConfig);
 
-                return static::getExecuteCommandPromise($config, $client, $command, $hash)->wait();
+                return static::getExecuteCommandPromise($config, $loadConfig, $command, $hash)->wait();
             }
-        })->then(function ($response) use ($config, $client, $commandArgs) {
+        })->then(function ($response) use ($config, $loadConfig) {
             /**
              * @var PostLoadEvent $event
              */
-            $event = $client->dispatchEvent(
+            $event = $loadConfig->getClient()->dispatchEvent(
                 PostLoadEvent::class,
                 $config,
-                $commandArgs,
+                $loadConfig,
                 $response
             );
 
@@ -117,13 +120,14 @@ abstract class AbstractCollectionLoader implements CollectionLoaderInterface
 
     private static function getCachedData(
         ResponseModelCollectionConfig $config,
-        ServiceClientInterface $client,
-        array $commandArgs
+        CollectionLoadConfig $loadConfig
     ): array {
         $hash = CacheHash::getHashForResponseCollectionClassAndArgs(
             $config->getResponseModelClass(),
-            $commandArgs
+            $loadConfig->getCommandArgs()
         );
+
+        $client = $loadConfig->getClient();
 
         if ($client->canCache()) {
 
@@ -160,23 +164,22 @@ abstract class AbstractCollectionLoader implements CollectionLoaderInterface
 
     private static function getLoadCommand(
         ResponseModelCollectionConfig $config,
-        ServiceClientInterface $client,
-        array $commandArgs
+        CollectionLoadConfig $loadConfig
     ): CommandInterface {
         /**
          * @var PreGetLoadCommandEvent $event
          */
-        $event = $client->dispatchEvent(
+        $event = $loadConfig->getClient()->dispatchEvent(
             PreGetLoadCommandEvent::class,
             $config,
-            $commandArgs
+            $loadConfig
         );
 
-        $commandArgs = $event->getCommandArgs();
+        $loadConfig = $event->getLoadConfig();
 
-        $finalArgs = array_merge_recursive($config->getDefaultArgs(), $commandArgs);
+        $finalArgs = array_merge_recursive($config->getDefaultArgs(), $loadConfig->getCommandArgs());
 
-        return $client->getCommand(
+        return $loadConfig->getClient()->getCommand(
             $config->getCommand(),
             $finalArgs
         );
@@ -184,10 +187,12 @@ abstract class AbstractCollectionLoader implements CollectionLoaderInterface
 
     private static function getExecuteCommandPromise(
         ResponseModelCollectionConfig $config,
-        ServiceClientInterface $client,
+        CollectionLoadConfig $loadConfig,
         CommandInterface $command,
         string $cacheHash = null
     ): PromiseInterface {
+        $client = $loadConfig->getClient();
+
         return Promise::async(function () use ($config, $client, $command) {
             /**
              * @var PreExecuteCommandEvent $event
@@ -224,11 +229,13 @@ abstract class AbstractCollectionLoader implements CollectionLoaderInterface
 
     private static function getLoadPromiseUsingCount(
         ResponseModelCollectionConfig $config,
-        ServiceClientInterface $client,
-        array $commandArgs,
+        CollectionLoadConfig $loadConfig,
         string $hash
     ): PromiseInterface {
-        return Promise::async(function () use ($config, $client, $commandArgs) {
+        $client      = $loadConfig->getClient();
+        $commandArgs = $loadConfig->getCommandArgs();
+
+        return Promise::async(function () use ($config, $client) {
             return Count::get($config, $client);
         })->then(function ($countResponse) use ($client, $config, $commandArgs, $hash) {
             $commands = $client->getChunkedCommands(
@@ -322,10 +329,6 @@ abstract class AbstractCollectionLoader implements CollectionLoaderInterface
             'rejected'  => function ($reason) use ($handler) {
                 $handler  = $handler ?? $this->getDefaultExceptionHandler();
                 $response = $handler->handle($reason);
-                if (is_array($response)) {
-
-                    //$this->addResponse($response);
-                }
             },
         ]);
     }

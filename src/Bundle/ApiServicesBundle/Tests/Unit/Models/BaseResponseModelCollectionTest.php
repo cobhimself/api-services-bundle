@@ -27,11 +27,18 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\PersonCollectionWithCountCapab
  * @covers ::addResponse
  * @covers ::getConfig
  * @covers ::finalizeChildrenData
+ * @covers ::using
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractCollectionLoader
  * @covers \Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionConfig
- * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\CanGetCommandArgsTrait
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\CanGetCollectionLoadConfigTrait
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\CanSetCollectionLoadConfigTrait
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\CanGetCommandTrait
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\CanGetResponseTrait
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfig
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfigBuilder
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigBuilder
+ * @covers \CoB\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigSharedTrait
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\CommandFulfilledEvent
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostExecuteCommandsEvent
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreExecuteCommandsEvent
@@ -47,7 +54,7 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\PersonCollectionWithCountCapab
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Deserializer
  * @uses \Cob\Bundle\ApiServicesBundle\Models\DotData
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractLoader
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\State\LoadState
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState
  * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig
  * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfigSharedTrait
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataLoader
@@ -60,6 +67,8 @@ class BaseResponseModelCollectionTest extends BaseResponseModelTestCase
 {
     use ServiceClientMockTrait;
 
+    const PERSON_COLLECTION_JSON = __DIR__ . '/../../Resources/MockResponses/personCollection.json';
+
     /**
      * @covers ::__construct
      * @covers ::withData
@@ -70,13 +79,14 @@ class BaseResponseModelCollectionTest extends BaseResponseModelTestCase
     {
         $client = $this->getServiceClientMock();
         $data = json_decode($this->getMockResponseDataFromFile(
-            __DIR__ . '/../../Resources/MockResponses/personCollection.json'
-        ), true);
+            self::PERSON_COLLECTION_JSON),
+            true
+        );
 
         /**
          * @var PersonCollectionWithCountCapability $mockModel
          */
-        $mockModel = PersonCollectionWithCountCapability::withData($client, $data['persons']);
+        $mockModel = PersonCollectionWithCountCapability::using($client)->withData($data['persons']);
 
         $this->assertTrue($mockModel->isLoadedWithData());
         $this->assertSame($data['persons'], $mockModel->toArray());
@@ -103,12 +113,9 @@ class BaseResponseModelCollectionTest extends BaseResponseModelTestCase
         /**
          * @var PersonCollection $mockModel
          */
-        $mockModel = PersonCollection::load(
-            $this->getServiceClientMockWithJsonData([
-                __DIR__ . '/../../Resources/MockResponses/personCollection.json'
-            ]),
-            []
-        );
+        $mockModel = PersonCollection::using(
+            $this->getServiceClientMockWithJsonData([self::PERSON_COLLECTION_JSON])
+        )->load();
 
         $this->assertTrue($mockModel->isLoaded());
 
@@ -133,12 +140,9 @@ class BaseResponseModelCollectionTest extends BaseResponseModelTestCase
         /**
          * @var PersonCollection $mockModel
          */
-        $mockModel = PersonCollection::loadAsync(
-            $this->getServiceClientMockWithJsonData([
-                __DIR__ . '/../../Resources/MockResponses/personCollection.json'
-            ]),
-            []
-        );
+        $mockModel = PersonCollection::using(
+            $this->getServiceClientMockWithJsonData([self::PERSON_COLLECTION_JSON])
+        )->loadAsync();
 
         $this->assertTrue($mockModel->isWaiting());
         $this->assertCount(4, $mockModel);
@@ -159,10 +163,7 @@ class BaseResponseModelCollectionTest extends BaseResponseModelTestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage(MockBaseResponseModelWithInit::EXPECTED_EXCEPTION_MSG);
 
-        MockBaseResponseModelWithInit::withData(
-            $this->getServiceClientMock([]),
-            []
-        );
+        MockBaseResponseModelWithInit::using($this->getServiceClientMock([]))->withData([]);
     }
 
     /**
@@ -174,7 +175,7 @@ class BaseResponseModelCollectionTest extends BaseResponseModelTestCase
     public function testSetupException()
     {
         $this->expectException(ResponseModelSetupException::class);
-        BadMockResponseModelCollection::withData($this->getServiceClientMock(), []);
+        BadMockResponseModelCollection::using($this->getServiceClientMock())->withData([]);
     }
 
     /**
@@ -199,7 +200,7 @@ class BaseResponseModelCollectionTest extends BaseResponseModelTestCase
         /**
          * @var PersonCollectionWithCountCapability $mockModel
          */
-        $mockModel = PersonCollectionWithCountCapability::loadAsync($client);
+        $mockModel = PersonCollectionWithCountCapability::using($client)->loadAsync();
 
         $this->assertTrue($mockModel->isWaiting());
         $this->assertCount(4, $mockModel);
