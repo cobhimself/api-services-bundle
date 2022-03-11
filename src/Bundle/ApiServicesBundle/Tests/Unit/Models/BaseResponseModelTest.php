@@ -35,9 +35,9 @@ use Prophecy\Prophecy\ObjectProphecy;
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigSharedTrait
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfig
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfigBuilder
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\ResponseModelTrait
  * @uses \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
  * @uses \Cob\Bundle\ApiServicesBundle\Exceptions\BaseApiServicesBundleException
- * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelTrait
  * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Deserializer
@@ -230,16 +230,19 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
      */
     public function testLoadFromCache()
     {
-        $data = (array) json_decode($this->getMockResponseDataFromFile(self::PERSON_JSON));
-        $client = $this->getServiceClientMockWithResponseData($data);
+        //We won't have any response data set here so we can confirm the data is being loaded from cache.
+        $client = $this->getServiceClientMockWithResponseData([]);
 
         $config = Person::getConfig();
         $hash = CacheHash::getHashForResponseClassAndArgs($config->getResponseModelClass(), $config->getDefaultArgs());
+
+        $data = (array) json_decode($this->getMockResponseDataFromFile(self::PERSON_JSON));
 
         /**
          * @var CacheProviderInterface|ObjectProphecy
          */
         $mockCacheProvider = $this->prophesize(CacheProvider::class);
+        $mockCacheProvider->contains($hash)->willReturn(true);
         $mockCacheProvider->fetch($hash)->willReturn($data);
         $mockCacheProvider->save(Argument::any(), Argument::any())->shouldNotBeCalled();
 
@@ -277,7 +280,7 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
          * @var CacheProviderInterface|ObjectProphecy
          */
         $mockCacheProvider = $this->prophesize(CacheProvider::class);
-        $mockCacheProvider->fetch($hash)->willReturn(false);
+        $mockCacheProvider->contains($hash)->willReturn(false);
         $mockCacheProvider->save($hash, $data)->willReturn(true);
 
         $client->setCacheProvider($mockCacheProvider->reveal());

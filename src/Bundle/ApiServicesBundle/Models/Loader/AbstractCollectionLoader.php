@@ -143,20 +143,23 @@ abstract class AbstractCollectionLoader implements CollectionLoaderInterface
             //We allow our event to overwrite the hash to use.
             $hash = $event->getHash();
 
-            $data = $client->getCache()->fetch($hash);
+            //Do we even have the hash in our cache?
+            if ($client->getCache()->contains($hash)) {
+                $data = $client->getCache()->fetch($hash);
 
-            /**
-             * @var PostLoadFromCacheEvent $event
-             */
-            $event = $client->dispatchEvent(
-                PostLoadFromCacheEvent::class,
-                $config,
-                $hash,
-                $data
-            );
+                /**
+                 * @var PostLoadFromCacheEvent $event
+                 */
+                $event = $client->dispatchEvent(
+                    PostLoadFromCacheEvent::class,
+                    $config,
+                    $hash,
+                    $data
+                );
 
-            //We allow our event to have data that is modified.
-            return [$hash, $event->getResponseData()];
+                //We allow our event to have data that is modified.
+                return [$hash, $event->getResponseData()];
+            }
         }
 
         return [$hash, null];
@@ -329,6 +332,8 @@ abstract class AbstractCollectionLoader implements CollectionLoaderInterface
             'rejected'  => function ($reason) use ($handler) {
                 $handler  = $handler ?? $this->getDefaultExceptionHandler();
                 $response = $handler->handle($reason);
+
+                return $response;
             },
         ]);
     }

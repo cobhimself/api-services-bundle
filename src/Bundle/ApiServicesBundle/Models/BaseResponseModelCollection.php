@@ -160,4 +160,11 @@ class BaseResponseModelCollection
     {
         return CollectionLoadConfig::builder(static::class, $client);
     }
+
+    public function get($key)
+    {
+        $this->confirmLoaded();
+
+        return parent::get($key);
+    }
 }

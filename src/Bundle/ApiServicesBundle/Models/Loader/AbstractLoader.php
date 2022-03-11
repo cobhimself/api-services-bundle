@@ -131,20 +131,22 @@ abstract class AbstractLoader implements LoaderInterface
             //We allow our event to overwrite the hash to use.
             $hash = $event->getHash();
 
-            $data = $client->getCache()->fetch($hash);
+            if ($client->getCache()->contains($hash)) {
+                $data = $client->getCache()->fetch($hash);
 
-            /**
-             * @var ResponseModelPostLoadFromCacheEvent $event
-             */
-            $event = $client->dispatchEvent(
-                ResponseModelPostLoadFromCacheEvent::class,
-                $config,
-                $hash,
-                $data
-            );
+                /**
+                 * @var ResponseModelPostLoadFromCacheEvent $event
+                 */
+                $event = $client->dispatchEvent(
+                    ResponseModelPostLoadFromCacheEvent::class,
+                    $config,
+                    $hash,
+                    $data
+                );
 
-            //We allow our event to have data that is modified.
-            return [$hash, $event->getCachedData()];
+                //We allow our event to have data that is modified.
+                return [$hash, $event->getCachedData()];
+            }
         }
 
         return [null, null];

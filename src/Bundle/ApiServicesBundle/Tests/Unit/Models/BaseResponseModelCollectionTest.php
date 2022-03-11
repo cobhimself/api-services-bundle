@@ -12,7 +12,10 @@
 namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Models;
 
 use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException;
+use Cob\Bundle\ApiServicesBundle\Models\CacheProvider;
+use Cob\Bundle\ApiServicesBundle\Models\CacheProviderInterface;
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollection;
+use Cob\Bundle\ApiServicesBundle\Models\Util\CacheHash;
 use Cob\Bundle\ApiServicesBundle\Tests\ServiceClientMockTrait;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\BaseResponseModelTestCase;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\BadMockResponseModelCollection;
@@ -20,6 +23,8 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModelWithInit;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\Person;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\PersonCollection;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\PersonCollectionWithCountCapability;
+use Prophecy\Argument;
+use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * @codeCoverageIgnore
@@ -39,6 +44,7 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\PersonCollectionWithCountCapab
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigBuilder
  * @covers \CoB\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigSharedTrait
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\ResponseModelTrait
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\CommandFulfilledEvent
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostExecuteCommandsEvent
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreExecuteCommandsEvent
@@ -58,7 +64,6 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\PersonCollectionWithCountCapab
  * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig
  * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfigSharedTrait
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataLoader
- * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelTrait
  * @uses \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil
  * @uses \Cob\Bundle\ApiServicesBundle\Models\HasParentTrait
@@ -182,6 +187,7 @@ class BaseResponseModelCollectionTest extends BaseResponseModelTestCase
      * @covers ::__construct
      * @covers ::count
      * @covers ::loadAsync
+     * @covers ::get
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AsyncCollectionLoader
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\CacheHash::getHashForResponseCollectionClassAndArgs
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\CacheHash::hashArray
@@ -224,5 +230,102 @@ class BaseResponseModelCollectionTest extends BaseResponseModelTestCase
             $this->assertInstanceOf(Person::class, $person);
             $this->assertEquals("Person " . ($index + 1), $person->getName());
         }
+    }
+
+    /**
+     * @covers ::__construct
+     * @covers ::getConfig
+     * @covers ::isLoaded
+     * @covers ::loadAsync
+     * @covers ::get
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\CacheProvider
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreLoadFromCacheEvent
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPostLoadFromCacheEvent
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AsyncCollectionLoader::load
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\CacheHash
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\Promise
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\CanGetHashTrait
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostLoadFromCacheEvent
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreLoadFromCacheEvent
+     */
+    public function testLoadFromCache()
+    {
+        //We'll load up an empty array for data as a response so we can be certain we're obtaining data from cache.
+        $client = $this->getServiceClientMockWithResponseData([]);
+
+        $config = PersonCollection::getConfig();
+        $hash = CacheHash::getHashForResponseCollectionClassAndArgs(
+            $config->getResponseModelClass(),
+            $config->getDefaultArgs()
+        );
+
+        $data = json_decode(
+            $this->getMockResponseDataFromFile(self::PERSON_COLLECTION_JSON),
+            true
+        );
+
+        /**
+         * @var CacheProviderInterface|ObjectProphecy
+         */
+        $mockCacheProvider = $this->prophesize(CacheProvider::class);
+        $mockCacheProvider->contains($hash)->willReturn(true);
+        $mockCacheProvider->fetch($hash)->willReturn($data);
+        $mockCacheProvider->save(Argument::any(), Argument::any())->shouldNotBeCalled();
+
+        $client->setCacheProvider($mockCacheProvider->reveal());
+
+        /**
+         * @var PersonCollection $mockModel
+         */
+        $mockModel = PersonCollection::using($client)->loadAsync();
+
+        $this->assertFalse($mockModel->isLoaded());
+        $this->assertEquals('Person 1', $mockModel->get(0)->getName());
+    }
+
+    /**
+     * @covers ::__construct
+     * @covers ::get
+     * @covers ::getConfig
+     * @covers ::isLoaded
+     * @covers ::loadAsync
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\CanGetHashTrait
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\CacheProvider
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreLoadFromCacheEvent
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AsyncCollectionLoader::load
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\CacheHash
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\Promise
+     */
+    public function testSaveToCache()
+    {
+        $data = json_decode(
+            $this->getMockResponseDataFromFile(self::PERSON_COLLECTION_JSON),
+            true
+        );
+
+        $client = $this->getServiceClientMockWithResponseData($data);
+
+        $config = PersonCollection::getConfig();
+        $hash = CacheHash::getHashForResponseCollectionClassAndArgs(
+            $config->getResponseModelClass(),
+            $config->getDefaultArgs()
+        );
+
+        /**
+         * @var CacheProviderInterface|ObjectProphecy
+         */
+        $mockCacheProvider = $this->prophesize(CacheProvider::class);
+        $mockCacheProvider->contains($hash)->willReturn(false);
+        $mockCacheProvider->save($hash, $data)->willReturn(true);
+
+        $client->setCacheProvider($mockCacheProvider->reveal());
+
+        /**
+         * @var Person $mockModel
+         */
+        $mockModel = PersonCollection::using($client)->loadAsync();
+
+        $this->assertFalse($mockModel->isLoaded());
+        $this->assertEquals('Person 1', $mockModel->get(0)->getName());
     }
 }
