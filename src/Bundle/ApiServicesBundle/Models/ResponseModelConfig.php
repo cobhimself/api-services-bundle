@@ -46,18 +46,4 @@ class ResponseModelConfig
     {
         $this->holdsRawData = $holdsRawData;
     }
-
-    public function setServiceClient(ServiceClientInterface $client)
-    {
-        $this->client = $client;
-    }
-
-    public function getServiceClient(): ServiceClientInterface
-    {
-        if (is_null($this->client)) {
-            throw new ResponseModelSetupException("Service client has not been established yet!");
-        }
-
-        return $this->client;
-    }
 }

@@ -60,6 +60,4 @@ trait ResponseModelConfigSharedTrait
     {
         $this->initCallbacks[] = $initCallback;
     }
-
-
 }

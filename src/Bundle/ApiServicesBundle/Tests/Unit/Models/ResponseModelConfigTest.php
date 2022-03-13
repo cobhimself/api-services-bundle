@@ -54,7 +54,6 @@ class ResponseModelConfigTest extends BaseResponseModelTestCase
      * @covers ::doInits
      * @covers ::addInitCallback
      * @covers ::getResponseModelClass
-     * @covers ::setServiceClient
      */
     public function testInits()
     {
