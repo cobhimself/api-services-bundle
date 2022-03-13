@@ -41,4 +41,14 @@ abstract class ResponseModelCollectionEvent extends Event
     {
         return $this->config;
     }
+
+    /**
+     * Get the response model's FQCN.
+     *
+     * @return string
+     */
+    public function getResponseModelClass(): string
+    {
+        return $this->getConfig()->getResponseModelClass();
+    }
 }

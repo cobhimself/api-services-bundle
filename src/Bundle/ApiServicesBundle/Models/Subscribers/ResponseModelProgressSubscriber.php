@@ -10,12 +10,12 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Subscribers;
 
-use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\ResponseModelPostExecuteCommandEvent;
-use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\ResponseModelPostLoadEvent;
-use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\ResponseModelPostLoadFromCacheEvent;
-use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\ResponseModelPreExecuteCommandEvent;
-use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\ResponseModelPreLoadEvent;
-use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\ResponseModelPreLoadFromCacheEvent;
+use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPostExecuteCommandEvent;
+use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPostLoadEvent;
+use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPostLoadFromCacheEvent;
+use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreExecuteCommandEvent;
+use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreLoadEvent;
+use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreLoadFromCacheEvent;
 
 /**
  * Reports the progress of loading a response model
@@ -29,7 +29,7 @@ class ResponseModelProgressSubscriber extends AbstractResponseModelSubscriber
      */
     public function onPreLoadEvent(ResponseModelPreLoadEvent $event)
     {
-        $this->outputEvent(get_class($event->getModel()));
+        $this->outputEvent($event->getConfig()->getResponseModelClass());
     }
 
     /**
@@ -37,7 +37,7 @@ class ResponseModelProgressSubscriber extends AbstractResponseModelSubscriber
      */
     public function onPostLoadEvent(ResponseModelPostLoadEvent $event)
     {
-        $this->outputEvent(get_class($event->getModel()));
+        $this->outputEvent($event->getConfig()->getResponseModelClass());
     }
 
     /**
@@ -63,9 +63,7 @@ class ResponseModelProgressSubscriber extends AbstractResponseModelSubscriber
     public function onPostLoadFromCacheEvent(
         ResponseModelPostLoadFromCacheEvent $event
     ) {
-        $class = get_class($event->getModel());
-
-        $this->outputEvent($class);
+        $this->outputEvent($event->getConfig()->getResponseModelClass());
     }
 
     /**
@@ -74,9 +72,7 @@ class ResponseModelProgressSubscriber extends AbstractResponseModelSubscriber
     public function onPostExecuteCommandEvent(
         ResponseModelPostExecuteCommandEvent $event
     ) {
-        $class = get_class($event->getModel());
-
-        $this->outputEvent($class);
+        $this->outputEvent($event->getConfig()->getResponseModelClass());
     }
 
     /**
@@ -85,8 +81,6 @@ class ResponseModelProgressSubscriber extends AbstractResponseModelSubscriber
     public function onPreLoadFromCacheEvent(
         ResponseModelPreLoadFromCacheEvent $event
     ) {
-        $class = get_class($event->getModel());
-
-        $this->outputEvent($class);
+        $this->outputEvent($event->getConfig()->getResponseModelClass());
     }
 }
