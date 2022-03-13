@@ -45,28 +45,28 @@ use Prophecy\Prophecy\ObjectProphecy;
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigBuilder
  * @covers \CoB\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigSharedTrait
  * @covers \Cob\Bundle\ApiServicesBundle\Models\ResponseModelTrait
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\CommandFulfilledEvent
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostExecuteCommandsEvent
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreExecuteCommandsEvent
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostExecuteCommandEvent
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostLoadEvent
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreExecuteCommandEvent
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreLoadEvent
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\ResponseModelCollectionEvent
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreGetLoadCommandEvent
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostCountEvent
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostAddModelToCollectionEvent
- * @uses \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModel
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Deserializer
- * @uses \Cob\Bundle\ApiServicesBundle\Models\DotData
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractLoader
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState
- * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig
- * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfigSharedTrait
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataLoader
- * @uses \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil
- * @uses \Cob\Bundle\ApiServicesBundle\Models\HasParentTrait
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractLoader
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\CommandFulfilledEvent
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostExecuteCommandsEvent
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreExecuteCommandsEvent
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostExecuteCommandEvent
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostLoadEvent
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreExecuteCommandEvent
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreLoadEvent
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\ResponseModelCollectionEvent
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreGetLoadCommandEvent
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostCountEvent
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostAddModelToCollectionEvent
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModel
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Deserializer
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\DotData
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfigSharedTrait
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataLoader
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\HasParentTrait
  */
 class BaseResponseModelCollectionTest extends BaseResponseModelTestCase
 {

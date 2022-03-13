@@ -12,36 +12,36 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\PersonCollection;
  * @codeCoverageIgnore
  * @coversDefaultClass \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfigBuilder
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigSharedTrait
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Deserializer
- * @uses \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil
- * @uses \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModel
- * @uses \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModelCollection
- * @uses \Cob\Bundle\ApiServicesBundle\Models\DotData
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\CanGetCollectionLoadConfigTrait
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\CanGetCommandTrait
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\CanGetResponseTrait
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\CanSetCollectionLoadConfigTrait
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostAddModelToCollectionEvent
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostExecuteCommandEvent
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostLoadEvent
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreExecuteCommandEvent
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreGetLoadCommandEvent
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreLoadEvent
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\ResponseModelCollectionEvent
- * @uses \Cob\Bundle\ApiServicesBundle\Models\HasParentTrait
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractCollectionLoader
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractLoader
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigBuilder
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState
- * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionConfig
- * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig
- * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfigSharedTrait
- * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelTrait
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Util\CacheHash
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Util\Promise
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfig
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Deserializer
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModel
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModelCollection
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\DotData
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\CanGetCollectionLoadConfigTrait
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\CanGetCommandTrait
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\CanGetResponseTrait
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\CanSetCollectionLoadConfigTrait
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostAddModelToCollectionEvent
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostExecuteCommandEvent
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostLoadEvent
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreExecuteCommandEvent
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreGetLoadCommandEvent
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreLoadEvent
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\ResponseModelCollectionEvent
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\HasParentTrait
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractCollectionLoader
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractLoader
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigBuilder
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionConfig
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfigSharedTrait
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\ResponseModelTrait
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\CacheHash
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\Promise
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfig
  */
 class CollectionLoadConfigBuilderTest extends CollectionLoadConfigTestCase
 {
