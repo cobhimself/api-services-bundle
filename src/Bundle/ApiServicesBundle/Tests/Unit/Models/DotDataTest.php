@@ -62,6 +62,10 @@ class DotDataTest extends TestCase
         $this->assertEquals('two', $data->dot('one'));
         $this->assertEquals('five', $data->dot('three.four'));
         $this->assertEquals('ten', $data->dot('three.eight.nine'));
+
+        //We'll call this again to confirm, through our coverage data, cache was used
+        $this->assertEquals('ten', $data->dot('three.eight.nine'));
+
         $this->assertFalse($data->dot('thirteen'));
         $this->assertEquals('blah', $data->dot('thirteen', 'blah'));
     }
@@ -90,4 +94,44 @@ class DotDataTest extends TestCase
         $this->assertSame(self::EXPECTED, $data->dot(''));
     }
 
+    /**
+     * @covers ::__construct
+     * @covers ::getRawData
+     * @covers ::setRawData
+     */
+    public function testRawData()
+    {
+        $data = new DotData();
+        $rawData = 'raw';
+
+        $this->assertNull($data->getRawData());
+
+        $data->setRawData($rawData);
+        $this->assertEquals($rawData, $data->getRawData());
+    }
+
+    /**
+     * @covers ::__construct
+     * @covers ::of
+     * @covers ::getRawData
+     * @covers ::setRawData
+     * @covers ::getData
+     * @covers ::setData
+     * @covers ::dot
+     */
+    public function testOf()
+    {
+        $structured = ['foo' => 'bar'];
+
+        $data = DotData::of($structured);
+
+        $this->assertEquals($structured, $data->getData());
+        $this->assertEquals('bar', $data->dot('foo'));
+
+        $raw = 'raw';
+
+        $rawData = DotData::of($raw);
+
+        $this->assertEquals($raw, $rawData->getRawData());
+    }
 }

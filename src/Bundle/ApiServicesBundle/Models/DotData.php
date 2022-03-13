@@ -2,8 +2,13 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models;
 
-use http\Exception\InvalidArgumentException;
-
+/**
+ * Class whose responsibility is to store primarily structured array data which can be traversed through the use of
+ * dot notation.
+ *
+ * There are certain instances where the data held by a DotData instance is desired to be 'raw' (or mixed). If that is
+ * the case, you can set and retrieve this raw data using the raw data getter and setter.
+ */
 class DotData
 {
     const RAW_DATA_KEY = '_RAW_DATA';
@@ -27,11 +32,27 @@ class DotData
         }
     }
 
+    /**
+     * Set the raw data for this instance to store.
+     *
+     * Raw data is usually helpful only for instances where the data we are storing is not structured (like file
+     * contents, etc.). Storing raw data is done by using the `DotData::RAW_DATA_KEY` within this dot data's data array
+     * and does not preclude the instance from storing normal structured data as long as the raw data key is not used.
+     *
+     * @see DotData::getRawData()
+     *
+     * @param mixed $data the raw data this instance should store
+     */
     public function setRawData($data)
     {
         $this->data[self::RAW_DATA_KEY] = $data;
     }
 
+    /**
+     * Get the raw data stored in this instance.
+     *
+     * @return mixed|null
+     */
     public function getRawData()
     {
         if (!isset($this->data[self::RAW_DATA_KEY])) {
@@ -41,22 +62,29 @@ class DotData
         }
     }
 
+    /**
+     * Quickly get a DotData instance containing the given data.
+     *
+     * @param array|mixed $data if an array, a new DotData instance with structured data is returned; otherwise, the
+     *                          data is considered 'raw' and the returned DotData will not hold structured data.
+     *
+     * @return DotData the newly constructed DotData instance
+     */
     public static function of($data): DotData
     {
-        if (!is_array($data)) {
-            throw new InvalidArgumentException(sprintf(
-                '%s requires array data; Given: %s',
-                static::class,
-                PHP_EOL . $data
-            ));
+        $dotData = new DotData();
+
+        if (is_array($data)) {
+            $dotData->setData($data);
+        } else {
+            $dotData->setRawData($data);
         }
 
-        return new DotData($data);
+        return $dotData;
     }
 
     /**
-     * Helper method which aids in the traversal of data within the
-     * response model.
+     * Helper method which aids in the traversal of data within our structured data.
      *
      * If a dot path has been resolved before, the value is returned without
      * having to traverse the data structure thanks to caching.
@@ -129,18 +157,34 @@ class DotData
         return $value ?? $default;
     }
 
+    /**
+     * Return the data this instance is storing.
+     *
+     * NOTE: if raw data has been stored in this instance, it will be accessible by the DotData::RAW_DATA_KEY.
+     *
+     * @return array the data associated with this instance
+     */
     public function getData(): array
     {
         return $this->data;
     }
 
+    /**
+     * Return our data array.
+     *
+     * This method is simply a more explicit version of `getData`.
+     *
+     * @return array the data array we are holding
+     */
     public function toArray(): array
     {
         return $this->getData();
     }
 
     /**
-     * @param array $data
+     * Set the structure data for this instance.
+     *
+     * @param array $data the data for this instance to store
      */
     public function setData(array $data)
     {
