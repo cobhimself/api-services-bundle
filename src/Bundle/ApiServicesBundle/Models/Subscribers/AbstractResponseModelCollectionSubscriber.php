@@ -14,22 +14,19 @@ use Cob\Bundle\ApiServicesBundle\Models\CommandLineOutputInterface;
 use Cob\Bundle\ApiServicesBundle\Models\CommandLineStringHelpersInterface;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\CommandFulfilledEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostAddDataFromParentEvent;
-use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostAddFromResponsesEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostAddModelToCollectionEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostCountEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostExecuteCommandsEvent;
-use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\PostRunPromiseInAllEvent;
-use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\PostRunAllPromisesEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostLoadEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostLoadFromCacheEvent;
+use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\PostRunAllPromisesEvent;
+use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\PostRunPromiseInAllEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreAddDataFromParentEvent;
-use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreAddFromResponsesEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreCountEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreExecuteCommandsEvent;
-use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\PreRunAllPromisesEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreLoadEvent;
-use Cob\Bundle\ApiServicesBundle\Models\AbstractResponseModelCollection;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreLoadFromCacheEvent;
+use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\PreRunAllPromisesEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Util\Promise;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -87,14 +84,8 @@ abstract class AbstractResponseModelCollectionSubscriber implements EventSubscri
             PostRunAllPromisesEvent::NAME => [
                 'onPostRunAllPromises',
             ],
-            PreAddFromResponsesEvent::NAME => [
-                'onPreAddFromResponses',
-            ],
             PostAddModelToCollectionEvent::NAME => [
                 'onPostAddModelToCollection',
-            ],
-            PostAddFromResponsesEvent::NAME => [
-                'onPostAddFromResponses',
             ],
         ];
     }
@@ -118,31 +109,10 @@ abstract class AbstractResponseModelCollectionSubscriber implements EventSubscri
     );
 
     /**
-     * Run before a set of responses are added to a collection.
-     *
-     * @see PreAddFromResponsesEvent::setResponses() to modify the responses
-     * @see AbstractResponseModelCollection::addFromResponses()
-     *
-     * @param PreAddFromResponsesEvent $event
-     */
-    abstract public function onPreAddFromResponses(
-        PreAddFromResponsesEvent $event
-    );
-
-    /**
      * Run after a model has been added to a collection.
      */
     abstract public function onPostAddModelToCollection(
         PostAddModelToCollectionEvent $event
-    );
-
-    /**
-     * Run after a set of responses were added to a collection.
-     *
-     * @see AbstractResponseModelCollection::addFromResponses()
-     */
-    abstract public function onPostAddFromResponses(
-        PostAddFromResponsesEvent $event
     );
 
     /**
