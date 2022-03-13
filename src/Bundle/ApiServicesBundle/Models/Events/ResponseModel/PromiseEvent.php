@@ -11,6 +11,9 @@
 namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel;
 
 use Cob\Bundle\ApiServicesBundle\Exceptions\InvalidResponseModel;
+use Cob\Bundle\ApiServicesBundle\Models\ResponseModel;
+use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollection;
+use Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil;
 use Symfony\Component\EventDispatcher\Event;
 
 class PromiseEvent extends Event
@@ -21,9 +24,9 @@ class PromiseEvent extends Event
     private $context;
 
     /**
-     * @param string|object|null $context the context of this operation; can be
-     *                                    an object but must be a valid
-     *                                    response model
+     * @param string|ResponseModel|ResponseModelCollection|null $context the context of this operation; can be
+     *                                                                   an object but must be a valid
+     *                                                                   response model
      *
      * @throws InvalidResponseModel if the context is an object but is not a
      *                              valid response model
@@ -31,7 +34,7 @@ class PromiseEvent extends Event
     public function __construct($context = null)
     {
         if (!is_string($context) && is_object($context)) {
-            static::confirmValidResponseModel($context);
+            ClassUtil::confirmValidResponseModelOrCollection($context);
         }
 
         $this->context = $context;

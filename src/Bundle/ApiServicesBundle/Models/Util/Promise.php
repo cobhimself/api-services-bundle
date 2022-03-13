@@ -10,15 +10,15 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Util;
 
-use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostRunAllPromisesEvent;
-use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostRunPromiseInAllEvent;
-use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreRunAllPromisesEvent;
+use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\PostRunAllPromisesEvent;
+use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\PostRunPromiseInAllEvent;
+use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\PreRunAllPromisesEvent;
 use Cob\Bundle\ApiServicesBundle\Models\ServiceClient;
+use Exception;
 use GuzzleHttp\Promise\Each;
 use GuzzleHttp\Promise\Promise as GuzzlePromise;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Promise\RejectedPromise;
-use Throwable;
 
 /**
  * A collection of methods which make it easier to create and run promises.
@@ -37,23 +37,26 @@ class Promise
      * The returned promise MUST have its `wait()` method run in order for the
      * async operation to begin.
      *
-     * @param callable $callable callable whose return value will resolve the
-     *                           created promise when it is waited on
+     * If an exception occurs within the provided callable, the promise is rejected
+     * with the exception as the reason.
      *
-     * @return PromiseInterface|GuzzlePromise|RejectedPromise
+     * @param callable $callable callable whose return value will resolve (or reject)
+     *                           the created promise when it is waited on
+     *
+     * @return PromiseInterface|GuzzlePromise|RejectedPromise the promise
      */
     public static function async(callable $callable): PromiseInterface
     {
-        try {
-            /** @noinspection PhpUnnecessaryLocalVariableInspection */
-            $promise = new GuzzlePromise(function () use ($callable, &$promise) {
+        /** @noinspection PhpUnnecessaryLocalVariableInspection */
+        $promise = new GuzzlePromise(function () use ($callable, &$promise) {
+            try {
                 $promise->resolve($callable());
-            });
+            } catch (Exception $e) {
+                $promise->reject($e);
+            }
+        });
 
-            return $promise;
-        } catch (Throwable $e) {
-            return new RejectedPromise($e);
-        }
+        return $promise;
     }
 
     /**
