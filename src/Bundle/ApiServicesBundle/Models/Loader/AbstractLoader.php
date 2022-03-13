@@ -83,6 +83,7 @@ abstract class AbstractLoader implements LoaderInterface
                 return new FulfilledPromise($cache);
             }
 
+            //Get the command based on our configs
             $command = static::getLoadCommand($config, $loadConfig);
 
             return static::getExecuteCommandPromise(
@@ -147,16 +148,29 @@ abstract class AbstractLoader implements LoaderInterface
                 //We allow our event to have data that is modified.
                 return [$hash, $event->getCachedData()];
             }
+
+            //We went through the trouble of generating our hash, we'll send it back so we can use it
+            //later but we won't return any cached data since we don't have it
+            return [$hash, null];
         }
 
+        //Couldn't cache anything
         return [null, null];
     }
 
+    /**
+     * Get the command representing this model's config and additional load config.
+     *
+     * @param ResponseModelConfig $config     the model's configuration
+     * @param LoadConfig          $loadConfig the configuration to use during loading
+     *
+     * @return CommandInterface
+     */
     private static function getLoadCommand(
         ResponseModelConfig $config,
-        LoadConfig $loadConfig
+        LoadConfig          $loadConfig
     ): CommandInterface {
-        $client = $loadConfig->getClient();
+        $client      = $loadConfig->getClient();
         $commandArgs = $loadConfig->getCommandArgs();
 
         /**
@@ -168,9 +182,11 @@ abstract class AbstractLoader implements LoaderInterface
             $commandArgs
         );
 
+        //The event could have modified the command arguments
         $commandArgs = $event->getCommandArgs();
 
-        $finalArgs = array_merge_recursive($config->getDefaultArgs(), $commandArgs);
+        //We'll take our model's configured arguments and merge them with the final command arguments
+        $finalArgs   = array_merge_recursive($config->getDefaultArgs(), $commandArgs);
 
         return $client->getCommand(
             $config->getCommand(),
@@ -179,10 +195,10 @@ abstract class AbstractLoader implements LoaderInterface
     }
 
     private static function getExecuteCommandPromise(
-        ResponseModelConfig $config,
+        ResponseModelConfig    $config,
         ServiceClientInterface $client,
-        CommandInterface $command,
-        string $cacheHash = null
+        CommandInterface       $command,
+        string                 $cacheHash = null
     ): PromiseInterface {
         return Promise::async(function () use ($config, $client, $command) {
             /**

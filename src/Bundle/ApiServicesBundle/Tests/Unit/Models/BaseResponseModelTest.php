@@ -36,29 +36,29 @@ use Prophecy\Prophecy\ObjectProphecy;
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfig
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfigBuilder
  * @covers \Cob\Bundle\ApiServicesBundle\Models\ResponseModelTrait
- * @uses \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
- * @uses \Cob\Bundle\ApiServicesBundle\Exceptions\BaseApiServicesBundleException
- * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Deserializer
- * @uses \Cob\Bundle\ApiServicesBundle\Models\DotData
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\Loader
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState
- * @uses \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModelCollection
- * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfigSharedTrait
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractLoader
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataCollectionLoader
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataLoader
- * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionConfig
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelEvent
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPostExecuteCommandEvent
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPostLoadEvent
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreExecuteCommandEvent
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreLoadEvent
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreGetLoadCommandEvent
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostAddModelToCollectionEvent
- * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\ResponseModelCollectionEvent
- * @uses \Cob\Bundle\ApiServicesBundle\Models\HasParentTrait
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
+ * @covers \Cob\Bundle\ApiServicesBundle\Exceptions\BaseApiServicesBundleException
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Deserializer
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\DotData
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Loader
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModelCollection
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfigSharedTrait
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractLoader
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataCollectionLoader
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataLoader
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionConfig
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelEvent
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPostExecuteCommandEvent
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPostLoadEvent
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreExecuteCommandEvent
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreLoadEvent
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreGetLoadCommandEvent
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostAddModelToCollectionEvent
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\ResponseModelCollectionEvent
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\HasParentTrait
  */
 class BaseResponseModelTest extends BaseResponseModelTestCase
 {
@@ -88,6 +88,7 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
         $this->assertTrue($mockModel->isLoadedWithData());
         $this->assertSame(self::MOCK_RESPONSE_DATA, $mockModel->toArray());
         $this->assertEquals(1, $mockModel->dot('data.one'));
+        $this->assertTrue($mockModel->hasParent());
         $this->assertEquals($mockParentModel, $mockModel->getParent());
     }
 

@@ -43,7 +43,7 @@ class BaseResponseModel implements ResponseModel
         }
 
         $config = static::getConfig();
-        $config->setServiceClient($client);
+        //$config->setServiceClient($client);
 
         //We can go ahead and set the data for the model if it has already been loaded. Otherwise we wait until
         //the first time we attempt to get data.
@@ -76,7 +76,7 @@ class BaseResponseModel implements ResponseModel
     public static function loadAsync(LoadConfig $loadConfig): ResponseModel {
         return AsyncLoader::load(static::getConfig(), $loadConfig);
     }
-    
+
     public static function load(LoadConfig $loadConfig): ResponseModel {
         return Loader::load(static::getConfig(), $loadConfig);
     }
