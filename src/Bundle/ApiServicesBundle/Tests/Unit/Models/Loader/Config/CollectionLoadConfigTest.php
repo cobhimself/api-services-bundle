@@ -22,7 +22,7 @@ class CollectionLoadConfigTest extends CollectionLoadConfigTestCase
     /**
      * @covers ::__construct
      * @covers ::getExistingData
-     * @covers ::getHandler
+     * @covers ::getExceptionHandler
      * @covers ::getParent
      * @covers ::getCommandArgs
      * @covers ::getCountCommandArgs

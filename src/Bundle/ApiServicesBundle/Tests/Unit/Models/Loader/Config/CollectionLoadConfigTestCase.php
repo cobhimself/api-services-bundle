@@ -93,7 +93,7 @@ abstract class CollectionLoadConfigTestCase extends TestCase
         $this->assertEquals($expectedCountCommandArgs, $loadConfig->getCountCommandArgs());
         $this->assertEquals($expectedParent, $loadConfig->getParent());
         $this->assertEquals($expectedClearCache, $loadConfig->doClearCache());
-        $this->assertEquals($expectedHandler, $loadConfig->getHandler());
+        $this->assertEquals($expectedHandler, $loadConfig->getExceptionHandler());
         $this->assertEquals($expectedExistingData, $loadConfig->getExistingData());
     }
 }

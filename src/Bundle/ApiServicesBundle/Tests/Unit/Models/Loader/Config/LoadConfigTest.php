@@ -22,7 +22,7 @@ class LoadConfigTest extends LoadConfigTestCase
     /**
      * @covers ::__construct
      * @covers ::getExistingData
-     * @covers ::getHandler
+     * @covers ::getExceptionHandler
      * @covers ::getParent
      * @covers ::getCommandArgs
      * @covers ::getClient

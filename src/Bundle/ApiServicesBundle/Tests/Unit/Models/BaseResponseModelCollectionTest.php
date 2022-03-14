@@ -11,9 +11,11 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Models;
 
+use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelException;
 use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException;
 use Cob\Bundle\ApiServicesBundle\Models\CacheProvider;
 use Cob\Bundle\ApiServicesBundle\Models\CacheProviderInterface;
+use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfigBuilder;
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollection;
 use Cob\Bundle\ApiServicesBundle\Models\Util\CacheHash;
 use Cob\Bundle\ApiServicesBundle\Tests\ServiceClientMockTrait;
@@ -23,6 +25,7 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModelWithInit;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\Person;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\PersonCollection;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\PersonCollectionWithCountCapability;
+use GuzzleHttp\Psr7\Response;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 
@@ -327,5 +330,63 @@ class BaseResponseModelCollectionTest extends BaseResponseModelTestCase
 
         $this->assertFalse($mockModel->isLoaded());
         $this->assertEquals('Person 1', $mockModel->get(0)->getName());
+    }
+
+    /**
+     * @dataProvider dpTestBadResponsesDuringLoad
+     * @covers ::using
+     * @covers ::load
+     * @covers \Cob\Bundle\ApiServicesBundle\Exceptions\CountDataException
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Count
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ClientCommandExceptionHandler
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ResponseModelExceptionHandler
+     * @covers \Cob\Bundle\ApiServicesBundle\Exceptions\BaseApiServicesBundleException
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\AbstractExceptionHandler
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\CollectionLoader
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\CacheHash
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\Promise
+     */
+    public function testBadResponsesDuringLoad(array $responses, string $responseModel, string $exceptionmessage)
+    {
+        $this->expectException(ResponseModelException::class);
+        $this->expectExceptionMessage($exceptionmessage);
+
+        $client = $this->getServiceClientMock($responses);
+
+        /**
+         * @var CollectionLoadConfigBuilder $loadConfigBuilder
+         */
+        $loadConfigBuilder = call_user_func([$responseModel, 'using'], $client);
+        $loadConfigBuilder->load();
+    }
+
+    public function dpTestBadResponsesDuringLoad(): \Generator
+    {
+        yield [
+            [new Response(500, [], 'Not found')],
+            PersonCollection::class,
+            "An exception was thrown during loading"
+        ];
+
+        yield [
+            [new Response(500, [], 'Not found')],
+            PersonCollectionWithCountCapability::class,
+            "Could not get count data for"
+        ];
+
+        yield [
+            [
+                new Response(
+                    200,
+                    [],
+                    $this->getMockResponseDataFromFile(
+                        __DIR__ . '/../../Resources/MockResponses/personCollectionCount.json'
+                    )
+                ),
+                new Response(500, [], 'Not found')
+            ],
+            PersonCollectionWithCountCapability::class,
+            "There was an issue when running all of the commands."
+        ];
     }
 }

@@ -69,11 +69,11 @@ trait LoadConfigSharedTrait
     /**
      * @return ExceptionHandlerInterface
      */
-    public function getHandler(): ExceptionHandlerInterface
+    public function getExceptionHandler(): ExceptionHandlerInterface
     {
         return $this->handler ??  ResponseModelExceptionHandler::passThruAndWrapWith(
                 ResponseModelException::class,
-                ['An exception was thrown during loading']
+                ['An exception was thrown during loading:']
             );
     }
 
