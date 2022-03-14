@@ -104,6 +104,8 @@ abstract class AbstractLoader implements LoaderInterface
             );
 
             return $event->getResponse();
+        })->otherwise(function ($reason) use ($loadConfig) {
+            return $loadConfig->getExceptionHandler()->handle($reason);
         });
     }
 

@@ -11,6 +11,7 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Models;
 
+use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelException;
 use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException;
 use Cob\Bundle\ApiServicesBundle\Models\CacheProvider;
 use Cob\Bundle\ApiServicesBundle\Models\CacheProviderInterface;
@@ -20,6 +21,7 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\BadMockResponseModel;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModel;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModelWithInit;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\Person;
+use GuzzleHttp\Psr7\Response;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 
@@ -293,5 +295,25 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
 
         $this->assertFalse($mockModel->isLoaded());
         $this->assertEquals('Person 1', $mockModel->getName());
+    }
+
+    /**
+     * @covers ::using
+     * @covers ::getConfig
+     * @covers ::load
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\AbstractExceptionHandler
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\Promise
+     *
+     */
+    public function testBadResponsesDuringLoad()
+    {
+        $this->expectException(ResponseModelException::class);
+        $this->expectExceptionMessage("An exception was thrown during loading");
+
+        $client = $this->getServiceClientMock(
+            [new Response(500, [], 'Not found')]
+        );
+
+        Person::using($client)->load();
     }
 }
