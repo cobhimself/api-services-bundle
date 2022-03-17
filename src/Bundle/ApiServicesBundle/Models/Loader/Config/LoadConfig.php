@@ -15,7 +15,8 @@ class LoadConfig
         $parent = null,
         bool $clearCache = null,
         ExceptionHandlerInterface $handler = null,
-        array $existingData = null
+        array $existingData = null,
+        $rawData = null
     ) {
         $this->client = $client;
         $this->commandArgs = $commandArgs ?? [];
@@ -23,6 +24,7 @@ class LoadConfig
         $this->clearCache = $clearCache ?? false;
         $this->handler = $handler;
         $this->existingData = $existingData;
+        $this->rawData = $rawData;
     }
 
     public static function builder(string $forClass, ServiceClientInterface $client): LoadConfigBuilder
