@@ -43,6 +43,11 @@ trait LoadConfigSharedTrait
     private $existingData;
 
     /**
+     * @var mixed
+     */
+    private $rawData;
+
+    /**
      * @return array
      */
     public function getCommandArgs(): array
@@ -100,5 +105,14 @@ trait LoadConfigSharedTrait
         if (is_null($value)) {
             throw new LoadConfigRequiredPropertyException($property);
         }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRawData() {
+        $this->confirmNotNull('rawData', $this->rawData);
+
+        return $this->rawData;
     }
 }

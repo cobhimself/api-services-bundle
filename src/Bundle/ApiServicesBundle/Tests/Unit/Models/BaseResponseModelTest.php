@@ -18,6 +18,7 @@ use Cob\Bundle\ApiServicesBundle\Models\CacheProviderInterface;
 use Cob\Bundle\ApiServicesBundle\Models\Util\CacheHash;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\BaseResponseModelTestCase;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\BadMockResponseModel;
+use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseRawDataResponseModel;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModel;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModelWithInit;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\Person;
@@ -315,5 +316,23 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
         );
 
         Person::using($client)->load();
+    }
+
+    /**
+     * @covers ::getConfig
+     * @covers ::withRawData
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\WithRawDataLoader
+     */
+    public function testResponseModelWithRawData()
+    {
+        $rawData = 'this is raw data';
+        $client = $this->getServiceClientMock();
+
+        /**
+         * @var MockBaseRawDataResponseModel $model
+         */
+        $model = MockBaseRawDataResponseModel::using($client)->withRawData($rawData);
+
+        $this->assertEquals($rawData, $model->getRawData());
     }
 }

@@ -25,10 +25,12 @@ class DotData
      */
     private $dotCache = [];
 
-    public function __construct(array $data = null)
+    public function __construct($data = null)
     {
-        if (!is_null($data)) {
+        if (is_array($data)) {
             $this->data = $data;
+        } else if (!is_null($data)) {
+            $this->setRawData($data);
         }
     }
 

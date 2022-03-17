@@ -31,5 +31,7 @@ interface ResponseModel extends UsesDot, HasParent
 
     public static function withData(LoadConfig $loadConfig);
 
+    public static function withRawData(LoadConfig $loadConfig);
+
     public function toArray(): array;
 }

@@ -9,6 +9,7 @@ use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigBuilder;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\Loader;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataLoader;
+use Cob\Bundle\ApiServicesBundle\Models\Loader\WithRawDataLoader;
 use GuzzleHttp\Promise\PromiseInterface;
 
 /**
@@ -83,6 +84,10 @@ class BaseResponseModel implements ResponseModel
 
     public static function withData(LoadConfig $loadConfig): ResponseModel {
         return WithDataLoader::load(static::getConfig(), $loadConfig);
+    }
+
+    public static function withRawData(LoadConfig $loadConfig): ResponseModel {
+        return WithRawDataLoader::load(static::getConfig(), $loadConfig);
     }
 
     public static function using(ServiceClient $client): LoadConfigBuilder

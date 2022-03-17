@@ -33,10 +33,6 @@ class PromiseEvent extends Event
      */
     public function __construct($context = null)
     {
-        if (!is_string($context) && is_object($context)) {
-            ClassUtil::confirmValidResponseModelOrCollection($context);
-        }
-
         $this->context = $context;
     }
 

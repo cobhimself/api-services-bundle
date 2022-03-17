@@ -11,6 +11,11 @@ class LoadConfigBuilder
 {
     use LoadConfigBuilderSharedTrait;
 
+    /**
+     * @var mixed
+     */
+    private $rawData;
+
     public function __construct(string $modelClass, ServiceClientInterface $client) {
         $this->validateModelClass($modelClass);
 
@@ -49,7 +54,8 @@ class LoadConfigBuilder
             $this->parent,
             $this->clearCache,
             $this->handler,
-            $this->existingData
+            $this->existingData,
+            $this->rawData
         );
     }
 
@@ -63,6 +69,13 @@ class LoadConfigBuilder
     public function existingData(array $existingData): LoadConfigBuilder
     {
         $this->existingData = $existingData;
+
+        return $this;
+    }
+
+    public function rawData($rawData): LoadConfigBuilder
+    {
+        $this->rawData = $rawData;
 
         return $this;
     }
@@ -87,6 +100,13 @@ class LoadConfigBuilder
         $this->existingData = $existingData;
 
         return $this->provide('withData');
+    }
+
+    public function withRawData($rawData): ResponseModel
+    {
+        $this->rawData = $rawData;
+
+        return $this->provide('withRawData');
     }
 
     private function provide(string $loadMethod): ResponseModel
