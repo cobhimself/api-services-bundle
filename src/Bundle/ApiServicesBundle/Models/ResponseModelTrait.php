@@ -41,6 +41,11 @@ trait ResponseModelTrait
         return $this->getData()->dot($key, $default);
     }
 
+    protected function finalizeData()
+    {
+        //This method is empty because, by default, we do not perform additional finalization on our data
+    }
+
     public function toArray(): array
     {
         $this->confirmNoRawData("%s holds raw data so there is no array representation. Use getRawData instead.");
@@ -73,6 +78,7 @@ trait ResponseModelTrait
 
             $this->loadState = LoadState::loaded();
 
+            $this->finalizeData();
             $config->doInits($this);
         }
     }

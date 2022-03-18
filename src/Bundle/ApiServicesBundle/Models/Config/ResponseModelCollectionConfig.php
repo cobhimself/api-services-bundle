@@ -2,9 +2,9 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Config;
 
-use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelCollectionException;
 use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException;
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollection;
+use Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil;
 
 class ResponseModelCollectionConfig
 {
@@ -53,21 +53,42 @@ class ResponseModelCollectionConfig
     private $chunkCommandMaxResults;
 
     public function __construct(
+        string $responseModelClass,
         string $command,
         array $defaultArgs,
         string $collectionPath,
+        string $childResponseModelClass,
         string $countCommand = null,
-        array $countArgs = []
+        array $countArgs = [],
+        string $countValuePath = '',
+        int $loadMaxResults = 150,
+        callable $buildCountArgsCallback = null,
+        int $chunkCommandMaxResults = self::CHUNK_COMMAND_MAX_RESULTS_DEFAULT,
+        array $initCallbacks = []
     ) {
+        $this->responseModelClass = $responseModelClass;
         $this->command = $command;
         $this->defaultArgs = $defaultArgs;
         $this->collectionPath = $collectionPath;
+
+        ClassUtil::confirmValidResponseModel($childResponseModelClass);
+
+        $this->childResponseModelClass = $childResponseModelClass;
 
         if (!is_null($countCommand)) {
             $this->countCommand = $countCommand;
         }
 
         $this->countArgs = $countArgs;
+        $this->countValuePath = $countValuePath;
+        $this->loadMaxResults = $loadMaxResults;
+
+        if (!is_null($buildCountArgsCallback)) {
+            $this->buildCountArgsCallback = $buildCountArgsCallback;
+        }
+
+        $this->chunkCommandMaxResults = $chunkCommandMaxResults;
+        $this->initCallbacks = $initCallbacks;
     }
 
     public static function none(): ResponseModelCollectionConfig
@@ -75,19 +96,8 @@ class ResponseModelCollectionConfig
         return new ResponseModelCollectionConfig('', [], '');
     }
 
-    public function setChildResponseModelClass(string $childClass) {
-        $this->childResponseModelClass = $childClass;
-    }
-
     public function getChildResponseModelClass(): string
     {
-        if (is_null($this->childResponseModelClass)) {
-            throw new ResponseModelCollectionException(sprintf(
-                "The ResponseModelCollectionConfig for %s MUST have a childResponseModelClass defined!",
-                $this->getResponseModelClass()
-            ));
-        }
-
         return $this->childResponseModelClass;
     }
 
@@ -122,14 +132,6 @@ class ResponseModelCollectionConfig
         return $this->loadMaxResults;
     }
 
-    /**
-     * @param int $loadMaxResults
-     */
-    public function setLoadMaxResults(int $loadMaxResults)
-    {
-        $this->loadMaxResults = $loadMaxResults;
-    }
-
     public function hasCountCommand(): bool
     {
         return !is_null($this->countCommand);
@@ -143,25 +145,12 @@ class ResponseModelCollectionConfig
         return $this->collectionPath;
     }
 
-    public function setBuildCountArgsCallback(callable $callback)
-    {
-        $this->buildCountArgsCallback = $callback;
-    }
-
     /**
      * @return string
      */
     public function getCountValuePath(): string
     {
         return $this->countValuePath;
-    }
-
-    /**
-     * @param string $countValuePath
-     */
-    public function setCountValuePath(string $countValuePath)
-    {
-        $this->countValuePath = $countValuePath;
     }
 
     public function getBuildCountArgsCallback()
@@ -175,13 +164,13 @@ class ResponseModelCollectionConfig
         return $this->buildCountArgsCallback;
     }
 
-    public function setChunkCommandMaxResults(int $max)
-    {
-        $this->chunkCommandMaxResults = $max;
-    }
-
     public function getChunkCommandMaxResults(): int
     {
         return $this->chunkCommandMaxResults ?? self::CHUNK_COMMAND_MAX_RESULTS_DEFAULT;
+    }
+
+    public static function builder(): ResponseModelCollectionConfigBuilder
+    {
+        return new ResponseModelCollectionConfigBuilder();
     }
 }

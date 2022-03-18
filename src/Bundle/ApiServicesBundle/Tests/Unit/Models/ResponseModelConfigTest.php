@@ -6,10 +6,13 @@ use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig;
 use Cob\Bundle\ApiServicesBundle\Tests\ServiceClientMockTrait;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\BaseResponseModelTestCase;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModel;
+use Generator;
 
 /**
  * @codeCoverageIgnore
  * @coversDefaultClass \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigBuilder
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigSharedTrait
  * @uses \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModel
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Deserializer
  * @uses \Cob\Bundle\ApiServicesBundle\Models\DotData
@@ -27,33 +30,49 @@ class ResponseModelConfigTest extends BaseResponseModelTestCase
     use ServiceClientMockTrait;
 
     /**
+     * @dataProvider dpTestGettersAndSetters
      * @covers ::__construct
-     * @covers ::setResponseModelClass
      * @covers ::getCommand
      * @covers ::getDefaultArgs
      * @covers ::getResponseModelClass
      * @covers ::holdsRawData
-     * @covers ::setHoldsRawData
+     * @covers ::getInitCallbacks
      */
-    public function testGettersAndSetters()
-    {
-        $config = new ResponseModelConfig(self::TEST_COMMAND_NAME, self::TEST_COMMAND_ARGS);
-        $config->setResponseModelClass(MockBaseResponseModel::class);
+    public function testGettersAndSetters(
+        bool $holdsRawData,
+        bool $expectedHoldsRawData,
+        array $initCallbacks,
+        array $expectedInitCallbacks
+    ) {
+        $config = new ResponseModelConfig(
+            MockBaseResponseModel::class,
+            self::TEST_COMMAND_NAME,
+            self::TEST_COMMAND_ARGS,
+            $holdsRawData,
+            $initCallbacks
+        );
 
         $this->assertEquals(self::TEST_COMMAND_NAME, $config->getCommand());
         $this->assertEquals(self::TEST_COMMAND_ARGS, $config->getDefaultArgs());
         $this->assertEquals(MockBaseResponseModel::class, $config->getResponseModelClass());
-        $this->assertFalse($config->holdsRawData());
+        $this->assertEquals($expectedHoldsRawData, $config->holdsRawData());
+        $this->assertEquals($expectedInitCallbacks, $config->getInitCallbacks());
+    }
 
-        $config->setHoldsRawData(true);
-        $this->assertTrue($config->holdsRawData());
+    public function dpTestGettersAndSetters(): Generator {
+        $callbacks = [
+            function () {}
+        ];
+
+        yield [false, false, [], []];
+        yield [true, true, $callbacks, $callbacks];
     }
 
     /**
      * @covers ::__construct
      * @covers ::doInits
-     * @covers ::addInitCallback
      * @covers ::getResponseModelClass
+     * @covers ::builder
      */
     public function testInits()
     {
@@ -63,10 +82,17 @@ class ResponseModelConfigTest extends BaseResponseModelTestCase
          */
         $model = MockBaseResponseModel::using($client)->withData([]);
 
-        $config = new ResponseModelConfig(self::TEST_COMMAND_NAME, self::TEST_COMMAND_ARGS);
-        $config->addInitCallback(function (MockBaseResponseModel $innerModel) use ($model) {
-            $this->assertSame($model, $innerModel);
-        });
+        $config = new ResponseModelConfig(
+            MockBaseResponseModel::class,
+            self::TEST_COMMAND_NAME,
+            self::TEST_COMMAND_ARGS,
+            false,
+            [
+                function (MockBaseResponseModel $innerModel) use ($model) {
+                    $this->assertSame($model, $innerModel);
+                }
+            ]
+        );
 
         $config->doInits($model);
     }

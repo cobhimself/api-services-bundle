@@ -4,6 +4,7 @@ namespace Cob\Bundle\ApiServicesBundle\Models;
 
 use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException;
 use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig;
+use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigBuilder;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\AsyncLoader;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigBuilder;
@@ -45,7 +46,6 @@ class BaseResponseModel implements ResponseModel
         }
 
         $config = static::getConfig();
-        //$config->setServiceClient($client);
 
         //We can go ahead and set the data for the model if it has already been loaded. Otherwise we wait until
         //the first time we attempt to get data.
@@ -57,7 +57,7 @@ class BaseResponseModel implements ResponseModel
         $this->loadState = $desiredLoadState;
     }
 
-    protected static function setup(): ResponseModelConfig
+    protected static function setup(): ResponseModelConfigBuilder
     {
         throw new ResponseModelSetupException(static::class . " must override the setup method!");
     }
@@ -68,8 +68,9 @@ class BaseResponseModel implements ResponseModel
 
         //We only want to establish our $config once.
         if(is_null($config)) {
-            $config = static::setup();
-            $config->setResponseModelClass(static::class);
+            $builder = static::setup();
+            $builder->responseModelClass(static::class);
+            $config = $builder->build();
         }
 
         return $config;

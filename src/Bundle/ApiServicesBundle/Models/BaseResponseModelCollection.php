@@ -4,6 +4,7 @@ namespace Cob\Bundle\ApiServicesBundle\Models;
 
 use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException;
 use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig;
+use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfigBuilder;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostAddModelToCollectionEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\AsyncCollectionLoader;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\CollectionLoader;
@@ -54,20 +55,16 @@ class BaseResponseModelCollection
 
         $config = static::getConfig();
 
-        //Callback which adds to our collection based on response data
-        $config->addInitCallback(function () {
-            $this->finalizeChildrenData();
-        });
-
         //We can go ahead and set the data for the model if it has already been loaded. Otherwise we wait until
         //the first time we attempt to get data.
         if ($desiredLoadState->isLoaded() || $desiredLoadState->isLoadedWithData()) {
             $this->data = new DotData($this->loadPromise->wait());
+            $this->finalizeData();
             static::getConfig()->doInits($this);
         }
     }
 
-    protected function finalizeChildrenData()
+    protected function finalizeData()
     {
         $config = $this::getConfig();
 
@@ -83,7 +80,7 @@ class BaseResponseModelCollection
         }
     }
 
-    protected static function setup(): ResponseModelCollectionConfig
+    protected static function setup(): ResponseModelCollectionConfigBuilder
     {
         throw new ResponseModelSetupException(static::class . " must override the setup method!");
     }
@@ -94,8 +91,9 @@ class BaseResponseModelCollection
 
         //We only want to establish our $config once.
         if(is_null($config)) {
-            $config = static::setup();
-            $config->setResponseModelClass(static::class);
+            $builder = static::setup();
+            $builder->responseModelClass(static::class);
+            $config = $builder->build();
         }
 
         return $config;

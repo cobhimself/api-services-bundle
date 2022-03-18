@@ -12,7 +12,7 @@ trait ResponseModelConfigSharedTrait
     /**
      * @var array
      */
-    private $defaultArgs;
+    private $defaultArgs = [];
 
     /**
      * @var array an array of callbacks to be called upon initialization of this model after loading.
@@ -41,14 +41,6 @@ trait ResponseModelConfigSharedTrait
     }
 
     /**
-     * @param string $responseModelClass
-     */
-    public function setResponseModelClass(string $responseModelClass)
-    {
-        $this->responseModelClass = $responseModelClass;
-    }
-
-    /**
      * @return string
      */
     public function getResponseModelClass(): string
@@ -56,8 +48,10 @@ trait ResponseModelConfigSharedTrait
         return $this->responseModelClass;
     }
 
-    public function addInitCallback(callable $initCallback)
-    {
-        $this->initCallbacks[] = $initCallback;
+    /**
+     * @return array
+     */
+    public function getInitCallbacks(): array {
+        return $this->initCallbacks;
     }
 }

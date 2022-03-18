@@ -13,6 +13,7 @@ namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks;
 
 use Cob\Bundle\ApiServicesBundle\Models\BaseResponseModel;
 use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig;
+use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigBuilder;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\BaseResponseModelTestCase;
 use Exception;
 
@@ -22,17 +23,13 @@ use Exception;
 class MockBaseResponseModelWithInit extends BaseResponseModel
 {
     const EXPECTED_EXCEPTION_MSG = 'testing init callback functionality';
-    protected static function setup(): ResponseModelConfig
+    protected static function setup(): ResponseModelConfigBuilder
     {
-        $config = new ResponseModelConfig(
-            BaseResponseModelTestCase::TEST_COMMAND_NAME,
-            BaseResponseModelTestCase::TEST_COMMAND_ARGS
-        );
-
-        $config->addInitCallback(function(MockBaseResponseModelWithInit $me) {
-            throw new Exception(self::EXPECTED_EXCEPTION_MSG);
-        });
-
-        return $config;
+        return ResponseModelConfig::builder()
+            ->command(BaseResponseModelTestCase::TEST_COMMAND_NAME)
+            ->defaultArgs(BaseResponseModelTestCase::TEST_COMMAND_ARGS)
+            ->addInitCallback(function(MockBaseResponseModelWithInit $me) {
+                throw new Exception(self::EXPECTED_EXCEPTION_MSG);
+            });
     }
 }

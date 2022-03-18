@@ -42,6 +42,7 @@ use Prophecy\Prophecy\ObjectProphecy;
  * @covers \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
  * @covers \Cob\Bundle\ApiServicesBundle\Exceptions\BaseApiServicesBundleException
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigBuilder
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Deserializer
  * @covers \Cob\Bundle\ApiServicesBundle\Models\DotData

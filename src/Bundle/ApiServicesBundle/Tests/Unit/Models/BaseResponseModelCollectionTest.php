@@ -34,10 +34,11 @@ use Prophecy\Prophecy\ObjectProphecy;
  * @coversDefaultClass \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModelCollection
  * @covers ::addResponse
  * @covers ::getConfig
- * @covers ::finalizeChildrenData
+ * @covers ::finalizeData
  * @covers ::using
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractCollectionLoader
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfigBuilder
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\CanGetCollectionLoadConfigTrait
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\CanSetCollectionLoadConfigTrait
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\CanGetCommandTrait
@@ -65,6 +66,7 @@ use Prophecy\Prophecy\ObjectProphecy;
  * @covers \Cob\Bundle\ApiServicesBundle\Models\DotData
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigBuilder
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigSharedTrait
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataLoader
  * @covers \Cob\Bundle\ApiServicesBundle\Models\ServiceClient

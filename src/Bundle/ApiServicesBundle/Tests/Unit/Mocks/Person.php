@@ -4,6 +4,7 @@ namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks;
 
 use Cob\Bundle\ApiServicesBundle\Models\BaseResponseModel;
 use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig;
+use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigBuilder;
 
 /**
  * @codeCoverageIgnore
@@ -15,12 +16,10 @@ class Person extends BaseResponseModel
      */
     private $children;
 
-    public static function setup(): ResponseModelConfig
+    public static function setup(): ResponseModelConfigBuilder
     {
-        $config = new ResponseModelConfig("GetPerson", []);
-        $config->setResponseModelClass(static::class);
-
-        return $config;
+        return ResponseModelConfig::builder()
+         ->command("GetPerson");
     }
 
     public function getName(): string

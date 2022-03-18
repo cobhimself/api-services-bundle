@@ -13,10 +13,18 @@ class ResponseModelConfig
      */
     private $holdsRawData = false;
 
-    public function __construct(string $command, array $defaultArgs)
-    {
+    public function __construct(
+        string $responseModelClass,
+        string $command = '',
+        array $defaultArgs = [],
+        bool $holdsRawData = false,
+        array $initCallbacks = []
+    ) {
+        $this->responseModelClass = $responseModelClass;
         $this->command = $command;
         $this->defaultArgs = $defaultArgs;
+        $this->holdsRawData = $holdsRawData;
+        $this->initCallbacks = $initCallbacks;
     }
 
     public function doInits(ResponseModel $model)
@@ -34,11 +42,8 @@ class ResponseModelConfig
         return $this->holdsRawData;
     }
 
-    /**
-     * @param bool $holdsRawData
-     */
-    public function setHoldsRawData(bool $holdsRawData)
+    public static function builder(): ResponseModelConfigBuilder
     {
-        $this->holdsRawData = $holdsRawData;
+        return new ResponseModelConfigBuilder();
     }
 }

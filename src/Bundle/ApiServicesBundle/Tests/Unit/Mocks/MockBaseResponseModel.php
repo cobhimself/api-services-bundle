@@ -13,6 +13,7 @@ namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks;
 
 use Cob\Bundle\ApiServicesBundle\Models\BaseResponseModel;
 use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig;
+use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigBuilder;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\BaseResponseModelTestCase;
 
 /**
@@ -20,11 +21,10 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\BaseResponseModelTestCase;
  */
 class MockBaseResponseModel extends BaseResponseModel
 {
-    protected static function setup(): ResponseModelConfig
+    protected static function setup(): ResponseModelConfigBuilder
     {
-        return new ResponseModelConfig(
-            BaseResponseModelTestCase::TEST_COMMAND_NAME,
-            BaseResponseModelTestCase::TEST_COMMAND_ARGS
-        );
+        return ResponseModelConfig::builder()
+            ->command(BaseResponseModelTestCase::TEST_COMMAND_NAME)
+            ->defaultArgs(BaseResponseModelTestCase::TEST_COMMAND_ARGS);
     }
 }
