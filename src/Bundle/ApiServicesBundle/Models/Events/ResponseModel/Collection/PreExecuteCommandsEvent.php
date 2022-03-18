@@ -11,7 +11,7 @@
 namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection;
 
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollection;
-use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionConfig;
+use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig;
 use GuzzleHttp\Command\CommandInterface;
 
 /**

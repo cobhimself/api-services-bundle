@@ -3,6 +3,7 @@
 namespace Cob\Bundle\ApiServicesBundle\Models;
 
 use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException;
+use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\AsyncLoader;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigBuilder;

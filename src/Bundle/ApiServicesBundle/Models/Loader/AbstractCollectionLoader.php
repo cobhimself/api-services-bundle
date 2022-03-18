@@ -17,7 +17,7 @@ use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreLoadE
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreLoadFromCacheEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfig;
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollection;
-use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionConfig;
+use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig;
 use Cob\Bundle\ApiServicesBundle\Models\ServiceClientInterface;
 use Cob\Bundle\ApiServicesBundle\Models\Util\CacheHash;
 use Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil;

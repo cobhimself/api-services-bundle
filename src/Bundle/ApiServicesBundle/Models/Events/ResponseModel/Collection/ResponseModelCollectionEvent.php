@@ -10,7 +10,7 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection;
 
-use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionConfig;
+use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig;
 use Symfony\Component\EventDispatcher\Event;
 
 /**

@@ -13,8 +13,8 @@ use PHPUnit\Framework\TestCase;
  * @coversDefaultClass \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreGetLoadCommandEvent
  * @uses \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModelCollection
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\ResponseModelCollectionEvent
- * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionConfig
- * @uses \CoB\Bundle\ApiServicesBundle\Models\ResponseModelConfigSharedTrait
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig
+ * @uses \CoB\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigSharedTrait
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Deserializer
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfig
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigBuilderSharedTrait

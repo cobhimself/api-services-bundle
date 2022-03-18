@@ -3,7 +3,7 @@
 namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks;
 
 use Cob\Bundle\ApiServicesBundle\Models\BaseResponseModelCollection;
-use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionConfig;
+use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig;
 
 /**
  * @codeCoverageIgnore

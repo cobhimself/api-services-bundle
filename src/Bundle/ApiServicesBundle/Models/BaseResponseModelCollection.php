@@ -3,6 +3,7 @@
 namespace Cob\Bundle\ApiServicesBundle\Models;
 
 use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException;
+use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostAddModelToCollectionEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\AsyncCollectionLoader;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\CollectionLoader;
@@ -106,7 +107,7 @@ class BaseResponseModelCollection
             $loadConfig
         );
     }
-    
+
     public static function load(
         CollectionLoadConfig $loadConfig
     ): ResponseModelCollection {

@@ -35,9 +35,9 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\PersonCollection;
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigBuilder
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState
- * @covers \Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionConfig
- * @covers \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig
- * @covers \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfigSharedTrait
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigSharedTrait
  * @covers \Cob\Bundle\ApiServicesBundle\Models\ResponseModelTrait
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\CacheHash
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\Promise

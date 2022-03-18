@@ -10,9 +10,9 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModel;
 /**
  * @codeCoverageIgnore
  * @coversDefaultClass \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPostExecuteCommandEvent
- * @covers \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfigSharedTrait
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigSharedTrait
  * @uses \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
- * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig
  * @uses \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModel
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Deserializer
  */

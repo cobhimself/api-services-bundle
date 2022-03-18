@@ -26,8 +26,8 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\Person;
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractLoader
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState
- * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig
- * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfigSharedTrait
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigSharedTrait
  * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelTrait
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Util\Promise
  */

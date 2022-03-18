@@ -12,7 +12,7 @@ namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection;
 
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModel;
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollection;
-use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionConfig;
+use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig;
 
 /**
  * Run after a single ResponseModel has been created and is about to be added

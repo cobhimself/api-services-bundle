@@ -13,15 +13,15 @@ use PHPUnit\Framework\TestCase;
  * @coversDefaultClass \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostAddModelToCollectionEvent
  * @uses \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModelCollection
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\ResponseModelCollectionEvent
- * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionConfig
- * @uses \CoB\Bundle\ApiServicesBundle\Models\ResponseModelConfigSharedTrait
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig
+ * @uses \CoB\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigSharedTrait
  * @uses \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModel
  * @uses \Cob\Bundle\ApiServicesBundle\Models\DotData
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Deserializer
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractLoader
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataLoader
- * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig
  * @uses \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig

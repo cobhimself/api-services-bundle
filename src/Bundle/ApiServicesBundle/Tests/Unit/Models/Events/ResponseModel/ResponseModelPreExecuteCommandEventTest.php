@@ -14,7 +14,7 @@ use GuzzleHttp\Command\Command;
  * @codeCoverageIgnore
  * @coversDefaultClass \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreExecuteCommandEvent
  * @uses \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
- * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig
  * @uses \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModel
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Deserializer
  */

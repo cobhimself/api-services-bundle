@@ -37,7 +37,7 @@ use Prophecy\Prophecy\ObjectProphecy;
  * @covers ::finalizeChildrenData
  * @covers ::using
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractCollectionLoader
- * @covers \Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionConfig
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\CanGetCollectionLoadConfigTrait
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\CanSetCollectionLoadConfigTrait
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\CanGetCommandTrait
@@ -64,8 +64,8 @@ use Prophecy\Prophecy\ObjectProphecy;
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Deserializer
  * @covers \Cob\Bundle\ApiServicesBundle\Models\DotData
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState
- * @covers \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig
- * @covers \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfigSharedTrait
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigSharedTrait
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataLoader
  * @covers \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil
@@ -163,7 +163,7 @@ class BaseResponseModelCollectionTest extends BaseResponseModelTestCase
      * @covers ::getConfig
      * @covers ::withData
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractLoader::getNewResponseClass
-     * @covers \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig::doInits
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig::doInits
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataLoader
      */
     public function testDoInits()

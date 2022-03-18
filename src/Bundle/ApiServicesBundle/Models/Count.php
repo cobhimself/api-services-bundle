@@ -10,6 +10,7 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models;
 
+use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostCountEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreCountEvent;
 use GuzzleHttp\Promise\PromiseInterface;
@@ -28,19 +29,12 @@ class Count extends BaseResponseModel
     /**
      * Get count data for the given response model asynchronously.
      *
-     * @param ServiceClient $client      the service client to use to retrieve
-     *                                   count information
-     * @param string        $model       the fully-qualified class name of a
-     *                                   response model to obtain count
-     *                                   information for
-     * @param array         $commandArgs additional arguments to use with the
-     *                                   COUNT_COMMAND when obtaining count data
+     * @param ResponseModelCollectionConfig $config the configuration for the response model collection
+     * @param ServiceClient                 $client the service client to use to retrieve
+     *                                              count information
      *
      * @return PromiseInterface
      *
-     * @throws InvalidResponseModel
-     * @throws UnknownCommandException
-     * @throws ResponseModelSetupException
      */
     public static function getAsync(
         ResponseModelCollectionConfig $config,
@@ -81,16 +75,12 @@ class Count extends BaseResponseModel
     /**
      * Get count data for the given response model.
      *
-     * @param ServiceClient $client the service client to use to retrieve
-     *                              count information
-     * @param string        $model  the fully-qualified class name of a response
-     *                              model to obtain count information for
+     * @param ResponseModelCollectionConfig $config the config for the response model collection
+     * @param ServiceClient                 $client the service client to use to retrieve
+     *                                              count information
      *
-     * @return PromiseInterface
+     * @return int
      *
-     * @throws InvalidResponseModel
-     * @throws UnknownCommandException
-     * @throws ResponseModelSetupException
      */
     public static function get(
         ResponseModelCollectionConfig $config,

@@ -2,14 +2,14 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Models;
 
-use Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig;
+use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig;
 use Cob\Bundle\ApiServicesBundle\Tests\ServiceClientMockTrait;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\BaseResponseModelTestCase;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModel;
 
 /**
  * @codeCoverageIgnore
- * @coversDefaultClass \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig
+ * @coversDefaultClass \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig
  * @uses \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModel
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Deserializer
  * @uses \Cob\Bundle\ApiServicesBundle\Models\DotData

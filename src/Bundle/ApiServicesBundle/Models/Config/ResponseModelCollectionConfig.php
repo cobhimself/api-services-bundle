@@ -1,9 +1,10 @@
 <?php
 
-namespace Cob\Bundle\ApiServicesBundle\Models;
+namespace Cob\Bundle\ApiServicesBundle\Models\Config;
 
 use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelCollectionException;
 use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException;
+use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollection;
 
 class ResponseModelCollectionConfig
 {

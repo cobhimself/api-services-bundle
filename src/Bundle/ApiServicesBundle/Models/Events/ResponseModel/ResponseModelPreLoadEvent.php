@@ -10,7 +10,7 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel;
 
-use Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig;
+use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig;
 
 /**
  * Run before a response model is loaded.

@@ -11,7 +11,7 @@ use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreLoa
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreLoadFromCacheEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig;
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModel;
-use Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig;
+use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig;
 use Cob\Bundle\ApiServicesBundle\Models\ServiceClientInterface;
 use Cob\Bundle\ApiServicesBundle\Models\Util\CacheHash;
 use Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil;

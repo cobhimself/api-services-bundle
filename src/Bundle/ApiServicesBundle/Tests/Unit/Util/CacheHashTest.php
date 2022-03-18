@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @codeCoverageIgnore
  * @coversDefaultClass \Cob\Bundle\ApiServicesBundle\Models\Util\CacheHash
- * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfigSharedTrait
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigSharedTrait
  */
 class CacheHashTest extends TestCase
 {
@@ -18,7 +18,7 @@ class CacheHashTest extends TestCase
      * @covers ::getHashForResponseClassAndArgs
      * @covers ::hashArray
      * @uses \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModel
-     * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig
+     * @uses \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig
      * @uses \Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil
      */
     public function testGetHashForSameInputProducesSameOutput()
@@ -40,7 +40,7 @@ class CacheHashTest extends TestCase
      * @covers ::getHashForResponseClassAndArgs
      * @covers ::hashArray
      * @uses \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModel
-     * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig
+     * @uses \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig
      * @uses \Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil
      */
     public function testGetHashForDifferentInputProducesDifferentOutput()

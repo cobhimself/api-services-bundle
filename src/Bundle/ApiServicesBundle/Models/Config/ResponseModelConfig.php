@@ -1,8 +1,8 @@
 <?php
 
-namespace Cob\Bundle\ApiServicesBundle\Models;
+namespace Cob\Bundle\ApiServicesBundle\Models\Config;
 
-use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException;
+use Cob\Bundle\ApiServicesBundle\Models\ResponseModel;
 
 class ResponseModelConfig
 {
@@ -12,11 +12,6 @@ class ResponseModelConfig
      * @var bool whether or not the response model this config is associated with holds raw data or if it is structured.
      */
     private $holdsRawData = false;
-
-    /**
-     * @var ServiceClientInterface
-     */
-    private $client;
 
     public function __construct(string $command, array $defaultArgs)
     {

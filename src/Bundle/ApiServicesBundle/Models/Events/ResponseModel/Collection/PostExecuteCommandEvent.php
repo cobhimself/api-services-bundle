@@ -6,7 +6,7 @@ use Cob\Bundle\ApiServicesBundle\Models\Events\CanGetCommandTrait;
 use Cob\Bundle\ApiServicesBundle\Models\Events\CanGetResponseTrait;
 use Cob\Bundle\ApiServicesBundle\Models\Events\CanSetResponseTrait;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\ResponseModelCollectionEvent;
-use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionConfig;
+use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig;
 use GuzzleHttp\Command\CommandInterface;
 
 class PostExecuteCommandEvent extends ResponseModelCollectionEvent

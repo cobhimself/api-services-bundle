@@ -15,8 +15,8 @@ use PHPUnit\Framework\TestCase;
  * @coversDefaultClass \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreLoadFromCacheEvent
  * @uses \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModelCollection
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\ResponseModelCollectionEvent
- * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionConfig
- * @uses \CoB\Bundle\ApiServicesBundle\Models\ResponseModelConfigSharedTrait
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig
+ * @uses \CoB\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigSharedTrait
  */
 class PreLoadFromCacheEventTest extends TestCase
 {

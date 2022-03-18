@@ -41,18 +41,18 @@ use Prophecy\Prophecy\ObjectProphecy;
  * @covers \Cob\Bundle\ApiServicesBundle\Models\ResponseModelTrait
  * @covers \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
  * @covers \Cob\Bundle\ApiServicesBundle\Exceptions\BaseApiServicesBundleException
- * @covers \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Deserializer
  * @covers \Cob\Bundle\ApiServicesBundle\Models\DotData
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Loader
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState
  * @covers \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModelCollection
- * @covers \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfigSharedTrait
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigSharedTrait
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractLoader
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataCollectionLoader
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataLoader
- * @covers \Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionConfig
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelEvent
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPostExecuteCommandEvent
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPostLoadEvent
@@ -154,7 +154,7 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
     /**
      * @covers ::getConfig
      * @covers ::withData
-     * @covers \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig::doInits
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig::doInits
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataLoader
      */
     public function testDoInits()

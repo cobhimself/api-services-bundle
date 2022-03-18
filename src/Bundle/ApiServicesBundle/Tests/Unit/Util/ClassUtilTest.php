@@ -20,7 +20,7 @@ use stdClass;
 /**
  * @codeCoverageIgnore
  * @coversDefaultClass \Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil
- * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfigSharedTrait
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigSharedTrait
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigBuilder
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigSharedTrait
@@ -32,7 +32,7 @@ use stdClass;
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfigBuilder
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataCollectionLoader
- * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionConfig
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig
  * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelTrait
  * @uses \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
  * @uses \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModel
@@ -41,7 +41,7 @@ use stdClass;
  * @uses \Cob\Bundle\ApiServicesBundle\Models\HasParentTrait
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractLoader
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataLoader
- * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig
  */
 class ClassUtilTest extends TestCase
 {
@@ -103,7 +103,7 @@ class ClassUtilTest extends TestCase
      * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractLoader
      * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState
      * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataLoader
-     * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig
+     * @uses \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig
      * @uses \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
      */
     public function testIsValidResponseModel()

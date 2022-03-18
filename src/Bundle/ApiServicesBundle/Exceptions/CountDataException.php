@@ -10,7 +10,7 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Exceptions;
 
-use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionConfig;
+use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig;
 use GuzzleHttp\Command\CommandInterface;
 use Throwable;
 

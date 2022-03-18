@@ -1,6 +1,6 @@
 <?php
 
-namespace Cob\Bundle\ApiServicesBundle\Models;
+namespace Cob\Bundle\ApiServicesBundle\Models\Config;
 
 trait ResponseModelConfigSharedTrait
 {

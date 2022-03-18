@@ -10,7 +10,7 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel;
 
-use Cob\Bundle\ApiServicesBundle\Models\ResponseModelConfig;
+use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig;
 use GuzzleHttp\Command\CommandInterface;
 
 /**
