@@ -20,6 +20,7 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseRawDataResponseModel;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModel;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModelWithInit;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\Person;
+use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\ResponseModelWithNoSetup;
 use GuzzleHttp\Psr7\Response;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -66,6 +67,17 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
 {
     const PERSON_JSON = __DIR__ . '/../../Resources/MockResponses/person.json';
     const PERSON_WITH_CHILDREN_JSON = __DIR__ . '/../../Resources/MockResponses/personWithChildren.json';
+
+    /**
+     * @covers ::getConfig
+     * @covers ::setup
+     */
+    public function testDefaultConfigUsedWhenNoSetupMethod()
+    {
+        $config = ResponseModelWithNoSetup::getConfig();
+
+        $this->assertEmpty($config->getCommand());
+    }
 
     /**
      * @covers ::withData

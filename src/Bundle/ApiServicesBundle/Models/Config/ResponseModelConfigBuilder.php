@@ -64,8 +64,8 @@ class ResponseModelConfigBuilder {
     {
         return new ResponseModelConfig(
             $this->responseModelClass,
-            $this->getCommand() ?? '',
-            $this->getDefaultArgs() ?? [],
+            $this->command ?? '',
+            $this->defaultArgs ?? [],
             $this->holdsRawData,
             $this->initCallbacks
         );
