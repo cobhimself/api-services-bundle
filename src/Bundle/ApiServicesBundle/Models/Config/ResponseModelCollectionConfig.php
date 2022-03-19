@@ -91,11 +91,6 @@ class ResponseModelCollectionConfig
         $this->initCallbacks = $initCallbacks;
     }
 
-    public static function none(): ResponseModelCollectionConfig
-    {
-        return new ResponseModelCollectionConfig('', [], '');
-    }
-
     public function getChildResponseModelClass(): string
     {
         return $this->childResponseModelClass;
