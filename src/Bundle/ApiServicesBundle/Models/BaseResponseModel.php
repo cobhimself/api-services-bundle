@@ -59,7 +59,7 @@ class BaseResponseModel implements ResponseModel
 
     protected static function setup(): ResponseModelConfigBuilder
     {
-        throw new ResponseModelSetupException(static::class . " must override the setup method!");
+        return new ResponseModelConfigBuilder();
     }
 
     public static function getConfig(): ResponseModelConfig

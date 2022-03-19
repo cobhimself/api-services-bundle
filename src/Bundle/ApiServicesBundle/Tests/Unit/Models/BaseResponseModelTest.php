@@ -12,12 +12,10 @@
 namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Models;
 
 use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelException;
-use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException;
 use Cob\Bundle\ApiServicesBundle\Models\CacheProvider;
 use Cob\Bundle\ApiServicesBundle\Models\CacheProviderInterface;
 use Cob\Bundle\ApiServicesBundle\Models\Util\CacheHash;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\BaseResponseModelTestCase;
-use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\BadMockResponseModel;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseRawDataResponseModel;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModel;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModelWithInit;
@@ -165,19 +163,6 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
         $client = $this->getServiceClientMock([]);
 
         MockBaseResponseModelWithInit::using($client)->withData([]);
-    }
-
-    /**
-     * @covers ::setup
-     * @covers ::getConfig
-     * @covers ::withData
-     */
-    public function testSetupException()
-    {
-        $client = $this->getServiceClientMock();
-        $this->expectException(ResponseModelSetupException::class);
-
-        BadMockResponseModel::using($client)->withData([]);
     }
 
     /**
