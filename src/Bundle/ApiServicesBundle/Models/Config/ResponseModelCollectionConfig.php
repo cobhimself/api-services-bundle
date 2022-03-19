@@ -54,10 +54,10 @@ class ResponseModelCollectionConfig
 
     public function __construct(
         string $responseModelClass,
-        string $command,
-        array $defaultArgs,
-        string $collectionPath,
         string $childResponseModelClass,
+        string $command = '',
+        array $defaultArgs = [],
+        string $collectionPath = '',
         string $countCommand = null,
         array $countArgs = [],
         string $countValuePath = '',

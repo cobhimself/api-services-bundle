@@ -163,10 +163,10 @@ class ResponseModelCollectionConfigBuilder {
     {
         return new ResponseModelCollectionConfig(
             $this->responseModelClass,
+            $this->childResponseModelClass,
             $this->command,
             $this->defaultArgs,
             $this->collectionPath,
-            $this->childResponseModelClass,
             $this->countCommand,
             $this->countArgs,
             $this->countValuePath,
