@@ -2,6 +2,7 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models;
 
+use Cob\Bundle\ApiServicesBundle\Exceptions\IncorrectParentResponseModel;
 use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelException;
 use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException;
 use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ExceptionHandlerInterface;
@@ -181,5 +182,20 @@ trait ResponseModelTrait
                 )
             );
         }
+    }
+
+    /**
+     * Confirm the model we are attempting to set as the parent model is of the
+     * correct instance.
+     *
+     * @param string|object $parent the parent class which the model MUST be an
+     *                              instance of
+     * @param string|object $actual the instance to confirm
+     *
+     * @throws IncorrectParentResponseModel if the parent class is not the same as the given actual class.
+     */
+    public static function confirmCorrectParentModel($parent, $actual)
+    {
+        ClassUtil::confirmCorrectParentModel($parent, $actual, static::class);
     }
 }

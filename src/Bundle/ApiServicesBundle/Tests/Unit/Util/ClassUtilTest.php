@@ -212,4 +212,20 @@ class ClassUtilTest extends TestCase
         $this->expectExceptionMessage("Invalid parent model for " . Person::class . ": stdClass is not a valid " . ResponseModel::class . " OR " . ResponseModelCollection::class);
         ClassUtil::confirmValidParentModel(new StdClass(), Person::class);
     }
+
+    /**
+     * @covers ::confirmCorrectParentModel
+     * @covers ::className
+     * @covers ::isInstanceOf
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\ResponseModelTrait
+     * @covers \Cob\Bundle\ApiServicesBundle\Exceptions\BaseApiServicesBundleException
+     * @covers \Cob\Bundle\ApiServicesBundle\Exceptions\IncorrectParentResponseModel
+     * @covers \Cob\Bundle\ApiServicesBundle\Exceptions\IncorrectResponseModel
+     */
+    public function testConfirmCorrectParentModel()
+    {
+        $this->expectException(IncorrectParentResponseModel::class);
+        $this->expectExceptionMessage("Invalid parent model for " . Person::class . ": ");
+        Person::confirmCorrectParentModel(PersonCollection::class, new StdClass());
+    }
 }
