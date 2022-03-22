@@ -3,6 +3,7 @@
 namespace Cob\Bundle\ApiServicesBundle\Models;
 
 use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelException;
+use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException;
 use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ExceptionHandlerInterface;
 use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ResponseModelExceptionHandler;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState;
@@ -156,5 +157,29 @@ trait ResponseModelTrait
             ResponseModelException::class,
             [sprintf('Could not load response model %s', static::class)]
         );
+    }
+
+    /**
+     * Confirm the given property exists in the response model.
+     *
+     * This method helps us make sure our models are setup correctly and
+     * fails early if they aren't.
+     *
+     * @param string $property the property to check
+     *
+     * @throws ResponseModelSetupException
+     */
+    protected function checkForPropertyException(string $property)
+    {
+        if (!property_exists($this, $property) || null === $this->$property) {
+            $message = 'Could not get property \'%s\'!' . PHP_EOL . "\tIN: %s";
+            throw new ResponseModelSetupException(
+                sprintf(
+                    $message,
+                    $property,
+                    get_class($this)
+                )
+            );
+        }
     }
 }

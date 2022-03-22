@@ -12,6 +12,7 @@
 namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Models;
 
 use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelException;
+use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException;
 use Cob\Bundle\ApiServicesBundle\Models\CacheProvider;
 use Cob\Bundle\ApiServicesBundle\Models\CacheProviderInterface;
 use Cob\Bundle\ApiServicesBundle\Models\Util\CacheHash;
@@ -20,6 +21,7 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseRawDataResponseModel;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModel;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModelWithInit;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\Person;
+use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\ResponseModelWithNonExistentProperty;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\ResponseModelWithNoSetup;
 use GuzzleHttp\Psr7\Response;
 use Prophecy\Argument;
@@ -332,5 +334,23 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
         $model = MockBaseRawDataResponseModel::using($client)->withRawData($rawData);
 
         $this->assertEquals($rawData, $model->getRawData());
+    }
+
+    /**
+     * @covers ::getConfig
+     * @covers ::setup
+     * @covers ::withData
+     */
+    public function testCheckForPropertyExceptionThrowsException()
+    {
+        $this->expectException(ResponseModelSetupException::class);
+        $this->expectExceptionMessage('Could not get property');
+        /**
+         * @var ResponseModelWithNonExistentProperty $model
+         */
+        $model = ResponseModelWithNonExistentProperty::using($this->getServiceClientMock())
+            ->withData([]);
+
+        $model->getNonExistentProperty();
     }
 }
