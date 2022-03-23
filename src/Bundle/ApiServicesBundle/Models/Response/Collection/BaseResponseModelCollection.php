@@ -1,10 +1,11 @@
 <?php
 
-namespace Cob\Bundle\ApiServicesBundle\Models;
+namespace Cob\Bundle\ApiServicesBundle\Models\Response\Collection;
 
 use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException;
 use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig;
 use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfigBuilder;
+use Cob\Bundle\ApiServicesBundle\Models\DotData;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostAddModelToCollectionEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\AsyncCollectionLoader;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\CollectionLoader;
@@ -13,6 +14,10 @@ use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfigBuilde
 use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigBuilder;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataCollectionLoader;
+use Cob\Bundle\ApiServicesBundle\Models\Response\HasParentTrait;
+use Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModel;
+use Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModelTrait;
+use Cob\Bundle\ApiServicesBundle\Models\ServiceClientInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use GuzzleHttp\Promise\PromiseInterface;
 
@@ -155,7 +160,7 @@ class BaseResponseModelCollection
         return parent::count();
     }
 
-    public static function using(ServiceClient $client): CollectionLoadConfigBuilder
+    public static function using(ServiceClientInterface $client): CollectionLoadConfigBuilder
     {
         return CollectionLoadConfig::builder(static::class, $client);
     }

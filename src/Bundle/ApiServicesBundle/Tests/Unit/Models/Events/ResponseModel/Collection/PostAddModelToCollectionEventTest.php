@@ -11,11 +11,11 @@ use PHPUnit\Framework\TestCase;
 /**
  * @codeCoverageIgnore
  * @coversDefaultClass \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostAddModelToCollectionEvent
- * @uses \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModelCollection
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Response\Collection\BaseResponseModelCollection
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\ResponseModelCollectionEvent
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig
  * @uses \CoB\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigSharedTrait
- * @uses \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModel
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Response\BaseResponseModel
  * @uses \Cob\Bundle\ApiServicesBundle\Models\DotData
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Deserializer
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractLoader

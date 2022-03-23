@@ -10,7 +10,7 @@ use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreGet
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreLoadEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreLoadFromCacheEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig;
-use Cob\Bundle\ApiServicesBundle\Models\ResponseModel;
+use Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModel;
 use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig;
 use Cob\Bundle\ApiServicesBundle\Models\ServiceClientInterface;
 use Cob\Bundle\ApiServicesBundle\Models\Util\CacheHash;

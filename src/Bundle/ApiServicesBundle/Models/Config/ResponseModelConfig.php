@@ -2,7 +2,7 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Config;
 
-use Cob\Bundle\ApiServicesBundle\Models\ResponseModel;
+use Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModel;
 
 class ResponseModelConfig
 {

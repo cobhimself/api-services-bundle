@@ -1,7 +1,8 @@
 <?php
 
-namespace Cob\Bundle\ApiServicesBundle\Models;
+namespace Cob\Bundle\ApiServicesBundle\Models\Response;
 
+use Cob\Bundle\ApiServicesBundle\Models\Response\Collection\ResponseModelCollection;
 use Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil;
 
 trait HasParentTrait

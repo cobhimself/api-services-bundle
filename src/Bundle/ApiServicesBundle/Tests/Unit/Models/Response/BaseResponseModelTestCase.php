@@ -1,6 +1,6 @@
 <?php
 
-namespace Cob\Bundle\ApiServicesBundle\Tests\Unit;
+namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Response;
 
 use Cob\Bundle\ApiServicesBundle\Tests\ServiceClientMockTrait;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModel;

@@ -4,10 +4,10 @@ namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Util;
 
 use Cob\Bundle\ApiServicesBundle\Exceptions\IncorrectParentResponseModel;
 use Cob\Bundle\ApiServicesBundle\Exceptions\InvalidResponseModel;
-use Cob\Bundle\ApiServicesBundle\Models\BaseResponseModel;
+use Cob\Bundle\ApiServicesBundle\Models\Response\BaseResponseModel;
 use Cob\Bundle\ApiServicesBundle\Models\DotData;
-use Cob\Bundle\ApiServicesBundle\Models\ResponseModel;
-use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollection;
+use Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModel;
+use Cob\Bundle\ApiServicesBundle\Models\Response\Collection\ResponseModelCollection;
 use Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil;
 use Cob\Bundle\ApiServicesBundle\Tests\ServiceClientMockTrait;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModel;
@@ -24,7 +24,7 @@ use stdClass;
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigBuilder
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigSharedTrait
- * @uses \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModelCollection
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Response\Collection\BaseResponseModelCollection
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Deserializer
  * @uses \Cob\Bundle\ApiServicesBundle\Models\DotData
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractCollectionLoader
@@ -33,15 +33,17 @@ use stdClass;
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataCollectionLoader
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig
- * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelTrait
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModelTrait
  * @uses \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
- * @uses \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModel
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Response\BaseResponseModel
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostAddModelToCollectionEvent
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\ResponseModelCollectionEvent
- * @uses \Cob\Bundle\ApiServicesBundle\Models\HasParentTrait
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Response\HasParentTrait
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractLoader
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataLoader
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigBuilder
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfigBuilder
  */
 class ClassUtilTest extends TestCase
 {
@@ -97,7 +99,7 @@ class ClassUtilTest extends TestCase
      * @covers ::className
      * @covers ::confirmValidResponseModel
      * @covers ::isInstanceOf
-     * @uses \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModel
+     * @uses \Cob\Bundle\ApiServicesBundle\Models\Response\BaseResponseModel
      * @uses \Cob\Bundle\ApiServicesBundle\Models\Deserializer
      * @uses \Cob\Bundle\ApiServicesBundle\Models\DotData
      * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractLoader
@@ -217,7 +219,7 @@ class ClassUtilTest extends TestCase
      * @covers ::confirmCorrectParentModel
      * @covers ::className
      * @covers ::isInstanceOf
-     * @covers \Cob\Bundle\ApiServicesBundle\Models\ResponseModelTrait
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModelTrait
      * @covers \Cob\Bundle\ApiServicesBundle\Exceptions\BaseApiServicesBundleException
      * @covers \Cob\Bundle\ApiServicesBundle\Exceptions\IncorrectParentResponseModel
      * @covers \Cob\Bundle\ApiServicesBundle\Exceptions\IncorrectResponseModel

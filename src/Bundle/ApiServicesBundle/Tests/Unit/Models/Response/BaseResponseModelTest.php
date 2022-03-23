@@ -9,14 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Models;
+namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Response;
 
 use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelException;
 use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException;
 use Cob\Bundle\ApiServicesBundle\Models\CacheProvider;
 use Cob\Bundle\ApiServicesBundle\Models\CacheProviderInterface;
 use Cob\Bundle\ApiServicesBundle\Models\Util\CacheHash;
-use Cob\Bundle\ApiServicesBundle\Tests\Unit\BaseResponseModelTestCase;
+use Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Response\BaseResponseModelTestCase;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseRawDataResponseModel;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModel;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModelWithInit;
@@ -29,7 +29,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * @codeCoverageIgnore
- * @coversDefaultClass \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModel
+ * @coversDefaultClass \Cob\Bundle\ApiServicesBundle\Models\Response\BaseResponseModel
  *
  * @covers ::__construct
  * @covers ::using
@@ -39,7 +39,7 @@ use Prophecy\Prophecy\ObjectProphecy;
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigSharedTrait
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfig
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfigBuilder
- * @covers \Cob\Bundle\ApiServicesBundle\Models\ResponseModelTrait
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModelTrait
  * @covers \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
  * @covers \Cob\Bundle\ApiServicesBundle\Exceptions\BaseApiServicesBundleException
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig
@@ -49,7 +49,7 @@ use Prophecy\Prophecy\ObjectProphecy;
  * @covers \Cob\Bundle\ApiServicesBundle\Models\DotData
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Loader
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState
- * @covers \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModelCollection
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Response\Collection\BaseResponseModelCollection
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigSharedTrait
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractLoader
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataCollectionLoader
@@ -63,12 +63,12 @@ use Prophecy\Prophecy\ObjectProphecy;
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreGetLoadCommandEvent
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostAddModelToCollectionEvent
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\ResponseModelCollectionEvent
- * @covers \Cob\Bundle\ApiServicesBundle\Models\HasParentTrait
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Response\HasParentTrait
  */
 class BaseResponseModelTest extends BaseResponseModelTestCase
 {
-    const PERSON_JSON = __DIR__ . '/../../Resources/MockResponses/person.json';
-    const PERSON_WITH_CHILDREN_JSON = __DIR__ . '/../../Resources/MockResponses/personWithChildren.json';
+    const PERSON_JSON = __DIR__ . '/../../../Resources/MockResponses/person.json';
+    const PERSON_WITH_CHILDREN_JSON = __DIR__ . '/../../../Resources/MockResponses/personWithChildren.json';
 
     /**
      * @covers ::getConfig
@@ -162,6 +162,7 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Loader
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractCollectionLoader
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\Promise
+     * @uses \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfigBuilder
      */
     public function testLoad()
     {

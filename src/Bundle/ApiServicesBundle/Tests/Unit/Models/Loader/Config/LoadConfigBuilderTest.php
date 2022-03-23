@@ -16,7 +16,7 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\Person;
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Deserializer
  * @uses \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil
- * @uses \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModel
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Response\BaseResponseModel
  * @uses \Cob\Bundle\ApiServicesBundle\Models\DotData
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelEvent
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPostExecuteCommandEvent
@@ -29,7 +29,7 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\Person;
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigSharedTrait
- * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelTrait
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModelTrait
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Util\Promise
  */
 class LoadConfigBuilderTest extends LoadConfigTestCase

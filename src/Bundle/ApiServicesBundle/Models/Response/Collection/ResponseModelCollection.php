@@ -1,12 +1,15 @@
 <?php
 
-namespace Cob\Bundle\ApiServicesBundle\Models;
+namespace Cob\Bundle\ApiServicesBundle\Models\Response\Collection;
 
-use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig;
+use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfig;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState;
+use Cob\Bundle\ApiServicesBundle\Models\ServiceClientInterface;
 use GuzzleHttp\Promise\PromiseInterface;
+use Cob\Bundle\ApiServicesBundle\Models\UsesDot;
+use Cob\Bundle\ApiServicesBundle\Models\Response\HasParent;
 
-interface ResponseModel extends UsesDot, HasParent
+interface ResponseModelCollection extends UsesDot, HasParent
 {
     /**
      * Establish a new response model with a specific load state and load promise.
@@ -25,13 +28,11 @@ interface ResponseModel extends UsesDot, HasParent
         $parent = null
     );
 
-    public static function loadAsync(LoadConfig $loadConfig);
+    public static function loadAsync(CollectionLoadConfig $loadConfig);
 
-    public static function load(LoadConfig $loadConfig);
+    public static function load(CollectionLoadConfig $loadConfig);
 
-    public static function withData(LoadConfig $loadConfig);
-
-    public static function withRawData(LoadConfig $loadConfig);
+    public static function withData(CollectionLoadConfig $loadConfig);
 
     public function toArray(): array;
 }

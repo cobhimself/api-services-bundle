@@ -12,10 +12,10 @@ namespace Cob\Bundle\ApiServicesBundle\Exceptions;
 
 /**
  * Exception thrown when an issue occurs within a
- * ResponseModelCollectionInterface instance.
+ * ResponseModelCollection interface instance.
  *
  * All exceptions, regardless of type, are caught and rolled up into this one
- * exception within the AbstractResponseModelCollection class as much
+ * exception within the BaseResponseModelCollection class as much
  * as possible.
  */
 class ResponseModelCollectionException extends BaseApiServicesBundleException

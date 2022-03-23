@@ -3,7 +3,7 @@
 namespace Cob\Bundle\ApiServicesBundle\Models\Config;
 
 use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException;
-use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollection;
+use Cob\Bundle\ApiServicesBundle\Models\Response\Collection\ResponseModelCollection;
 use Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil;
 
 class ResponseModelCollectionConfig

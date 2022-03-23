@@ -9,17 +9,17 @@
  * file that was distributed with this source code.
  */
 
-namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Models;
+namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Response\Collection;
 
 use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelException;
 use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException;
 use Cob\Bundle\ApiServicesBundle\Models\CacheProvider;
 use Cob\Bundle\ApiServicesBundle\Models\CacheProviderInterface;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfigBuilder;
-use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollection;
+use Cob\Bundle\ApiServicesBundle\Models\Response\Collection\ResponseModelCollection;
 use Cob\Bundle\ApiServicesBundle\Models\Util\CacheHash;
 use Cob\Bundle\ApiServicesBundle\Tests\ServiceClientMockTrait;
-use Cob\Bundle\ApiServicesBundle\Tests\Unit\BaseResponseModelTestCase;
+use Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Response\BaseResponseModelTestCase;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\BadMockResponseModelCollection;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModel;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModelWithInit;
@@ -32,7 +32,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * @codeCoverageIgnore
- * @coversDefaultClass \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModelCollection
+ * @coversDefaultClass \Cob\Bundle\ApiServicesBundle\Models\Response\Collection\BaseResponseModelCollection
  * @covers ::addResponse
  * @covers ::getConfig
  * @covers ::finalizeData
@@ -49,7 +49,7 @@ use Prophecy\Prophecy\ObjectProphecy;
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigBuilder
  * @covers \CoB\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigSharedTrait
- * @covers \Cob\Bundle\ApiServicesBundle\Models\ResponseModelTrait
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModelTrait
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractLoader
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\CommandFulfilledEvent
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostExecuteCommandsEvent
@@ -62,7 +62,7 @@ use Prophecy\Prophecy\ObjectProphecy;
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreGetLoadCommandEvent
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostCountEvent
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostAddModelToCollectionEvent
- * @covers \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModel
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Response\BaseResponseModel
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Deserializer
  * @covers \Cob\Bundle\ApiServicesBundle\Models\DotData
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState
@@ -72,14 +72,14 @@ use Prophecy\Prophecy\ObjectProphecy;
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataLoader
  * @covers \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil
- * @covers \Cob\Bundle\ApiServicesBundle\Models\HasParentTrait
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Response\HasParentTrait
  * @covers \Cob\Bundle\ApiServicesBundle\Exceptions\BaseApiServicesBundleException
  */
 class BaseResponseModelCollectionTest extends BaseResponseModelTestCase
 {
     use ServiceClientMockTrait;
 
-    const PERSON_COLLECTION_JSON = __DIR__ . '/../../Resources/MockResponses/personCollection.json';
+    const PERSON_COLLECTION_JSON = __DIR__ . '/../../../../Resources/MockResponses/personCollection.json';
 
     /**
      * @covers ::__construct
@@ -248,16 +248,16 @@ class BaseResponseModelCollectionTest extends BaseResponseModelTestCase
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AsyncCollectionLoader
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\CacheHash::getHashForResponseCollectionClassAndArgs
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\CacheHash::hashArray
-     * @covers \Cob\Bundle\ApiServicesBundle\Models\Count
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Response\Collection\Count
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\Promise::async
      */
     public function testCanLoadInChunksWithCountCommand()
     {
         $client = $this->getServiceClientMockWithJsonData([
             //Our first response should be the call to the count command
-            __DIR__ . '/../../Resources/MockResponses/personCollectionCount.json',
-            __DIR__ . '/../../Resources/MockResponses/personCollectionChunk1.json',
-            __DIR__ . '/../../Resources/MockResponses/personCollectionChunk2.json'
+            __DIR__ . '/../../../../Resources/MockResponses/personCollectionCount.json',
+            __DIR__ . '/../../../../Resources/MockResponses/personCollectionChunk1.json',
+            __DIR__ . '/../../../../Resources/MockResponses/personCollectionChunk2.json'
         ]);
 
         /**
@@ -391,7 +391,7 @@ class BaseResponseModelCollectionTest extends BaseResponseModelTestCase
      * @covers ::using
      * @covers ::load
      * @covers \Cob\Bundle\ApiServicesBundle\Exceptions\CountDataException
-     * @covers \Cob\Bundle\ApiServicesBundle\Models\Count
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Response\Collection\Count
      * @covers \Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ClientCommandExceptionHandler
      * @covers \Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ResponseModelExceptionHandler
      * @covers \Cob\Bundle\ApiServicesBundle\Exceptions\BaseApiServicesBundleException
@@ -434,7 +434,7 @@ class BaseResponseModelCollectionTest extends BaseResponseModelTestCase
                     200,
                     [],
                     $this->getMockResponseDataFromFile(
-                        __DIR__ . '/../../Resources/MockResponses/personCollectionCount.json'
+                        __DIR__ . '/../../../../Resources/MockResponses/personCollectionCount.json'
                     )
                 ),
                 new Response(500, [], 'Not found')

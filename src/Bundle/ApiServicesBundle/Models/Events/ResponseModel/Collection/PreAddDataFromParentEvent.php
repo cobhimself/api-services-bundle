@@ -10,10 +10,8 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection;
 
-use Cob\Bundle\ApiServicesBundle\Models\ResponseModel;
-use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollection;
-use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollectionInterface;
-use Cob\Bundle\ApiServicesBundle\Models\ResponseModelInterface;
+use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig;
+use Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModel;
 
 /**
  * Run before data is added to a collection from a parent model.
@@ -37,13 +35,13 @@ class PreAddDataFromParentEvent extends ResponseModelCollectionEvent
      */
     public function __construct(
         ResponseModel $parentModel,
-        ResponseModelCollection $collection,
+        ResponseModelCollectionConfig $config,
         array $data
     ) {
         $this->parentModel = $parentModel;
         $this->data = $data;
 
-        parent::__construct($collection);
+        parent::__construct($config);
     }
 
     public function getParentModel(): ResponseModel

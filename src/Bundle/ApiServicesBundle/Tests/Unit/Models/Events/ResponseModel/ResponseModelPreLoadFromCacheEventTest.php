@@ -7,7 +7,7 @@ use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreGet
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreLoadEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreLoadFromCacheEvent;
 use Cob\Bundle\ApiServicesBundle\Tests\ServiceClientMockTrait;
-use Cob\Bundle\ApiServicesBundle\Tests\Unit\BaseResponseModelTestCase;
+use Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Response\BaseResponseModelTestCase;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModel;
 
 /**
@@ -15,7 +15,7 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModel;
  * @coversDefaultClass \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreLoadFromCacheEvent
  * @uses \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig
- * @uses \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModel
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Response\BaseResponseModel
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Deserializer
  */
 class ResponseModelPreLoadFromCacheEventTest extends BaseResponseModelTestCase

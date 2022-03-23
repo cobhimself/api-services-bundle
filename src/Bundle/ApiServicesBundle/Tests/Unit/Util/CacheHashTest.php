@@ -17,7 +17,7 @@ class CacheHashTest extends TestCase
     /**
      * @covers ::getHashForResponseClassAndArgs
      * @covers ::hashArray
-     * @uses \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModel
+     * @uses \Cob\Bundle\ApiServicesBundle\Models\Response\BaseResponseModel
      * @uses \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig
      * @uses \Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil
      */
@@ -39,7 +39,7 @@ class CacheHashTest extends TestCase
     /**
      * @covers ::getHashForResponseClassAndArgs
      * @covers ::hashArray
-     * @uses \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModel
+     * @uses \Cob\Bundle\ApiServicesBundle\Models\Response\BaseResponseModel
      * @uses \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig
      * @uses \Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil
      */

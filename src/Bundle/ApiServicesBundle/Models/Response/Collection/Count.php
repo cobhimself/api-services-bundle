@@ -8,16 +8,16 @@
  * file that was distributed with this source code.
  */
 
-namespace Cob\Bundle\ApiServicesBundle\Models;
+namespace Cob\Bundle\ApiServicesBundle\Models\Response\Collection;
 
 use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig;
+use Cob\Bundle\ApiServicesBundle\Models\DotData;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostCountEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreCountEvent;
+use Cob\Bundle\ApiServicesBundle\Models\Response\BaseResponseModel;
+use Cob\Bundle\ApiServicesBundle\Models\ServiceClientInterface;
 use GuzzleHttp\Promise\PromiseInterface;
 use Cob\Bundle\ApiServicesBundle\Exceptions\CountDataException;
-use Cob\Bundle\ApiServicesBundle\Exceptions\InvalidResponseModel;
-use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException;
-use Cob\Bundle\ApiServicesBundle\Exceptions\UnknownCommandException;
 use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ClientCommandExceptionHandler;
 use Cob\Bundle\ApiServicesBundle\Models\Util\Promise;
 
@@ -30,7 +30,7 @@ class Count extends BaseResponseModel
      * Get count data for the given response model asynchronously.
      *
      * @param ResponseModelCollectionConfig $config the configuration for the response model collection
-     * @param ServiceClient                 $client the service client to use to retrieve
+     * @param ServiceClientInterface        $client the service client to use to retrieve
      *                                              count information
      *
      * @return PromiseInterface
@@ -38,7 +38,7 @@ class Count extends BaseResponseModel
      */
     public static function getAsync(
         ResponseModelCollectionConfig $config,
-        ServiceClient $client
+        ServiceClientInterface $client
     ): PromiseInterface {
         return Promise::async(function () use ($config, $client) {
             $client->dispatchEvent(
@@ -76,7 +76,7 @@ class Count extends BaseResponseModel
      * Get count data for the given response model.
      *
      * @param ResponseModelCollectionConfig $config the config for the response model collection
-     * @param ServiceClient                 $client the service client to use to retrieve
+     * @param ServiceClientInterface        $client the service client to use to retrieve
      *                                              count information
      *
      * @return int
@@ -84,7 +84,7 @@ class Count extends BaseResponseModel
      */
     public static function get(
         ResponseModelCollectionConfig $config,
-        ServiceClient $client
+        ServiceClientInterface $client
     ): int {
         return static::getAsync($config, $client)->wait();
     }

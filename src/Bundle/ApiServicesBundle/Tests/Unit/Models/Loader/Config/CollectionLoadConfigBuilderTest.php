@@ -15,8 +15,8 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\PersonCollection;
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Deserializer
  * @covers \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil
- * @covers \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModel
- * @covers \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModelCollection
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Response\BaseResponseModel
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Response\Collection\BaseResponseModelCollection
  * @covers \Cob\Bundle\ApiServicesBundle\Models\DotData
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\CanGetCollectionLoadConfigTrait
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\CanGetCommandTrait
@@ -29,7 +29,7 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\PersonCollection;
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreGetLoadCommandEvent
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreLoadEvent
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\ResponseModelCollectionEvent
- * @covers \Cob\Bundle\ApiServicesBundle\Models\HasParentTrait
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Response\HasParentTrait
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractCollectionLoader
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractLoader
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig
@@ -38,10 +38,11 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\PersonCollection;
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigSharedTrait
- * @covers \Cob\Bundle\ApiServicesBundle\Models\ResponseModelTrait
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModelTrait
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\CacheHash
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\Promise
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfig
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfigBuilder
  */
 class CollectionLoadConfigBuilderTest extends CollectionLoadConfigTestCase
 {

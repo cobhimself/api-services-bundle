@@ -2,7 +2,7 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks;
 
-use Cob\Bundle\ApiServicesBundle\Models\BaseResponseModel;
+use Cob\Bundle\ApiServicesBundle\Models\Response\BaseResponseModel;
 use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig;
 use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigBuilder;
 

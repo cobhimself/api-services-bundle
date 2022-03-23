@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @codeCoverageIgnore
  * @coversDefaultClass \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreGetLoadCommandEvent
- * @uses \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModelCollection
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Response\Collection\BaseResponseModelCollection
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\ResponseModelCollectionEvent
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig
  * @uses \CoB\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigSharedTrait

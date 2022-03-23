@@ -1,10 +1,10 @@
 <?php
 
-namespace Cob\Bundle\ApiServicesBundle\Models;
+namespace Cob\Bundle\ApiServicesBundle\Models\Response;
 
-use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException;
 use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig;
 use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigBuilder;
+use Cob\Bundle\ApiServicesBundle\Models\DotData;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\AsyncLoader;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigBuilder;
@@ -12,6 +12,7 @@ use Cob\Bundle\ApiServicesBundle\Models\Loader\Loader;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataLoader;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\WithRawDataLoader;
+use Cob\Bundle\ApiServicesBundle\Models\ServiceClientInterface;
 use GuzzleHttp\Promise\PromiseInterface;
 
 /**
@@ -50,7 +51,7 @@ class BaseResponseModel implements ResponseModel
         //We can go ahead and set the data for the model if it has already been loaded. Otherwise we wait until
         //the first time we attempt to get data.
         if ($desiredLoadState->isLoaded() || $desiredLoadState->isLoadedWithData()) {
-            $this->data = new DotData($this->loadPromise->wait());
+            $this->data = DotData::of($this->loadPromise->wait());
             $config->doInits($this);
         }
 
@@ -92,7 +93,7 @@ class BaseResponseModel implements ResponseModel
         return WithRawDataLoader::load(static::getConfig(), $loadConfig);
     }
 
-    public static function using(ServiceClient $client): LoadConfigBuilder
+    public static function using(ServiceClientInterface $client): LoadConfigBuilder
     {
         return LoadConfig::builder(static::class, $client);
     }

@@ -4,9 +4,9 @@ namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Config;
 
 use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException;
 use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig;
-use Cob\Bundle\ApiServicesBundle\Tests\Unit\BaseResponseModelTestCase;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\Person;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\PersonCollection;
+use Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Response\BaseResponseModelTestCase;
 
 /**
  * @codeCoverageIgnore
@@ -20,7 +20,7 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\PersonCollection;
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigSharedTrait
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataCollectionLoader
- * @uses \Cob\Bundle\ApiServicesBundle\Models\ResponseModelTrait
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModelTrait
  * @uses \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
  * @uses \Cob\Bundle\ApiServicesBundle\Models\DotData
  */
@@ -95,7 +95,7 @@ class ResponseModelCollectionConfigTest extends BaseResponseModelTestCase {
     /**
      * @covers ::__construct
      * @covers ::doInits
-     * @covers \Cob\Bundle\ApiServicesBundle\Models\BaseResponseModelCollection
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Response\Collection\BaseResponseModelCollection
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfigBuilder
      */
