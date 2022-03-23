@@ -2,6 +2,8 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Config;
 
+use InvalidArgumentException;
+
 class ResponseModelConfigBuilder {
     use ResponseModelConfigSharedTrait;
 
@@ -44,7 +46,7 @@ class ResponseModelConfigBuilder {
     {
         array_map(function (callable $callable) {
             if(!is_callable($callable)) {
-                throw new \InvalidArgumentException("The provided callback array MUST contain callable items!");
+                throw new InvalidArgumentException("The provided callback array MUST contain callable items!");
             }
 
             $this->addInitCallback($callable);

@@ -28,9 +28,9 @@ interface CommandLineStringHelpersInterface
      */
     public function withIndent(
         string $msg,
-        int $indent,
-        $prefix = ' > ',
-        int $width = null
+        int    $indent,
+        string $prefix = ' > ',
+        int    $width = null
     ): string;
 
     /**
@@ -49,10 +49,10 @@ interface CommandLineStringHelpersInterface
      */
     public function wordwrap(
         string $msg,
-        int $indent = 0,
+        int    $indent = 0,
         string $prefix = '',
-        int $width = null,
-        bool $shrink = false
+        int    $width = null,
+        bool   $shrink = false
     ): string;
 
     /**
@@ -70,9 +70,9 @@ interface CommandLineStringHelpersInterface
      */
     public function shrinkwrap(
         string $msg,
-        int $indent = 0,
+        int    $indent = 0,
         string $prefix = '',
-        int $width = null
+        int    $width = null
     ): string;
 
     /**
@@ -86,8 +86,8 @@ interface CommandLineStringHelpersInterface
      */
     public function outputStructure(
         array $structure,
-        $indent = 2,
-        $currentDepth = 0
+        int   $indent = 2,
+        int   $currentDepth = 0
     );
 
     /**

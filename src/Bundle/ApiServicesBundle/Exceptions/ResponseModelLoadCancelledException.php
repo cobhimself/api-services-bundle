@@ -10,7 +10,7 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Exceptions;
 
-use Cob\Bundle\ApiServicesBundle\Models\ResponseModelInterface;
+use Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModel;
 
 class ResponseModelLoadCancelledException extends ResponseModelException
 {
@@ -18,7 +18,7 @@ class ResponseModelLoadCancelledException extends ResponseModelException
      * @inheritDoc
      */
     public function __construct(
-        ResponseModelInterface $model,
+        ResponseModel $model,
         array $commandArgs,
         bool $clearCache,
         string $reason = ""

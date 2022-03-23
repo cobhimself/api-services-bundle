@@ -31,7 +31,7 @@ class ResponseModelPostLoadFromCacheEventTest extends BaseResponseModelTestCase
     {
         $cachedData = ['test', 'test'];
         $otherCachedData = ['blah'];
-        $hash = 'testhash';
+        $hash = 'test-hash';
 
         $config = MockBaseResponseModel::getConfig();
 

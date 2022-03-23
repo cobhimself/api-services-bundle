@@ -12,7 +12,7 @@ use Cob\Bundle\ApiServicesBundle\Models\Response\BaseResponseModel;
 class Person extends BaseResponseModel
 {
     /**
-     * @var PersonCollectionWithCountCapability
+     * @var PersonCollection
      */
     private $children;
 

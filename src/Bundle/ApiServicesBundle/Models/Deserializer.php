@@ -13,12 +13,12 @@ namespace Cob\Bundle\ApiServicesBundle\Models;
 use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException;
 use Cob\Bundle\ApiServicesBundle\Exceptions\ValidationException;
 use Cob\Bundle\ApiServicesBundle\Models\Http\ClassResultInterface;
+use Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModel;
 use GuzzleHttp\Command\CommandInterface;
 use GuzzleHttp\Command\Guzzle\DescriptionInterface;
 use GuzzleHttp\Command\Guzzle\Deserializer as DefaultDeserializer;
 use GuzzleHttp\Command\Guzzle\Parameter;
 use GuzzleHttp\Command\Guzzle\SchemaValidator;
-use GuzzleHttp\Command\Result;
 use GuzzleHttp\Command\ResultInterface;
 use InvalidArgumentException;
 use Psr\Http\Message\RequestInterface;
@@ -56,7 +56,7 @@ class Deserializer extends DefaultDeserializer
      * @param Parameter               $model The model parameter from our description
      * @param array|ResponseInterface $data  The data to provide the model
      *
-     * @return ResponseModelInterface|array
+     * @return ResponseModel|array
      *
      * @throws ResponseModelSetupException
      */
@@ -112,9 +112,10 @@ class Deserializer extends DefaultDeserializer
     }
 
     /**
-     * @return Result|ResultInterface|mixed|ResponseInterface|ResponseModelInterface|void
+     * @param Parameter         $model
+     * @param ResponseInterface $response
      *
-     * @throws ResponseModelSetupException
+     * @return array|ResponseInterface|ResponseModel
      */
     protected function visit(Parameter $model, ResponseInterface $response)
     {

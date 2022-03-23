@@ -10,9 +10,7 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel;
 
-use Cob\Bundle\ApiServicesBundle\Models\AbstractResponseModel;
 use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig;
-use Cob\Bundle\ApiServicesBundle\Models\ResponseModelInterface;
 
 /**
  * Run after a ResponseModelInterface instance is loaded from cache.

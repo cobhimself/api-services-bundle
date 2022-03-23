@@ -11,7 +11,6 @@
 namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel;
 
 use Cob\Bundle\ApiServicesBundle\Exceptions\InvalidResponseModel;
-use Cob\Bundle\ApiServicesBundle\Models\ResponseModelInterface;
 use Cob\Bundle\ApiServicesBundle\Models\Util\Promise;
 
 /**
@@ -46,18 +45,13 @@ class PostRunPromiseInAllEvent extends PromiseEvent
     /**
      * Run after a promise within a collection of promises has resolved.
      *
-     * @param mixed|null         $value          the value the promise was
-     *                                           resolved with
-     * @param int|null           $index          the current index of this
-     *                                           promise within the collection
-     * @param int|null           $collectionSize the size of the collection
-     *                                           of promises
-     * @param string|object|null $context        the context for this operation;
-     *                                           can be an object but must be a
-     *                                           valid response model
+     * @param mixed|null $value           the value the promise was resolved with
+     * @param int|null   $index           the current index of this promise within the collection
+     * @param int|null   $collectionSize  the size of the collection of promises
+     * @param mixed|null $context         the context for this operation; can be an object but must be a
+     *                                    valid response model
      *
-     * @throws InvalidResponseModel if $context is an object but not a valid
-     *                              response model
+     * @throws InvalidResponseModel if $context is an object but not a valid response model
      */
     public function __construct(
         $value = null,

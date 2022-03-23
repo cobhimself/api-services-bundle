@@ -35,7 +35,7 @@ class ResponseModelCollectionConfig
     /**
      * @var int
      */
-    private $loadMaxResults = 150;
+    private $loadMaxResults;
 
     /**
      * @var string
@@ -148,8 +148,7 @@ class ResponseModelCollectionConfig
         return $this->countValuePath;
     }
 
-    public function getBuildCountArgsCallback()
-    {
+    public function getBuildCountArgsCallback(): callable {
         if (is_null($this->buildCountArgsCallback)) {
             throw new ResponseModelSetupException(
                 'Cannot obtain the buildCountArgsCallback for ' . $this->getResponseModelClass()

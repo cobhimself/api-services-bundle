@@ -6,8 +6,6 @@ use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig;
 use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfigBuilder;
 use Cob\Bundle\ApiServicesBundle\Models\Response\Collection\BaseResponseModelCollection;
 
-;
-
 /**
  * @codeCoverageIgnore
  */

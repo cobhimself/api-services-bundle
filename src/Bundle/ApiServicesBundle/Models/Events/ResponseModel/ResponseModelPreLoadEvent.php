@@ -86,6 +86,8 @@ class ResponseModelPreLoadEvent extends ResponseModelEvent
 
     /**
      * @param array $commandArgs
+     *
+     * @return ResponseModelPreLoadEvent
      */
     public function setCommandArgs(
         array $commandArgs
@@ -97,6 +99,8 @@ class ResponseModelPreLoadEvent extends ResponseModelEvent
 
     /**
      * @param bool $clearCache
+     *
+     * @return ResponseModelPreLoadEvent
      */
     public function setClearCache(bool $clearCache): ResponseModelPreLoadEvent
     {
@@ -146,6 +150,8 @@ class ResponseModelPreLoadEvent extends ResponseModelEvent
      * decided to cancel the loading.
      *
      * @param bool $failOnCancel
+     *
+     * @return ResponseModelPreLoadEvent
      */
     public function setFailOnCancel(
         bool $failOnCancel
@@ -169,6 +175,8 @@ class ResponseModelPreLoadEvent extends ResponseModelEvent
      * A message which describes why the loading was cancelled.
      *
      * @param string $cancelReason
+     *
+     * @return ResponseModelPreLoadEvent
      */
     public function setCancelReason(
         string $cancelReason

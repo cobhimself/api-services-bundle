@@ -88,9 +88,7 @@ class ServiceClient extends GuzzleClient implements ServiceClientInterface, Comm
         $client = new Client($config);
 
         // Response validation is OFF by default. Request validation is always ON
-        $validateResponse = isset($config['validate_response'])
-            ? (bool) $config['validate_response']
-            : false;
+        $validateResponse = isset($config['validate_response']) && $config['validate_response'];
 
         return new static(
             $client,
@@ -117,7 +115,9 @@ class ServiceClient extends GuzzleClient implements ServiceClientInterface, Comm
     /**
      * Return the service description from the given service description file.
      *
-     * @return array
+     * @param string $descriptionFile
+     *
+     * @return array the configuration to be used with the service client
      */
     public static function getServiceConfig(string $descriptionFile): array
     {

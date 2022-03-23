@@ -23,6 +23,8 @@ use Exception;
 class MockBaseResponseModelWithInit extends BaseResponseModel
 {
     const EXPECTED_EXCEPTION_MSG = 'testing init callback functionality';
+
+    /** @noinspection PhpUnusedParameterInspection */
     protected static function setup(): ResponseModelConfigBuilder
     {
         return ResponseModelConfig::builder()

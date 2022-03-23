@@ -22,6 +22,7 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModelWithInit;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\Person;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\ResponseModelWithNonExistentProperty;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\ResponseModelWithNoSetup;
+use Exception;
 use GuzzleHttp\Psr7\Response;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -218,7 +219,7 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
      */
     public function testDoInits()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage(MockBaseResponseModelWithInit::EXPECTED_EXCEPTION_MSG);
         $client = $this->getServiceClientMock([]);
 
@@ -292,10 +293,14 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
          * @var CacheProviderInterface|ObjectProphecy
          */
         $mockCacheProvider = $this->prophesize(CacheProvider::class);
+        /** @noinspection PhpUndefinedMethodInspection */
         $mockCacheProvider->contains($hash)->willReturn(true);
+        /** @noinspection PhpUndefinedMethodInspection */
         $mockCacheProvider->fetch($hash)->willReturn($data);
+        /** @noinspection PhpUndefinedMethodInspection */
         $mockCacheProvider->save(Argument::any(), Argument::any())->shouldNotBeCalled();
 
+        /** @noinspection PhpParamsInspection */
         $client->setCacheProvider($mockCacheProvider->reveal());
 
         /**
@@ -330,9 +335,12 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
          * @var CacheProviderInterface|ObjectProphecy
          */
         $mockCacheProvider = $this->prophesize(CacheProvider::class);
+        /** @noinspection PhpUndefinedMethodInspection */
         $mockCacheProvider->contains($hash)->willReturn(false);
+        /** @noinspection PhpUndefinedMethodInspection */
         $mockCacheProvider->save($hash, $data)->willReturn(true);
 
+        /** @noinspection PhpParamsInspection */
         $client->setCacheProvider($mockCacheProvider->reveal());
 
         /**

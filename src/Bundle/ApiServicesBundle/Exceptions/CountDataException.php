@@ -11,7 +11,6 @@
 namespace Cob\Bundle\ApiServicesBundle\Exceptions;
 
 use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig;
-use GuzzleHttp\Command\CommandInterface;
 use Throwable;
 
 /**
@@ -20,11 +19,8 @@ use Throwable;
 class CountDataException extends BaseApiServicesBundleException
 {
     /**
-     * @param CommandInterface $command   the command used to grab count data
-     * @param string           $model     the response model the count data was
-     *                                    attempted to be retrieved from
-     * @param array            $arguments arguments used with the given command
-     *                                    to load count data
+     * @param ResponseModelCollectionConfig $config   the response model collection's configuration
+     * @param Throwable|null                $previous a previous exception thrown, if any
      */
     public function __construct(
         ResponseModelCollectionConfig $config,

@@ -58,8 +58,6 @@ class BaseResponseModelCollection
         $this->loadPromise = $loadPromise;
         $this->loadState = $desiredLoadState;
 
-        $config = static::getConfig();
-
         //We can go ahead and set the data for the model if it has already been loaded. Otherwise we wait until
         //the first time we attempt to get data.
         if ($desiredLoadState->isLoaded() || $desiredLoadState->isLoadedWithData()) {

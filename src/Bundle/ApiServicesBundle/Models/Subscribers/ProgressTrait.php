@@ -66,7 +66,7 @@ trait ProgressTrait
      * object, the class of the object is obtained and the last part of the FQCN
      * will be displayed. If null, the context is cleared.
      *
-     * @param string|object|null $context value to provide context to the
+     * @param mixed|null $context value to provide context to the
      *                                    progress
      */
     protected function setContext($context = null)

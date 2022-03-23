@@ -33,23 +33,19 @@ class LoadState
         return new LoadState(self::LOADED_WITH_DATA);
     }
 
-    public function isLoaded()
-    {
+    public function isLoaded(): bool {
         return $this->isState(self::LOADED);
     }
 
-    public function isLoadedWithData()
-    {
+    public function isLoadedWithData(): bool {
         return $this->isState(self::LOADED_WITH_DATA);
     }
 
-    public function isWaiting()
-    {
+    public function isWaiting(): bool {
         return $this->isState(self::WAITING);
     }
 
-    private function isState($state)
-    {
+    private function isState($state): bool {
         return $this->getState() === $state;
     }
 
@@ -60,5 +56,4 @@ class LoadState
     {
         return $this->state;
     }
-
 }

@@ -19,9 +19,9 @@ trait CommandLineStringHelpersTrait
      */
     public function withIndent(
         string $msg,
-        int $indent,
-        $prefix = ' > ',
-        int $width = null
+        int    $indent,
+        string $prefix = ' > ',
+        int    $width = null
     ): string {
         return $this->wordwrap($msg, $indent, $prefix, $width);
     }
@@ -86,8 +86,8 @@ trait CommandLineStringHelpersTrait
      */
     public function outputStructure(
         array $structure,
-        $indent = 2,
-        $currentDepth = 0
+        int   $indent = 2,
+        int $currentDepth = 0
     ): string {
         $output = '';
         array_walk_recursive(

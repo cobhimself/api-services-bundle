@@ -294,7 +294,7 @@ abstract class AbstractExceptionHandler implements ExceptionHandlerInterface
      *
      * @return static
      */
-    public static function ignore()
+    public static function ignore(): ExceptionHandlerInterface
     {
         $handler = new static();
         $handler->setHandles([self::ALL]);
@@ -312,7 +312,7 @@ abstract class AbstractExceptionHandler implements ExceptionHandlerInterface
      *
      * @return static
      */
-    public static function passThru()
+    public static function passThru(): ExceptionHandlerInterface
     {
         $handler = new static();
         $handler->setPassThru(true);

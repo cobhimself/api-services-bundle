@@ -26,6 +26,8 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\Person;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\PersonCollection;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\PersonCollectionWithCountCapability;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Response\BaseResponseModelTestCase;
+use Exception;
+use Generator;
 use GuzzleHttp\Psr7\Response;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -222,7 +224,7 @@ class BaseResponseModelCollectionTest extends BaseResponseModelTestCase
      */
     public function testDoInits()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage(MockBaseResponseModelWithInit::EXPECTED_EXCEPTION_MSG);
 
         MockBaseResponseModelWithInit::using($this->getServiceClientMock([]))->withData([]);
@@ -325,10 +327,14 @@ class BaseResponseModelCollectionTest extends BaseResponseModelTestCase
          * @var CacheProviderInterface|ObjectProphecy
          */
         $mockCacheProvider = $this->prophesize(CacheProvider::class);
+        /** @noinspection PhpUndefinedMethodInspection */
         $mockCacheProvider->contains($hash)->willReturn(true);
+        /** @noinspection PhpUndefinedMethodInspection */
         $mockCacheProvider->fetch($hash)->willReturn($data);
+        /** @noinspection PhpUndefinedMethodInspection */
         $mockCacheProvider->save(Argument::any(), Argument::any())->shouldNotBeCalled();
 
+        /** @noinspection PhpParamsInspection */
         $client->setCacheProvider($mockCacheProvider->reveal());
 
         /**
@@ -372,13 +378,16 @@ class BaseResponseModelCollectionTest extends BaseResponseModelTestCase
          * @var CacheProviderInterface|ObjectProphecy
          */
         $mockCacheProvider = $this->prophesize(CacheProvider::class);
+        /** @noinspection PhpUndefinedMethodInspection */
         $mockCacheProvider->contains($hash)->willReturn(false);
+        /** @noinspection PhpUndefinedMethodInspection */
         $mockCacheProvider->save($hash, $data)->willReturn(true);
 
+        /** @noinspection PhpParamsInspection */
         $client->setCacheProvider($mockCacheProvider->reveal());
 
         /**
-         * @var Person $mockModel
+         * @var PersonCollection $mockModel
          */
         $mockModel = PersonCollection::using($client)->loadAsync();
 
@@ -400,10 +409,10 @@ class BaseResponseModelCollectionTest extends BaseResponseModelTestCase
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\CacheHash
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\Promise
      */
-    public function testBadResponsesDuringLoad(array $responses, string $responseModel, string $exceptionmessage)
+    public function testBadResponsesDuringLoad(array $responses, string $responseModel, string $exceptionMessage)
     {
         $this->expectException(ResponseModelException::class);
-        $this->expectExceptionMessage($exceptionmessage);
+        $this->expectExceptionMessage($exceptionMessage);
 
         $client = $this->getServiceClientMock($responses);
 
@@ -414,7 +423,7 @@ class BaseResponseModelCollectionTest extends BaseResponseModelTestCase
         $loadConfigBuilder->load();
     }
 
-    public function dpTestBadResponsesDuringLoad(): \Generator
+    public function dpTestBadResponsesDuringLoad(): Generator
     {
         yield [
             [new Response(500, [], 'Not found')],

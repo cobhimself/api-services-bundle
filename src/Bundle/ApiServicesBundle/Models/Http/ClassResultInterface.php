@@ -20,6 +20,9 @@ use Psr\Http\Message\ResponseInterface;
 interface ClassResultInterface
 {
     /**
+     * @param ResponseInterface $response the response we to get the result from
+     * @param RequestInterface  $request  the request which provided the response
+     *
      * @return ClassResultInterface
      */
     public static function fromResponse(

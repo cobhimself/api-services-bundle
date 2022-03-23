@@ -29,17 +29,15 @@ class PreRunAllPromisesEvent extends PromiseEvent
     /**
      * Run before a group of promises are run.
      *
-     * @param int                $numItems the number of promises in the group
-     *                                     of promises
-     * @param string|object|null $context  the context of this to operation; can
-     *                                     be an object but must be a valid
-     *                                     response model
+     * @param int         $numItems the number of promises in the group of promises
+     * @param string|null $context  the context of this to operation; can be an object but must be a valid
+     *                              response model
      *
      * @throws InvalidResponseModel
      */
     public function __construct(
-        int $numItems,
-        $context = null
+        int    $numItems,
+        string $context = null
     ) {
         $this->numItems = $numItems;
 

@@ -10,7 +10,7 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection;
 
-use Cob\Bundle\ApiServicesBundle\Models\Response\Collection\ResponseModelCollection;
+use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig;
 use Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModel;
 
 /**
@@ -35,16 +35,16 @@ class PostAddDataFromParentEvent extends ResponseModelCollectionEvent
      */
     public function __construct(
         ResponseModel $parentModel,
-        ResponseModelCollection $collection,
+        ResponseModelCollectionConfig $modelConfig,
         array $data
     ) {
         $this->parentModel = $parentModel;
         $this->data = $data;
 
-        parent::__construct($collection);
+        parent::__construct($modelConfig);
     }
 
-    public function getParentModel(): ResponseModelInterface
+    public function getParentModel(): ResponseModel
     {
         return $this->parentModel;
     }

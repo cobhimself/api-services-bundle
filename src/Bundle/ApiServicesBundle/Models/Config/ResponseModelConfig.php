@@ -11,7 +11,7 @@ class ResponseModelConfig
     /**
      * @var bool whether or not the response model this config is associated with holds raw data or if it is structured.
      */
-    private $holdsRawData = false;
+    private $holdsRawData;
 
     public function __construct(
         string $responseModelClass,

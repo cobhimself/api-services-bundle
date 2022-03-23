@@ -85,10 +85,10 @@ class ClassUtil
      * Confirm the model we are attempting to set as the parent model is of the
      * correct instance.
      *
-     * @param string|object $parent the parent class which the model MUST be an
+     * @param mixed $parent the parent class which the model MUST be an
      *                              instance of
-     * @param string|object $actual the instance to confirm
-     * @param string|object $child  the child class of the parent; used during exception output
+     * @param mixed $actual the instance to confirm
+     * @param mixed $child  the child class of the parent; used during exception output
      *
      *
      * @throws IncorrectParentResponseModel if the parent class is not the same as the given actual class.
@@ -98,7 +98,7 @@ class ClassUtil
         $actual,
         $child
     ) {
-        if (!static::isInstanceOf($actual, $parent, $child)) {
+        if (!static::isInstanceOf($actual, $parent)) {
             throw new IncorrectParentResponseModel(
                 $child,
                 self::className($parent),

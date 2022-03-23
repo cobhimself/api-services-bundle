@@ -5,6 +5,7 @@ namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Loader\Config;
 use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelException;
 use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ResponseModelExceptionHandler;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig;
+use Cob\Bundle\ApiServicesBundle\Tests\ServiceClientMockTrait;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\Person;
 use Generator;
 use PHPUnit\Framework\TestCase;
@@ -14,6 +15,8 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class LoadConfigTestCase extends TestCase
 {
+    use ServiceClientMockTrait;
+
     abstract public function testGetters(array $actual, array $expected);
 
     public function dpTestGetters(): Generator
