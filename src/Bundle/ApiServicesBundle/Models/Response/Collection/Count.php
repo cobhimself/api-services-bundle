@@ -10,16 +10,16 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Response\Collection;
 
+use Cob\Bundle\ApiServicesBundle\Exceptions\CountDataException;
 use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig;
 use Cob\Bundle\ApiServicesBundle\Models\DotData;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostCountEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreCountEvent;
+use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ClientCommandExceptionHandler;
 use Cob\Bundle\ApiServicesBundle\Models\Response\BaseResponseModel;
 use Cob\Bundle\ApiServicesBundle\Models\ServiceClientInterface;
-use GuzzleHttp\Promise\PromiseInterface;
-use Cob\Bundle\ApiServicesBundle\Exceptions\CountDataException;
-use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ClientCommandExceptionHandler;
 use Cob\Bundle\ApiServicesBundle\Models\Util\Promise;
+use GuzzleHttp\Promise\PromiseInterface;
 
 /**
  * Retrieves count information for a response model.

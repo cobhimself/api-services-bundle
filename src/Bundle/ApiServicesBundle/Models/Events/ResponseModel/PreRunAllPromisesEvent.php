@@ -10,9 +10,9 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel;
 
-use GuzzleHttp\Promise\EachPromise;
 use Cob\Bundle\ApiServicesBundle\Exceptions\InvalidResponseModel;
 use Cob\Bundle\ApiServicesBundle\Models\Util\Promise;
+use GuzzleHttp\Promise\EachPromise;
 
 /**
  * Run before a group of promises are resolved.

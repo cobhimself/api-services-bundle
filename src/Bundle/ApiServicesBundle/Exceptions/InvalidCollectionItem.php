@@ -10,7 +10,6 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Exceptions;
 
-use Cob\Bundle\ApiServicesBundle\Models\Response\Collection\ResponseModelCollection;
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModelInterface;
 
 class InvalidCollectionItem extends ResponseModelCollectionException

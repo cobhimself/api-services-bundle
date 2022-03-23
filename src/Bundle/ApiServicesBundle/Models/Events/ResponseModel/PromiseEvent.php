@@ -11,9 +11,8 @@
 namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel;
 
 use Cob\Bundle\ApiServicesBundle\Exceptions\InvalidResponseModel;
-use Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModel;
 use Cob\Bundle\ApiServicesBundle\Models\Response\Collection\ResponseModelCollection;
-use Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil;
+use Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModel;
 use Symfony\Component\EventDispatcher\Event;
 
 class PromiseEvent extends Event

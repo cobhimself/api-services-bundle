@@ -10,7 +10,6 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel;
 
-use Cob\Bundle\ApiServicesBundle\Models\Response\Collection\ResponseModelCollection;
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModelInterface;
 
 /**

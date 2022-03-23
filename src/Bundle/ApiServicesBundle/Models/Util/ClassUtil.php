@@ -4,8 +4,8 @@ namespace Cob\Bundle\ApiServicesBundle\Models\Util;
 
 use Cob\Bundle\ApiServicesBundle\Exceptions\IncorrectParentResponseModel;
 use Cob\Bundle\ApiServicesBundle\Exceptions\InvalidResponseModel;
-use Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModel;
 use Cob\Bundle\ApiServicesBundle\Models\Response\Collection\ResponseModelCollection;
+use Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModel;
 
 class ClassUtil
 {

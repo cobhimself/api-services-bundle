@@ -4,8 +4,8 @@ namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Config;
 
 use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig;
 use Cob\Bundle\ApiServicesBundle\Tests\ServiceClientMockTrait;
-use Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Response\BaseResponseModelTestCase;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModel;
+use Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Response\BaseResponseModelTestCase;
 use Generator;
 
 /**

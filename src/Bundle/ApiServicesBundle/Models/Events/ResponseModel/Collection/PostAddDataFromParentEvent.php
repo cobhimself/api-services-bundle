@@ -10,8 +10,8 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection;
 
-use Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModel;
 use Cob\Bundle\ApiServicesBundle\Models\Response\Collection\ResponseModelCollection;
+use Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModel;
 
 /**
  * Run after data is added to a collection from a parent model.

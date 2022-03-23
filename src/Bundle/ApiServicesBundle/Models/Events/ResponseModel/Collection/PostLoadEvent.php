@@ -10,11 +10,11 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection;
 
+use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig;
 use Cob\Bundle\ApiServicesBundle\Models\Events\CanGetCollectionLoadConfigTrait;
 use Cob\Bundle\ApiServicesBundle\Models\Events\CanGetResponseTrait;
 use Cob\Bundle\ApiServicesBundle\Models\Events\CanSetResponseTrait;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfig;
-use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig;
 
 /**
  * The final event run after a ResponseModelCollectionInterface instance

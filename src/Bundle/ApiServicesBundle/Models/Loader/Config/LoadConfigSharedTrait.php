@@ -6,8 +6,8 @@ use Cob\Bundle\ApiServicesBundle\Exceptions\LoadConfigRequiredPropertyException;
 use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelException;
 use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ExceptionHandlerInterface;
 use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ResponseModelExceptionHandler;
-use Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModel;
 use Cob\Bundle\ApiServicesBundle\Models\Response\Collection\ResponseModelCollection;
+use Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModel;
 use Cob\Bundle\ApiServicesBundle\Models\ServiceClientInterface;
 
 trait LoadConfigSharedTrait

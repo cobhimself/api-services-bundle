@@ -4,10 +4,10 @@ namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Util;
 
 use Cob\Bundle\ApiServicesBundle\Exceptions\IncorrectParentResponseModel;
 use Cob\Bundle\ApiServicesBundle\Exceptions\InvalidResponseModel;
-use Cob\Bundle\ApiServicesBundle\Models\Response\BaseResponseModel;
 use Cob\Bundle\ApiServicesBundle\Models\DotData;
-use Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModel;
+use Cob\Bundle\ApiServicesBundle\Models\Response\BaseResponseModel;
 use Cob\Bundle\ApiServicesBundle\Models\Response\Collection\ResponseModelCollection;
+use Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModel;
 use Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil;
 use Cob\Bundle\ApiServicesBundle\Tests\ServiceClientMockTrait;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModel;

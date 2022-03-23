@@ -2,7 +2,6 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Loader\Config;
 
-use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ResponseModelExceptionHandler;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfigBuilder;
 use Cob\Bundle\ApiServicesBundle\Tests\ServiceClientMockTrait;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\Person;

@@ -3,7 +3,6 @@
 namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel;
 
 use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig;
-use Cob\Bundle\ApiServicesBundle\Models\ServiceClientInterface;
 
 class ResponseModelPreGetLoadCommandEvent extends ResponseModelEvent
 {

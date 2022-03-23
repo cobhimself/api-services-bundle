@@ -5,8 +5,8 @@ namespace Cob\Bundle\ApiServicesBundle\Models\Response;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState;
 use Cob\Bundle\ApiServicesBundle\Models\ServiceClientInterface;
-use GuzzleHttp\Promise\PromiseInterface;
 use Cob\Bundle\ApiServicesBundle\Models\UsesDot;
+use GuzzleHttp\Promise\PromiseInterface;
 
 interface ResponseModel extends UsesDot, HasParent
 {

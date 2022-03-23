@@ -10,6 +10,8 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models;
 
+use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelException;
+use Cob\Bundle\ApiServicesBundle\Exceptions\UnknownCommandException;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Command\Command;
@@ -19,8 +21,6 @@ use GuzzleHttp\Command\Guzzle\DescriptionInterface;
 use GuzzleHttp\Command\Guzzle\GuzzleClient;
 use GuzzleHttp\HandlerStack;
 use InvalidArgumentException;
-use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelException;
-use Cob\Bundle\ApiServicesBundle\Exceptions\UnknownCommandException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcher;

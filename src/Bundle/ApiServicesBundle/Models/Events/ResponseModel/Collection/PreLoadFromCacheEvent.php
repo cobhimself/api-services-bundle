@@ -10,9 +10,9 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection;
 
+use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig;
 use Cob\Bundle\ApiServicesBundle\Models\Events\CanGetHashTrait;
 use Cob\Bundle\ApiServicesBundle\Models\Events\CanSetHashTrait;
-use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig;
 
 /**
  * Run when a ResponseModelCollection instance is about to be

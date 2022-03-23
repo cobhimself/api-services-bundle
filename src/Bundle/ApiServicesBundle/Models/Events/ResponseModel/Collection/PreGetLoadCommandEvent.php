@@ -2,10 +2,10 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection;
 
+use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig;
 use Cob\Bundle\ApiServicesBundle\Models\Events\CanGetCollectionLoadConfigTrait;
 use Cob\Bundle\ApiServicesBundle\Models\Events\CanSetCollectionLoadConfigTrait;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfig;
-use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig;
 
 class PreGetLoadCommandEvent extends ResponseModelCollectionEvent
 {

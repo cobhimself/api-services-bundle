@@ -2,8 +2,6 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Loader\Config;
 
-use Cob\Bundle\ApiServicesBundle\Exceptions\LoadConfigRequiredPropertyException;
-use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigBuilder;
 use Cob\Bundle\ApiServicesBundle\Tests\ServiceClientMockTrait;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseRawDataResponseModel;

@@ -10,8 +10,8 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection;
 
-use Cob\Bundle\ApiServicesBundle\Models\Events\CanGetHashTrait;
 use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig;
+use Cob\Bundle\ApiServicesBundle\Models\Events\CanGetHashTrait;
 
 /**
  * Run when a ResponseModelCollectionInterface instance is loaded from cache.

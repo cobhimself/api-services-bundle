@@ -3,8 +3,8 @@
 namespace Cob\Bundle\ApiServicesBundle\Models\Loader\Config;
 
 use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ExceptionHandlerInterface;
-use Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModel;
 use Cob\Bundle\ApiServicesBundle\Models\Response\Collection\ResponseModelCollection;
+use Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModel;
 use Cob\Bundle\ApiServicesBundle\Models\ServiceClientInterface;
 
 trait LoadConfigBuilderSharedTrait

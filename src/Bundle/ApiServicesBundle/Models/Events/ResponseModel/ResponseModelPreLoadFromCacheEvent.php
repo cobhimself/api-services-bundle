@@ -10,9 +10,8 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel;
 
-use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig;
-use GuzzleHttp\Command\CommandInterface;
 use Cob\Bundle\ApiServicesBundle\Models\AbstractResponseModel;
+use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig;
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModelInterface;
 
 /**

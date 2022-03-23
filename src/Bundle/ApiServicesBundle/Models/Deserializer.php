@@ -10,6 +10,9 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models;
 
+use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException;
+use Cob\Bundle\ApiServicesBundle\Exceptions\ValidationException;
+use Cob\Bundle\ApiServicesBundle\Models\Http\ClassResultInterface;
 use GuzzleHttp\Command\CommandInterface;
 use GuzzleHttp\Command\Guzzle\DescriptionInterface;
 use GuzzleHttp\Command\Guzzle\Deserializer as DefaultDeserializer;
@@ -20,9 +23,6 @@ use GuzzleHttp\Command\ResultInterface;
 use InvalidArgumentException;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException;
-use Cob\Bundle\ApiServicesBundle\Exceptions\ValidationException;
-use Cob\Bundle\ApiServicesBundle\Models\Http\ClassResultInterface;
 
 class Deserializer extends DefaultDeserializer
 {

@@ -19,13 +19,13 @@ use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfigBuilde
 use Cob\Bundle\ApiServicesBundle\Models\Response\Collection\ResponseModelCollection;
 use Cob\Bundle\ApiServicesBundle\Models\Util\CacheHash;
 use Cob\Bundle\ApiServicesBundle\Tests\ServiceClientMockTrait;
-use Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Response\BaseResponseModelTestCase;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\BadMockResponseModelCollection;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModel;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModelWithInit;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\Person;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\PersonCollection;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\PersonCollectionWithCountCapability;
+use Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Response\BaseResponseModelTestCase;
 use GuzzleHttp\Psr7\Response;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;

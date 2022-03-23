@@ -4,10 +4,10 @@ namespace Cob\Bundle\ApiServicesBundle\Models\Response\Collection;
 
 use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfig;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState;
-use Cob\Bundle\ApiServicesBundle\Models\ServiceClientInterface;
-use GuzzleHttp\Promise\PromiseInterface;
-use Cob\Bundle\ApiServicesBundle\Models\UsesDot;
 use Cob\Bundle\ApiServicesBundle\Models\Response\HasParent;
+use Cob\Bundle\ApiServicesBundle\Models\ServiceClientInterface;
+use Cob\Bundle\ApiServicesBundle\Models\UsesDot;
+use GuzzleHttp\Promise\PromiseInterface;
 
 interface ResponseModelCollection extends UsesDot, HasParent
 {

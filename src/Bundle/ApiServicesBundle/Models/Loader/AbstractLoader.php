@@ -2,6 +2,7 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Loader;
 
+use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPostExecuteCommandEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPostLoadEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPostLoadFromCacheEvent;
@@ -11,7 +12,6 @@ use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreLoa
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreLoadFromCacheEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig;
 use Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModel;
-use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig;
 use Cob\Bundle\ApiServicesBundle\Models\ServiceClientInterface;
 use Cob\Bundle\ApiServicesBundle\Models\Util\CacheHash;
 use Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil;

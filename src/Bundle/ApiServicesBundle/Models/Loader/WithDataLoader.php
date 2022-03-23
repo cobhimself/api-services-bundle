@@ -2,9 +2,9 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Loader;
 
+use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig;
 use Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModel;
-use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig;
 use GuzzleHttp\Promise\FulfilledPromise;
 
 class WithDataLoader extends AbstractLoader

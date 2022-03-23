@@ -3,11 +3,8 @@
 namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Models;
 
 use Cob\Bundle\ApiServicesBundle\Models\CacheProvider;
-use Doctrine\Common\Cache\Cache;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * @coversDefaultClass \Cob\Bundle\ApiServicesBundle\Models\CacheProvider

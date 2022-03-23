@@ -10,9 +10,6 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Exceptions;
 
-use Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModel;
-use Cob\Bundle\ApiServicesBundle\Models\Response\Collection\ResponseModelCollection;
-
 /**
  * Exception called when a model is expected to be an instance of
  * ResponseModel or ResponseModelCollection but is not.

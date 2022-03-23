@@ -19,8 +19,6 @@ use GuzzleHttp\Command\Guzzle\Description;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-use Prophecy\Argument;
-use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * @codeCoverageIgnore

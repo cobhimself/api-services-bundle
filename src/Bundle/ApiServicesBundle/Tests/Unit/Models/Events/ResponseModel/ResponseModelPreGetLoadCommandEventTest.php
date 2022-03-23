@@ -2,11 +2,10 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Events\ResponseModel;
 
-use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPostLoadEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreGetLoadCommandEvent;
 use Cob\Bundle\ApiServicesBundle\Tests\ServiceClientMockTrait;
-use Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Response\BaseResponseModelTestCase;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModel;
+use Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Response\BaseResponseModelTestCase;
 
 /**
  * @codeCoverageIgnore
