@@ -109,6 +109,52 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
     }
 
     /**
+     * @covers ::withData
+     * @covers ::isLoadedWithData
+     * @covers ::getConfig
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigBuilder::withDataFromParent
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataLoader
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractCollectionLoader
+     */
+    public function testWithDataFromParent()
+    {
+        $client = $this->getServiceClientMock();
+
+        $mockParentModel = $this->getMockParentModel(self::MOCK_RESPONSE_DATA);
+
+        /**
+         * @var MockBaseResponseModel $mockModel
+         */
+        $mockModel = MockBaseResponseModel::using($client)
+            ->withDataFromParent($mockParentModel, 'data');
+
+        $this->assertTrue($mockModel->isLoadedWithData());
+        $this->assertSame(self::MOCK_INNER_RESPONSE_DATA, $mockModel->toArray());
+        $this->assertEquals(1, $mockModel->dot('one'));
+        $this->assertTrue($mockModel->hasParent());
+        $this->assertEquals($mockParentModel, $mockModel->getParent());
+    }
+
+    /**
+     * @covers ::getConfig
+     * @covers ::withData
+     */
+    public function testWithDataFromParentBadPath()
+    {
+        $this->expectException(ResponseModelException::class);
+        $this->expectExceptionMessage("Could not load data from '" . MockBaseResponseModel::class . "' at path 'bad.dot.path'.");
+        $client = $this->getServiceClientMock();
+
+        $mockParentModel = $this->getMockParentModel(self::MOCK_RESPONSE_DATA);
+
+        /**
+         * @var MockBaseResponseModel $mockModel
+         */
+        MockBaseResponseModel::using($client)
+            ->withDataFromParent($mockParentModel, 'bad.dot.path');
+    }
+
+    /**
      * @covers ::load
      * @covers ::getConfig
      * @covers ::isLoaded

@@ -72,6 +72,22 @@ class DotDataTest extends TestCase
 
     /**
      * @covers ::__construct
+     * @covers ::of
+     * @covers ::dot
+     * @covers ::getData
+     * @covers ::setData
+     */
+    public function testReturnsDefault()
+    {
+        $data = DotData::of(['one' => 'blah']);
+
+        $this->assertEquals('blah', $data->dot('one'));
+        $this->assertFalse($data->dot('one.two'));
+        $this->assertFalse($data->dot('one.two.three'));
+    }
+
+    /**
+     * @covers ::__construct
      * @covers ::getData
      * @covers ::dot
      */

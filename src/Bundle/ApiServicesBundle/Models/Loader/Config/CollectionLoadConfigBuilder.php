@@ -2,7 +2,9 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Loader\Config;
 
+use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelException;
 use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ExceptionHandlerInterface;
+use Cob\Bundle\ApiServicesBundle\Models\ResponseModel;
 use Cob\Bundle\ApiServicesBundle\Models\ResponseModelCollection;
 use Cob\Bundle\ApiServicesBundle\Models\ServiceClientInterface;
 use Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil;
@@ -52,7 +54,6 @@ class CollectionLoadConfigBuilder
 
         return $this;
     }
-
 
     /**
      * @param array $countCommandArgs
@@ -105,6 +106,25 @@ class CollectionLoadConfigBuilder
         $this->existingData = $existingData;
 
         return $this->provide('withData');
+    }
+
+    /**
+     * @param ResponseModel|ResponseModelCollection $parent
+     * @param string                                $dotPath
+     *
+     * @return ResponseModelCollection
+     */
+    public function withDataFromParent($parent, string $dotPath): ResponseModelCollection
+    {
+        if (!$parent->dot($dotPath)) {
+            throw new ResponseModelException(sprintf(
+                "Could not load data from '%s' at path '%s'.",
+                get_class($parent),
+                $dotPath
+            ));
+        }
+
+        return $this->withParent($parent)->withData($parent->dot($dotPath));
     }
 
     private function provide(string $loadMethod): ResponseModelCollection

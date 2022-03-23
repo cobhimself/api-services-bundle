@@ -6,6 +6,7 @@ use Cob\Bundle\ApiServicesBundle\Exceptions\LoadConfigRequiredPropertyException;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigBuilder;
 use Cob\Bundle\ApiServicesBundle\Tests\ServiceClientMockTrait;
+use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseRawDataResponseModel;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\Person;
 
 /**
@@ -165,5 +166,34 @@ class LoadConfigBuilderTest extends LoadConfigTestCase
         $this->assertInstanceOf(Person::class, $person);
         $this->assertTrue($person->isLoadedWithData());
         $this->assertEquals('bar', $person->dot('foo'));
+    }
+
+    /**
+     * @covers ::__construct
+     * @covers ::build
+     * @covers ::withRawData
+     * @covers ::provide
+     * @covers ::validateModelClass
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\WithRawDataLoader
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigBuilder
+     * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataLoader
+     */
+    public function testWithRawData()
+    {
+        $builder = new LoadConfigBuilder(
+            MockBaseRawDataResponseModel::class,
+            $this->getServiceClientMock([])
+        );
+
+        $data = 'this is raw data';
+
+        /**
+         * @var MockBaseRawDataResponseModel $mock
+         */
+        $mock = $builder->withRawData($data);
+
+        $this->assertInstanceOf(MockBaseRawDataResponseModel::class, $mock);
+        $this->assertTrue($mock->isLoadedWithData());
+        $this->assertEquals($data, $mock->getRawData());
     }
 }

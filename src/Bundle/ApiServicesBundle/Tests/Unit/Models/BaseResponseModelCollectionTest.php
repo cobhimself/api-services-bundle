@@ -21,6 +21,7 @@ use Cob\Bundle\ApiServicesBundle\Models\Util\CacheHash;
 use Cob\Bundle\ApiServicesBundle\Tests\ServiceClientMockTrait;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\BaseResponseModelTestCase;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\BadMockResponseModelCollection;
+use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModel;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModelWithInit;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\Person;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\PersonCollection;
@@ -72,6 +73,7 @@ use Prophecy\Prophecy\ObjectProphecy;
  * @covers \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil
  * @covers \Cob\Bundle\ApiServicesBundle\Models\HasParentTrait
+ * @covers \Cob\Bundle\ApiServicesBundle\Exceptions\BaseApiServicesBundleException
  */
 class BaseResponseModelCollectionTest extends BaseResponseModelTestCase
 {
@@ -103,6 +105,56 @@ class BaseResponseModelCollectionTest extends BaseResponseModelTestCase
         $this->assertCount(4, $mockModel);
 
         $this->confirmCollectionModels($mockModel);
+    }
+
+    /**
+     * @covers ::__construct
+     * @covers ::withData
+     * @covers ::count
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfigBuilder::withDataFromParent
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataCollectionLoader
+     */
+    public function testWithDataFromParent()
+    {
+        $client = $this->getServiceClientMock();
+        $data = json_decode($this->getMockResponseDataFromFile(
+            self::PERSON_COLLECTION_JSON),
+            true
+        );
+
+        $mockParentModel = Person::using($client)->withData($data);
+
+        /**
+         * @var PersonCollectionWithCountCapability $mockModel
+         */
+        $mockModel = PersonCollection::using($client)
+            ->withDataFromParent($mockParentModel, 'persons');
+
+        $this->assertTrue($mockModel->isLoadedWithData());
+        $this->assertSame($data['persons'], $mockModel->toArray());
+        $this->assertCount(4, $mockModel);
+
+        $this->confirmCollectionModels($mockModel);
+    }
+
+    /**
+     * @covers ::getConfig
+     * @covers ::withData
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfigBuilder::withDataFromParent
+     */
+    public function testWithDataFromParentBadPath()
+    {
+        $this->expectException(ResponseModelException::class);
+        $this->expectExceptionMessage("Could not load data from '" . MockBaseResponseModel::class . "' at path 'bad.dot.path'.");
+        $client = $this->getServiceClientMock();
+
+        $mockParentModel = $this->getMockParentModel(self::MOCK_RESPONSE_DATA);
+
+        /**
+         * @var PersonCollection $mockModel
+         */
+        PersonCollection::using($client)
+            ->withDataFromParent($mockParentModel, 'bad.dot.path');
     }
 
     /**

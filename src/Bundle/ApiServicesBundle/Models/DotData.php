@@ -149,7 +149,10 @@ class DotData
         $parts = explode('.', $key);
         $head = array_shift($parts);
         $tail = implode('.', $parts);
-        $value = $this->dot($tail, $default, $data[$head]);
+
+        if (isset($data[$head])) {
+            $value = $this->dot($tail, $default, $data[$head]);
+        }
 
         //Add to our dot cache if we're back at our first run of this method.
         if ($firstRun) {
