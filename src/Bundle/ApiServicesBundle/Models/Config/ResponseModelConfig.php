@@ -2,6 +2,7 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Config;
 
+use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ExceptionHandlerInterface;
 use Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModel;
 
 class ResponseModelConfig
@@ -15,16 +16,18 @@ class ResponseModelConfig
 
     public function __construct(
         string $responseModelClass,
-        string $command = '',
-        array $defaultArgs = [],
-        bool $holdsRawData = false,
-        array $initCallbacks = []
+        string $command = null,
+        array $defaultArgs = null,
+        bool $holdsRawData = null,
+        array $initCallbacks = null,
+        ExceptionHandlerInterface $defaultExceptionHandler = null
     ) {
-        $this->responseModelClass = $responseModelClass;
-        $this->command = $command;
-        $this->defaultArgs = $defaultArgs;
-        $this->holdsRawData = $holdsRawData;
-        $this->initCallbacks = $initCallbacks;
+        $this->responseModelClass      = $responseModelClass;
+        $this->command                 = $command ?? '';
+        $this->defaultArgs             = $defaultArgs ?? [];
+        $this->holdsRawData            = $holdsRawData ?? false;
+        $this->initCallbacks           = $initCallbacks ?? [];
+        $this->defaultExceptionHandler = $defaultExceptionHandler;
     }
 
     public function doInits(ResponseModel $model)

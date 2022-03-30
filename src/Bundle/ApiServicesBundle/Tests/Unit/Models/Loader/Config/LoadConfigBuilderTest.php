@@ -174,6 +174,7 @@ class LoadConfigBuilderTest extends LoadConfigTestCase
      * @covers ::validateModelClass
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\WithRawDataLoader
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigBuilder
+     * @covers \Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException::confirmResponseModelClassSet
      * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataLoader
      */
     public function testWithRawData()

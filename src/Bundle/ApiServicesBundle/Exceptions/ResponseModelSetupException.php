@@ -15,4 +15,21 @@ namespace Cob\Bundle\ApiServicesBundle\Exceptions;
  */
 class ResponseModelSetupException extends BaseApiServicesBundleException
 {
+    static function confirmNotNull($modelClass, $property, $value)
+    {
+        if (is_null($value)) {
+            throw new ResponseModelSetupException(sprintf(
+                "%s expects the '%s' property to be set!",
+                $modelClass ?? 'The model',
+                $property
+            ));
+        }
+    }
+
+    static function confirmResponseModelClassSet($fqcn)
+    {
+        if (is_null($fqcn)) {
+            throw new ResponseModelSetupException('A response model class must be provided!');
+        }
+    }
 }

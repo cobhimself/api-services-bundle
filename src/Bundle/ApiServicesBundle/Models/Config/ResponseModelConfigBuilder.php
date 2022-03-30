@@ -2,7 +2,10 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Config;
 
+use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException;
+use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ExceptionHandlerInterface;
 use InvalidArgumentException;
+use TypeError;
 
 class ResponseModelConfigBuilder {
     use ResponseModelConfigSharedTrait;
@@ -44,13 +47,13 @@ class ResponseModelConfigBuilder {
 
     public function initCallbacks(array $callbacks): ResponseModelConfigBuilder
     {
-        array_map(function (callable $callable) {
-            if(!is_callable($callable)) {
-                throw new InvalidArgumentException("The provided callback array MUST contain callable items!");
-            }
-
-            $this->addInitCallback($callable);
-        }, $callbacks);
+        try {
+            array_map(function (callable $callable) {
+                $this->addInitCallback($callable);
+            }, $callbacks);
+        } catch (TypeError $e) {
+            throw new InvalidArgumentException("The provided callback array MUST contain callable items!");
+        }
 
         return $this;
     }
@@ -62,24 +65,49 @@ class ResponseModelConfigBuilder {
         return $this;
     }
 
+    /**
+     * Specify the default exception handler the response model should use when loading data.
+     *
+     * @param ExceptionHandlerInterface $handler the handler to use by default
+     *
+     * @return $this
+     */
+    public function defaultExceptionHandler(ExceptionHandlerInterface $handler): ResponseModelConfigBuilder
+    {
+        $this->defaultExceptionHandler = $handler;
+
+        return $this;
+    }
+
+    protected function validate()
+    {
+        ResponseModelSetupException::confirmResponseModelClassSet(
+            $this->responseModelClass
+        );
+    }
+
     public function build(): ResponseModelConfig
     {
+        $this->validate();
+
         return new ResponseModelConfig(
             $this->responseModelClass,
             $this->command ?? '',
             $this->defaultArgs ?? [],
             $this->holdsRawData,
-            $this->initCallbacks
+            $this->initCallbacks,
+            $this->defaultExceptionHandler
         );
     }
 
-    public function extend(ResponseModelConfig $config): ResponseModelConfigBuilder
+    public static function extend(ResponseModelConfig $config): ResponseModelConfigBuilder
     {
         return (new ResponseModelConfigBuilder())
             ->responseModelClass($config->getResponseModelClass())
             ->command($config->getCommand())
             ->defaultArgs($config->getDefaultArgs())
             ->holdsRawData($config->holdsRawData())
-            ->initCallbacks($config->getInitCallbacks());
+            ->initCallbacks($config->getInitCallbacks())
+            ->defaultExceptionHandler($config->getDefaultExceptionHandler());
     }
 }

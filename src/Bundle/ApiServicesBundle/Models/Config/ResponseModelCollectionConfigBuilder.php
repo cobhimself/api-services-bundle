@@ -2,7 +2,10 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Config;
 
+use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException;
+use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ExceptionHandlerInterface;
 use InvalidArgumentException;
+use TypeError;
 
 class ResponseModelCollectionConfigBuilder {
 
@@ -141,6 +144,14 @@ class ResponseModelCollectionConfigBuilder {
         return $this;
     }
 
+    public function defaultExceptionHandler(
+        ExceptionHandlerInterface $defaultExceptionHandler
+    ): ResponseModelCollectionConfigBuilder {
+        $this->defaultExceptionHandler = $defaultExceptionHandler;
+
+        return $this;
+    }
+
     public function addInitCallback(callable $callback): ResponseModelCollectionConfigBuilder
     {
         $this->initCallbacks[] = $callback;
@@ -150,19 +161,36 @@ class ResponseModelCollectionConfigBuilder {
 
     public function initCallbacks(array $callbacks): ResponseModelCollectionConfigBuilder
     {
-        array_map(function (callable $callable) {
-            if(!is_callable($callable)) {
-                throw new InvalidArgumentException("The provided callback array MUST contain callable items!");
-            }
-
-            $this->addInitCallback($callable);
-        }, $callbacks);
+        try {
+            array_map(function (callable $callable) {
+                $this->addInitCallback($callable);
+            }, $callbacks);
+        } catch (TypeError $e) {
+            throw new InvalidArgumentException("The provided callback array MUST contain callable items!", null, $e);
+        }
 
         return $this;
     }
 
+    /**
+     * Confirm our builder has all of the necessary properties needed to construct the config.
+     */
+    private function validate()
+    {
+        ResponseModelSetupException::confirmResponseModelClassSet($this->responseModelClass);
+        $fqcn = $this->getResponseModelClass();
+
+        ResponseModelSetupException::confirmNotNull(
+            $fqcn,
+            'childResponseModelClass',
+            $this->childResponseModelClass
+        );
+    }
+
     public function build(): ResponseModelCollectionConfig
     {
+        $this->validate();
+
         return new ResponseModelCollectionConfig(
             $this->responseModelClass,
             $this->childResponseModelClass,
@@ -176,11 +204,12 @@ class ResponseModelCollectionConfigBuilder {
             $this->buildCountArgsCallback,
             $this->chunkCommandMaxResults
                 ?? ResponseModelCollectionConfig::CHUNK_COMMAND_MAX_RESULTS_DEFAULT,
-            $this->initCallbacks
+            $this->initCallbacks,
+            $this->defaultExceptionHandler
         );
     }
 
-    public function extend(ResponseModelCollectionConfig $config): ResponseModelCollectionConfigBuilder
+    public static function extend(ResponseModelCollectionConfig $config): ResponseModelCollectionConfigBuilder
     {
         return (new ResponseModelCollectionConfigBuilder())
             ->responseModelClass($config->getResponseModelClass())
@@ -194,6 +223,7 @@ class ResponseModelCollectionConfigBuilder {
             ->loadMaxResults($config->getLoadMaxResults())
             ->buildCountArgsCallback($config->getBuildCountArgsCallback())
             ->chunkCommandMaxResults($config->getChunkCommandMaxResults())
-            ->initCallbacks($config->getInitCallbacks());
+            ->initCallbacks($config->getInitCallbacks())
+            ->defaultExceptionHandler($config->getDefaultExceptionHandler());
     }
 }

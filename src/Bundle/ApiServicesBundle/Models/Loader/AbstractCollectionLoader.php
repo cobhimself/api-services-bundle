@@ -15,6 +15,7 @@ use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreExecu
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreGetLoadCommandEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreLoadEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreLoadFromCacheEvent;
+use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ExceptionHandlerInterface;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfig;
 use Cob\Bundle\ApiServicesBundle\Models\Response\Collection\Count;
 use Cob\Bundle\ApiServicesBundle\Models\Response\Collection\ResponseModelCollection;
@@ -34,11 +35,11 @@ abstract class AbstractCollectionLoader implements CollectionLoaderInterface
     /**
      * Quickly obtain a response collection class after confirming it represents a {@link ResponseModelCollection}.
      *
-     * @param ResponseModelCollectionConfig $config the response model config we want to get a new model for
-     * @param CollectionLoadConfig $loadConfig
-     * @param LoadState $loadState the load state we desire the response model to be
-     *                                                 initialized with
-     * @param PromiseInterface $promise the Promise the response model will use to obtain its data
+     * @param ResponseModelCollectionConfig $config     the response model config we want to get a new model for
+     * @param CollectionLoadConfig          $loadConfig the load-time configuration
+     * @param LoadState                     $loadState  the load state we desire the response model to be
+     *                                                  initialized with
+     * @param PromiseInterface              $promise    the Promise the response model will use to obtain its data
      *
      * @return ResponseModelCollection
      */
@@ -58,6 +59,31 @@ abstract class AbstractCollectionLoader implements CollectionLoaderInterface
             $promise,
             $loadConfig->getParent()
         );
+    }
+
+    /**
+     * Get the exception handler to use when loading data through the service client.
+     *
+     * The exception handler established in the load configuration is given priority. However, if none was set,
+     * the default exception handler established for the response model collection in its configuration will be used.
+     *
+     * If neither configuration has explicitly provided an exception handler, the default is to wrap the exception in
+     * our specific exception and pass the exception through.
+     *
+     * @param CollectionLoadConfig          $loadConfig the load configuration to consult for the exception handler
+     * @param ResponseModelCollectionConfig $config     the response model collection's configuration whose default
+     *                                                  exception handler will be used if not specified in the load
+     *                                                  configuration
+     *
+     * @return ExceptionHandlerInterface the exception handler to use
+     */
+    protected static function getExceptionHandler(
+        CollectionLoadConfig $loadConfig,
+        ResponseModelCollectionConfig $config
+    ): ExceptionHandlerInterface {
+        return $loadConfig->hasExceptionHandler()
+            ? $loadConfig->getExceptionHandler()
+            : $config->getDefaultExceptionHandler();
     }
 
     /**
@@ -116,9 +142,9 @@ abstract class AbstractCollectionLoader implements CollectionLoaderInterface
             );
 
             return $event->getResponse();
-        })->otherwise(function ($reason) use ($loadConfig) {
+        })->otherwise(function ($reason) use ($loadConfig, $config) {
             //If there is a problem, let our error handler take care of it
-            return $loadConfig->getExceptionHandler()->handle($reason);
+            return static::getExceptionHandler($loadConfig, $config)->handle($reason);
         });
     }
 

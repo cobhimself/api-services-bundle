@@ -10,6 +10,7 @@ use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreExe
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreGetLoadCommandEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreLoadEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreLoadFromCacheEvent;
+use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ExceptionHandlerInterface;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig;
 use Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModel;
 use Cob\Bundle\ApiServicesBundle\Models\ServiceClientInterface;
@@ -25,10 +26,10 @@ abstract class AbstractLoader implements LoaderInterface
     /**
      * Quickly obtain a response class after confirming it represents a {@link ResponseModel}.
      *
-     * @param ResponseModelConfig $config the response model config we want to get a new model for
-     * @param LoadConfig $loadConfig
-     * @param LoadState $loadState the load state we desire the response model to be initialized with
-     * @param PromiseInterface $promise the Promise the response model will use to obtain its data
+     * @param ResponseModelConfig $config     the response model config we want to get a new model for
+     * @param LoadConfig          $loadConfig the load-time configuration to use when loading
+     * @param LoadState           $loadState  the load state we desire the response model to be initialized with
+     * @param PromiseInterface    $promise    the Promise the response model will use to obtain its data
      *
      * @return ResponseModel
      */
@@ -51,10 +52,35 @@ abstract class AbstractLoader implements LoaderInterface
     }
 
     /**
+     * Get the exception handler to use when loading data through the service client.
+     *
+     * The exception handler established in the load configuration is given priority. However, if none was set,
+     * the default exception handler established for the response model in its configuration will be used.
+     *
+     * If neither configuration has explicitly provided an exception handler, the default is to wrap the exception in
+     * our specific exception and pass the exception through.
+     *
+     * @param LoadConfig          $loadConfig the load configuration to consult for the exception handler
+     * @param ResponseModelConfig $config     the response model's configuration whose default exception handler will be
+     *                                        used if not specified in the load configuration
+     *
+     * @return ExceptionHandlerInterface the exception handler to use
+     */
+    protected static function getExceptionHandler(
+        LoadConfig $loadConfig,
+        ResponseModelConfig $config
+    ): ExceptionHandlerInterface {
+        return $loadConfig->hasExceptionHandler()
+            ? $loadConfig->getExceptionHandler()
+            : $config->getDefaultExceptionHandler();
+    }
+
+    /**
      * Get the {@link PromiseInterface} needed to load data for a given {@link LoadConfiguration}.
      *
-     * @param ResponseModelConfig $config the response model config to use when loading
-     * @param LoadConfig $loadConfig
+     * @param ResponseModelConfig $config     the response model config to use when loading
+     * @param LoadConfig          $loadConfig the load-time configuration to use when loading
+     *
      * @return PromiseInterface
      */
     protected static function getLoadPromise(
@@ -104,8 +130,8 @@ abstract class AbstractLoader implements LoaderInterface
             );
 
             return $event->getResponse();
-        })->otherwise(function ($reason) use ($loadConfig) {
-            return $loadConfig->getExceptionHandler()->handle($reason);
+        })->otherwise(function ($reason) use ($loadConfig, $config) {
+            return static::getExceptionHandler($loadConfig, $config)->handle($reason);
         });
     }
 

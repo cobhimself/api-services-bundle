@@ -4,6 +4,9 @@ namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Config;
 
 use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException;
 use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig;
+use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ExceptionHandlerInterface;
+use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ResponseModelExceptionHandler;
+use Cob\Bundle\ApiServicesBundle\Tests\ResponseModelCollectionConfigTestCase;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\Person;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\PersonCollection;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Response\BaseResponseModelTestCase;
@@ -24,7 +27,29 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Response\BaseResponseModelTes
  * @uses \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
  * @uses \Cob\Bundle\ApiServicesBundle\Models\DotData
  */
-class ResponseModelCollectionConfigTest extends BaseResponseModelTestCase {
+class ResponseModelCollectionConfigTest extends ResponseModelCollectionConfigTestCase {
+
+    /**
+     * @covers ::__construct
+     * @covers ::getChildResponseModelClass
+     * @covers ::getChunkCommandMaxResults
+     * @covers ::getCollectionPath
+     * @covers ::getCountArgs
+     * @covers ::getCountCommand
+     * @covers ::getCountValuePath
+     * @covers ::getLoadMaxResults
+     * @covers ::hasBuildCountArgsCallback
+     * @uses \Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\AbstractExceptionHandler
+     */
+    public function testConstructorDefaults()
+    {
+        $config = new ResponseModelCollectionConfig(
+            PersonCollection::class,
+            Person::class
+        );
+
+        $this->confirmDefaults($config);
+    }
 
     /**
      * @covers ::__construct
@@ -38,6 +63,11 @@ class ResponseModelCollectionConfigTest extends BaseResponseModelTestCase {
      * @covers ::getCountValuePath
      * @covers ::getLoadMaxResults
      * @covers ::getBuildCountArgsCallback
+     * @covers ::getChunkCommandMaxResults
+     * @covers ::getInitCallbacks
+     * @covers ::getDefaultExceptionHandler
+     * @covers ::hasBuildCountArgsCallback
+     * @uses \Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\AbstractExceptionHandler
      */
     public function testConstructAndGetters()
     {
@@ -46,7 +76,14 @@ class ResponseModelCollectionConfigTest extends BaseResponseModelTestCase {
         $countArgs = ['count' => 'args'];
         $countValuePath = 'count.value.path';
         $loadMaxResults = 2;
-        $buildCountArgsCallback = function () {};
+        $buildCountArgsCallback = function () {
+            //blank
+        };
+        $chunkCommandMaxResults = 2;
+        $initCallbacks = [function () {
+            //blank
+        }];
+        $defaultExceptionHandler = ResponseModelExceptionHandler::ignore();
 
         $config = new ResponseModelCollectionConfig(
             PersonCollection::class,
@@ -58,7 +95,10 @@ class ResponseModelCollectionConfigTest extends BaseResponseModelTestCase {
             $countArgs,
             $countValuePath,
             $loadMaxResults,
-            $buildCountArgsCallback
+            $buildCountArgsCallback,
+            $chunkCommandMaxResults,
+            $initCallbacks,
+            $defaultExceptionHandler
         );
 
         $this->assertEquals(PersonCollection::class, $config->getResponseModelClass());
@@ -71,11 +111,15 @@ class ResponseModelCollectionConfigTest extends BaseResponseModelTestCase {
         $this->assertEquals($countValuePath, $config->getCountValuePath());
         $this->assertEquals($loadMaxResults, $config->getLoadMaxResults());
         $this->assertEquals($buildCountArgsCallback, $config->getBuildCountArgsCallback());
+        $this->assertEquals($chunkCommandMaxResults, $config->getChunkCommandMaxResults());
+        $this->assertEquals($initCallbacks, $config->getInitCallbacks());
+        $this->assertEquals($defaultExceptionHandler, $config->getDefaultExceptionHandler());
     }
 
     /**
      * @covers ::__construct
      * @covers ::getBuildCountArgsCallback
+     * @covers ::hasBuildCountArgsCallback
      * @covers \Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException
      * @covers \Cob\Bundle\ApiServicesBundle\Exceptions\BaseApiServicesBundleException
      */
@@ -98,6 +142,7 @@ class ResponseModelCollectionConfigTest extends BaseResponseModelTestCase {
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Response\Collection\BaseResponseModelCollection
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfigBuilder
+     * @covers \Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException
      */
     public function testInits()
     {
@@ -132,5 +177,4 @@ class ResponseModelCollectionConfigTest extends BaseResponseModelTestCase {
 
         $this->assertTrue($callbackCalled);
     }
-
 }

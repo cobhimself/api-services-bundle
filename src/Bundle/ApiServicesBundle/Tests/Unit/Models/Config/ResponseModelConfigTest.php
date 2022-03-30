@@ -3,6 +3,8 @@
 namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Config;
 
 use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig;
+use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ExceptionHandlerInterface;
+use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ResponseModelExceptionHandler;
 use Cob\Bundle\ApiServicesBundle\Tests\ServiceClientMockTrait;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModel;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Response\BaseResponseModelTestCase;
@@ -37,19 +39,22 @@ class ResponseModelConfigTest extends BaseResponseModelTestCase
      * @covers ::getResponseModelClass
      * @covers ::holdsRawData
      * @covers ::getInitCallbacks
+     * @uses \Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\AbstractExceptionHandler
      */
     public function testGettersAndSetters(
         bool $holdsRawData,
         bool $expectedHoldsRawData,
         array $initCallbacks,
-        array $expectedInitCallbacks
+        array $expectedInitCallbacks,
+        ExceptionHandlerInterface $defaultExceptionHandler = null
     ) {
         $config = new ResponseModelConfig(
             MockBaseResponseModel::class,
             self::TEST_COMMAND_NAME,
             self::TEST_COMMAND_ARGS,
             $holdsRawData,
-            $initCallbacks
+            $initCallbacks,
+            $defaultExceptionHandler
         );
 
         $this->assertEquals(self::TEST_COMMAND_NAME, $config->getCommand());
@@ -57,15 +62,21 @@ class ResponseModelConfigTest extends BaseResponseModelTestCase
         $this->assertEquals(MockBaseResponseModel::class, $config->getResponseModelClass());
         $this->assertEquals($expectedHoldsRawData, $config->holdsRawData());
         $this->assertEquals($expectedInitCallbacks, $config->getInitCallbacks());
+
+        is_null($defaultExceptionHandler)
+            ? $this->assertInstanceOf(ExceptionHandlerInterface::class, $config->getDefaultExceptionHandler())
+            : $this->assertEquals($defaultExceptionHandler, $config->getDefaultExceptionHandler());
     }
 
     public function dpTestGettersAndSetters(): Generator {
         $callbacks = [
-            function () {}
+            function () {
+                //blank
+            }
         ];
 
         yield [false, false, [], []];
-        yield [true, true, $callbacks, $callbacks];
+        yield [true, true, $callbacks, $callbacks, ResponseModelExceptionHandler::ignore()];
     }
 
     /**
@@ -73,6 +84,7 @@ class ResponseModelConfigTest extends BaseResponseModelTestCase
      * @covers ::doInits
      * @covers ::getResponseModelClass
      * @covers ::builder
+     * @covers \Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException::confirmResponseModelClassSet
      */
     public function testInits()
     {

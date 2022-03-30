@@ -88,6 +88,7 @@ class BaseResponseModelCollectionTest extends BaseResponseModelTestCase
      * @covers ::withData
      * @covers ::count
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataCollectionLoader
+     * @covers \Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException
      */
     public function testWithData()
     {

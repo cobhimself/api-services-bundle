@@ -71,6 +71,11 @@ trait LoadConfigSharedTrait
         return $this->clearCache;
     }
 
+    public function hasExceptionHandler(): bool
+    {
+        return !is_null($this->handler);
+    }
+
     /**
      * @return ExceptionHandlerInterface
      */

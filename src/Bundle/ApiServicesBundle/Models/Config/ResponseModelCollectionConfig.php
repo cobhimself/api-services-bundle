@@ -3,6 +3,7 @@
 namespace Cob\Bundle\ApiServicesBundle\Models\Config;
 
 use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException;
+use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ExceptionHandlerInterface;
 use Cob\Bundle\ApiServicesBundle\Models\Response\Collection\ResponseModelCollection;
 use Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil;
 
@@ -11,6 +12,7 @@ class ResponseModelCollectionConfig
     use ResponseModelConfigSharedTrait;
 
     const CHUNK_COMMAND_MAX_RESULTS_DEFAULT = 25;
+    const LOAD_MAX_RESULTS_DEFAULT = 150;
 
     /**
      * @var string
@@ -55,40 +57,33 @@ class ResponseModelCollectionConfig
     public function __construct(
         string $responseModelClass,
         string $childResponseModelClass,
-        string $command = '',
-        array $defaultArgs = [],
-        string $collectionPath = '',
+        string $command = null,
+        array $defaultArgs = null,
+        string $collectionPath = null,
         string $countCommand = null,
-        array $countArgs = [],
-        string $countValuePath = '',
-        int $loadMaxResults = 150,
+        array $countArgs = null,
+        string $countValuePath = null,
+        int $loadMaxResults = null,
         callable $buildCountArgsCallback = null,
-        int $chunkCommandMaxResults = self::CHUNK_COMMAND_MAX_RESULTS_DEFAULT,
-        array $initCallbacks = []
+        int $chunkCommandMaxResults = null,
+        array $initCallbacks = null,
+        ExceptionHandlerInterface $defaultExceptionHandler = null
     ) {
         $this->responseModelClass = $responseModelClass;
-        $this->command = $command;
-        $this->defaultArgs = $defaultArgs;
-        $this->collectionPath = $collectionPath;
-
+        $this->childResponseModelClass = $childResponseModelClass;
         ClassUtil::confirmValidResponseModel($childResponseModelClass);
 
-        $this->childResponseModelClass = $childResponseModelClass;
-
-        if (!is_null($countCommand)) {
-            $this->countCommand = $countCommand;
-        }
-
-        $this->countArgs = $countArgs;
-        $this->countValuePath = $countValuePath;
-        $this->loadMaxResults = $loadMaxResults;
-
-        if (!is_null($buildCountArgsCallback)) {
-            $this->buildCountArgsCallback = $buildCountArgsCallback;
-        }
-
-        $this->chunkCommandMaxResults = $chunkCommandMaxResults;
-        $this->initCallbacks = $initCallbacks;
+        $this->command                 = $command ?? '';
+        $this->defaultArgs             = $defaultArgs ?? [];
+        $this->collectionPath          = $collectionPath ?? '';
+        $this->countCommand            = $countCommand;
+        $this->countArgs               = $countArgs ?? [];
+        $this->countValuePath          = $countValuePath ?? '';
+        $this->loadMaxResults          = $loadMaxResults ?? self::LOAD_MAX_RESULTS_DEFAULT;
+        $this->buildCountArgsCallback  = $buildCountArgsCallback;
+        $this->chunkCommandMaxResults  = $chunkCommandMaxResults ?? self::CHUNK_COMMAND_MAX_RESULTS_DEFAULT;
+        $this->initCallbacks           = $initCallbacks ?? [];
+        $this->defaultExceptionHandler = $defaultExceptionHandler;
     }
 
     public function getChildResponseModelClass(): string
@@ -148,8 +143,13 @@ class ResponseModelCollectionConfig
         return $this->countValuePath;
     }
 
+    public function hasBuildCountArgsCallback(): bool
+    {
+        return !is_null($this->buildCountArgsCallback);
+    }
+
     public function getBuildCountArgsCallback(): callable {
-        if (is_null($this->buildCountArgsCallback)) {
+        if (!$this->hasBuildCountArgsCallback()) {
             throw new ResponseModelSetupException(
                 'Cannot obtain the buildCountArgsCallback for ' . $this->getResponseModelClass()
             );

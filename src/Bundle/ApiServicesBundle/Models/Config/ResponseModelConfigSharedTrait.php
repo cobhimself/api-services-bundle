@@ -2,6 +2,10 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Config;
 
+use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelException;
+use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ExceptionHandlerInterface;
+use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ResponseModelExceptionHandler;
+
 trait ResponseModelConfigSharedTrait
 {
     /**
@@ -23,6 +27,11 @@ trait ResponseModelConfigSharedTrait
      * @var string the FQCN of the response model this config belongs to
      */
     private $responseModelClass;
+
+    /**
+     * @var ExceptionHandlerInterface
+     */
+    private $defaultExceptionHandler;
 
     /**
      * @return string
@@ -53,5 +62,12 @@ trait ResponseModelConfigSharedTrait
      */
     public function getInitCallbacks(): array {
         return $this->initCallbacks;
+    }
+
+    public function getDefaultExceptionHandler(): ExceptionHandlerInterface {
+        return $this->defaultExceptionHandler ??  ResponseModelExceptionHandler::passThruAndWrapWith(
+                ResponseModelException::class,
+                ['An exception was thrown during loading:']
+            );
     }
 }

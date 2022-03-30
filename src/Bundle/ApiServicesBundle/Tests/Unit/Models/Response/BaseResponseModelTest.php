@@ -73,6 +73,7 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
     /**
      * @covers ::getConfig
      * @covers ::setup
+     * @covers \Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException::confirmResponseModelClassSet
      */
     public function testDefaultConfigUsedWhenNoSetupMethod()
     {
@@ -216,6 +217,7 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
      * @covers ::withData
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig::doInits
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataLoader
+     * @covers \Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException::confirmResponseModelClassSet
      */
     public function testDoInits()
     {
@@ -394,6 +396,7 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
      * @covers ::getConfig
      * @covers ::setup
      * @covers ::withData
+     * @covers \Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException::confirmResponseModelClassSet
      */
     public function testCheckForPropertyExceptionThrowsException()
     {
