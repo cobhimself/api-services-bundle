@@ -22,7 +22,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use GuzzleHttp\Promise\PromiseInterface;
 
 /**
- * Base response model all response models should extend from.
+ * Base response model all response model collections should extend from.
  */
 class BaseResponseModelCollection
     extends ArrayCollection
@@ -32,7 +32,7 @@ class BaseResponseModelCollection
     use HasParentTrait;
 
     /**
-     * Establish a new response model with a specific load state and load promise.
+     * Establish a new response model collection with a specific load state and load promise.
      *
      * You are encouraged to utilize the static methods for construction of the response model!
      *
@@ -67,6 +67,9 @@ class BaseResponseModelCollection
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function finalizeData()
     {
         $config = $this::getConfig();
@@ -83,11 +86,20 @@ class BaseResponseModelCollection
         }
     }
 
+    /**
+     * Setup a configuration builder this model will use when configuring base functionality.
+     *
+     * @return ResponseModelCollectionConfigBuilder the configuration builder which will be used upon
+     *                                              model instantiation.
+     */
     protected static function setup(): ResponseModelCollectionConfigBuilder
     {
         throw new ResponseModelSetupException(static::class . " must override the setup method!");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public static function getConfig(): ResponseModelCollectionConfig
     {
         static $config;
@@ -102,6 +114,11 @@ class BaseResponseModelCollection
         return $config;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @see AsyncCollectionLoader::load() for details on how the data is loaded.
+     */
     public static function loadAsync(CollectionLoadConfig $loadConfig): ResponseModelCollection {
         return AsyncCollectionLoader::load(
             static::getConfig(),
@@ -109,6 +126,11 @@ class BaseResponseModelCollection
         );
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @see CollectionLoader for details on how the data is loaded.
+     */
     public static function load(
         CollectionLoadConfig $loadConfig
     ): ResponseModelCollection {
@@ -118,6 +140,11 @@ class BaseResponseModelCollection
         );
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @see WithDataCollectionLoader for details on how the data is loaded.
+     */
     public static function withData(
         CollectionLoadConfig $loadConfig
     ): ResponseModelCollection {
@@ -127,6 +154,17 @@ class BaseResponseModelCollection
         );
     }
 
+    /**
+     * Add data to this collection through the given response data.
+     *
+     * Details on how to load data from the given response data are handled through this model's
+     * {@link ResponseModelCollectionConfig}.
+     *
+     * Upon successfully creating the child model, the {@link PostAddModelToCollectionEvent} is dispatched.
+     *
+     * @param ServiceClientInterface $client       the service client
+     * @param array                  $responseData the response data to use for obtaining child model data
+     */
     private function addResponse(ServiceClientInterface $client, array $responseData = [])
     {
         $config = static::getConfig();
@@ -151,6 +189,13 @@ class BaseResponseModelCollection
         );
     }
 
+    /**
+     * Obtain a count of the child response models in this collection.
+     *
+     * NOTE: This forces the data to be loaded if not already!
+     *
+     * @return int
+     */
     public function count(): int
     {
         $this->confirmLoaded();
@@ -158,11 +203,30 @@ class BaseResponseModelCollection
         return parent::count();
     }
 
+    /**
+     * Quickly obtain a collection load configuration builder for this response model collection.
+     *
+     * This method is the preferred way to instantiate new response model collections.
+     *
+     * @param ServiceClientInterface $client the service client used to load data
+     *
+     * @return CollectionLoadConfigBuilder the load configuration builder used to specify load details for the response
+     *                                     model collection
+     */
     public static function using(ServiceClientInterface $client): CollectionLoadConfigBuilder
     {
         return CollectionLoadConfig::builder(static::class, $client);
     }
 
+    /**
+     * Get a response model from this collection at the given index key.
+     *
+     * NOTE: This causes the collection's data to be loaded!
+     *
+     * @param int $key the index key of the child model to return.
+     *
+     * @return ResponseModel|null the response model or null if none exist at the index.
+     */
     public function get($key)
     {
         $this->confirmLoaded();

@@ -47,6 +47,9 @@ trait ResponseModelTrait
         return $this->getData()->dot($key, $default);
     }
 
+    /**
+     * Finalize the data for this model after it's been loaded.
+     */
     protected function finalizeData()
     {
         //This method is empty because, by default, we do not perform additional finalization on our data
