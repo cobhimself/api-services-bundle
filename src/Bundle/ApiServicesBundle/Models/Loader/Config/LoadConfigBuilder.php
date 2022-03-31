@@ -75,13 +75,6 @@ class LoadConfigBuilder
         return $this;
     }
 
-    public function rawData($rawData): LoadConfigBuilder
-    {
-        $this->rawData = $rawData;
-
-        return $this;
-    }
-
     protected function validateModelClass(string $modelClass)
     {
         ClassUtil::confirmValidResponseModel($modelClass);
