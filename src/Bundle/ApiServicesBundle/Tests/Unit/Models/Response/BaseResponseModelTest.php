@@ -365,7 +365,7 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
     public function testBadResponsesDuringLoad()
     {
         $this->expectException(ResponseModelException::class);
-        $this->expectExceptionMessage("An exception was thrown during loading");
+        $this->expectExceptionMessage("An exception was thrown while loading");
 
         $client = $this->getServiceClientMock(
             [new Response(500, [], 'Not found')]

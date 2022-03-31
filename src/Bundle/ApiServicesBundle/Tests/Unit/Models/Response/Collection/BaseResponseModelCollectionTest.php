@@ -429,7 +429,7 @@ class BaseResponseModelCollectionTest extends BaseResponseModelTestCase
         yield [
             [new Response(500, [], 'Not found')],
             PersonCollection::class,
-            "An exception was thrown during loading"
+            "An exception was thrown while loading"
         ];
 
         yield [

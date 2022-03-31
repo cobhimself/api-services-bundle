@@ -67,7 +67,10 @@ trait ResponseModelConfigSharedTrait
     public function getDefaultExceptionHandler(): ExceptionHandlerInterface {
         return $this->defaultExceptionHandler ??  ResponseModelExceptionHandler::passThruAndWrapWith(
                 ResponseModelException::class,
-                ['An exception was thrown during loading:']
+                [sprintf(
+                    'An exception was thrown while loading "%s":',
+                    $this->getResponseModelClass()
+                 )]
             );
     }
 }
