@@ -15,6 +15,7 @@ use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelException;
 use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException;
 use Cob\Bundle\ApiServicesBundle\Models\CacheProvider;
 use Cob\Bundle\ApiServicesBundle\Models\CacheProviderInterface;
+use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ResponseModelExceptionHandler;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfigBuilder;
 use Cob\Bundle\ApiServicesBundle\Models\Response\Collection\ResponseModelCollection;
 use Cob\Bundle\ApiServicesBundle\Models\Util\CacheHash;
@@ -29,6 +30,7 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Response\BaseResponseModelTes
 use Exception;
 use Generator;
 use GuzzleHttp\Psr7\Response;
+use InvalidArgumentException;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 
@@ -39,43 +41,43 @@ use Prophecy\Prophecy\ObjectProphecy;
  * @covers ::getConfig
  * @covers ::finalizeData
  * @covers ::using
- * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractCollectionLoader
+ * @covers \CoB\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigSharedTrait
+ * @covers \Cob\Bundle\ApiServicesBundle\Exceptions\BaseApiServicesBundleException
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfigBuilder
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigBuilder
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigSharedTrait
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Deserializer
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\DotData
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\CanGetCollectionLoadConfigTrait
- * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\CanSetCollectionLoadConfigTrait
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\CanGetCommandTrait
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\CanGetResponseTrait
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\CanSetCollectionLoadConfigTrait
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\CommandFulfilledEvent
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostAddModelToCollectionEvent
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostCountEvent
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostExecuteCommandEvent
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostExecuteCommandsEvent
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostLoadEvent
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreExecuteCommandEvent
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreExecuteCommandsEvent
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreGetLoadCommandEvent
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreLoadEvent
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\ResponseModelCollectionEvent
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractCollectionLoader
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractLoader
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfig
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfigBuilder
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigBuilder
- * @covers \CoB\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigSharedTrait
- * @covers \Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModelTrait
- * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractLoader
- * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\CommandFulfilledEvent
- * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostExecuteCommandsEvent
- * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreExecuteCommandsEvent
- * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostExecuteCommandEvent
- * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostLoadEvent
- * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreExecuteCommandEvent
- * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreLoadEvent
- * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\ResponseModelCollectionEvent
- * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreGetLoadCommandEvent
- * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostCountEvent
- * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostAddModelToCollectionEvent
- * @covers \Cob\Bundle\ApiServicesBundle\Models\Response\BaseResponseModel
- * @covers \Cob\Bundle\ApiServicesBundle\Models\Deserializer
- * @covers \Cob\Bundle\ApiServicesBundle\Models\DotData
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState
- * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig
- * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigBuilder
- * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigSharedTrait
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataLoader
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Response\BaseResponseModel
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Response\HasParentTrait
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModelTrait
  * @covers \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil
- * @covers \Cob\Bundle\ApiServicesBundle\Models\Response\HasParentTrait
- * @covers \Cob\Bundle\ApiServicesBundle\Exceptions\BaseApiServicesBundleException
  */
 class BaseResponseModelCollectionTest extends BaseResponseModelTestCase
 {
@@ -452,5 +454,33 @@ class BaseResponseModelCollectionTest extends BaseResponseModelTestCase
             PersonCollectionWithCountCapability::class,
             "There was an issue when running all of the commands."
         ];
+    }
+
+    /**
+     * @covers \Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\AbstractExceptionHandler
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\CollectionLoader
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Response\Collection\BaseResponseModelCollection
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\CacheHash
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\Promise
+     */
+    public function testBadResponsesDuringLoadWithCustomHandler()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Custom exception message");
+
+        $client = $this->getServiceClientMock(
+            [new Response(500, [], 'Not found')]
+        );
+
+        $exceptionCode = null;
+
+        PersonCollection::using($client)
+            ->handleExceptionsWith(
+                ResponseModelExceptionHandler::passThruAndWrapWith(
+                    InvalidArgumentException::class,
+                    ["Custom exception message", $exceptionCode]
+                )
+            )->load();
     }
 }
