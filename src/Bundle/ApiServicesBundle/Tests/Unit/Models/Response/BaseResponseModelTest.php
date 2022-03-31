@@ -15,6 +15,8 @@ use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelException;
 use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException;
 use Cob\Bundle\ApiServicesBundle\Models\CacheProvider;
 use Cob\Bundle\ApiServicesBundle\Models\CacheProviderInterface;
+use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ClientCommandExceptionHandler;
+use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ResponseModelExceptionHandler;
 use Cob\Bundle\ApiServicesBundle\Models\Util\CacheHash;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseRawDataResponseModel;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModel;
@@ -24,6 +26,7 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\ResponseModelWithNonExistentPr
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\ResponseModelWithNoSetup;
 use Exception;
 use GuzzleHttp\Psr7\Response;
+use InvalidArgumentException;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 
@@ -33,37 +36,36 @@ use Prophecy\Prophecy\ObjectProphecy;
  *
  * @covers ::__construct
  * @covers ::using
- * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractLoader
- * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig
- * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigBuilder
- * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigSharedTrait
- * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfig
- * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfigBuilder
- * @covers \Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModelTrait
- * @covers \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
  * @covers \Cob\Bundle\ApiServicesBundle\Exceptions\BaseApiServicesBundleException
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigBuilder
- * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigSharedTrait
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Deserializer
  * @covers \Cob\Bundle\ApiServicesBundle\Models\DotData
- * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Loader
- * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState
- * @covers \Cob\Bundle\ApiServicesBundle\Models\Response\Collection\BaseResponseModelCollection
- * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigSharedTrait
- * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractLoader
- * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataCollectionLoader
- * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataLoader
- * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostAddModelToCollectionEvent
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\ResponseModelCollectionEvent
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelEvent
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPostExecuteCommandEvent
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPostLoadEvent
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreExecuteCommandEvent
- * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreLoadEvent
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreGetLoadCommandEvent
- * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostAddModelToCollectionEvent
- * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\ResponseModelCollectionEvent
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreLoadEvent
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractLoader
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfig
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfigBuilder
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigBuilder
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigSharedTrait
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Loader
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataCollectionLoader
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataLoader
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Response\Collection\BaseResponseModelCollection
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Response\HasParentTrait
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModelTrait
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil
  */
 class BaseResponseModelTest extends BaseResponseModelTestCase
 {
@@ -372,6 +374,34 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
         );
 
         Person::using($client)->load();
+    }
+
+    /**
+     * @covers ::using
+     * @covers ::getConfig
+     * @covers ::load
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\AbstractExceptionHandler
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\Promise
+     *
+     */
+    public function testBadResponsesDuringLoadWithCustomHandler()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Custom error message");
+
+        $client = $this->getServiceClientMock(
+            [new Response(500, [], 'Not found')]
+        );
+
+        $exceptionCode = null;
+
+        Person::using($client)
+            ->handleExceptionsWith(
+                ResponseModelExceptionHandler::passThruAndWrapWith(
+                    InvalidArgumentException::class,
+                    ['Custom error message', $exceptionCode]
+                )
+            )->load();
     }
 
     /**
