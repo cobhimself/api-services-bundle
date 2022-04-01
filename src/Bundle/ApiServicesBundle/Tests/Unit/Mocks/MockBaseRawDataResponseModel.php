@@ -24,8 +24,7 @@ class MockBaseRawDataResponseModel extends BaseResponseModel
     protected static function setup(): ResponseModelConfigBuilder
     {
         return ResponseModelConfig::builder()
-            ->command(BaseResponseModelTestCase::TEST_COMMAND_NAME)
-            ->defaultArgs(BaseResponseModelTestCase::TEST_COMMAND_ARGS)
+            ->command(BaseResponseModelTestCase::RAW_TEST_COMMAND_NAME)
             ->holdsRawData();
     }
 }

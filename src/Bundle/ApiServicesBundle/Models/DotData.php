@@ -2,6 +2,8 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models;
 
+use Cob\Bundle\ApiServicesBundle\Models\Http\RawResponse;
+
 /**
  * Class whose responsibility is to store primarily structured array data which can be traversed through the use of
  * dot notation.
@@ -29,8 +31,8 @@ class DotData
     {
         if (is_array($data)) {
             $this->data = $data;
-        } else if (!is_null($data)) {
-            $this->setRawData($data);
+        } else if (is_string($data) || $data instanceof RawResponse) {
+            $this->setRawData((string) $data);
         }
     }
 
@@ -74,15 +76,7 @@ class DotData
      */
     public static function of($data): DotData
     {
-        $dotData = new DotData();
-
-        if (is_array($data)) {
-            $dotData->setData($data);
-        } else {
-            $dotData->setRawData($data);
-        }
-
-        return $dotData;
+        return new DotData($data);
     }
 
     /**

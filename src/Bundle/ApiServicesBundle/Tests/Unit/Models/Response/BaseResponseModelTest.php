@@ -15,7 +15,6 @@ use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelException;
 use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException;
 use Cob\Bundle\ApiServicesBundle\Models\CacheProvider;
 use Cob\Bundle\ApiServicesBundle\Models\CacheProviderInterface;
-use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ClientCommandExceptionHandler;
 use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ResponseModelExceptionHandler;
 use Cob\Bundle\ApiServicesBundle\Models\Util\CacheHash;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseRawDataResponseModel;
@@ -182,6 +181,61 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
         $this->assertEquals(1, $mockModel->getAge());
         $this->assertEmpty($mockModel->getChildren());
         $this->assertEquals($mockParentModel, $mockModel->getParent());
+    }
+
+    /**
+     * @covers ::getConfig
+     * @covers ::loadAsync
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AsyncLoader::load
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Http\RawResponse
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\Promise::async
+     * @covers \Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException::confirmResponseModelClassSet
+     */
+    public function testLoadRawData()
+    {
+        $client = $this->getServiceClientMock(
+            [new Response(200, [], self::MOCK_RAW_TEST_DATA)]
+        );
+
+        /**
+         * @var MockBaseRawDataResponseModel $mock
+         */
+        $mock = MockBaseRawDataResponseModel::using($client)
+            ->loadAsync();
+
+        $this->assertEquals(self::MOCK_RAW_TEST_DATA, $mock->getRawData());
+    }
+
+    /**
+     * @covers ::withRawData
+     * @covers ::getConfig
+     * @covers \Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException::confirmResponseModelClassSet
+     * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\WithRawDataLoader::load
+     */
+    public function testGetDataFromRawModelNotAllowed()
+    {
+        $this->expectException(ResponseModelException::class);
+        $this->expectExceptionMessage('holds raw data');
+
+        $client = $this->getServiceClientMock();
+
+        $mock = MockBaseRawDataResponseModel::using($client)->withRawData('blah');
+        $mock->dot('will not work');
+    }
+
+    /**
+     * @covers ::withData
+     * @covers ::getConfig
+     * @covers \Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException
+     */
+    public function testCannotGetRawDataFromNormalResponse()
+    {
+        $this->expectException(ResponseModelException::class);
+        $this->expectExceptionMessage('holds structured data');
+
+        $client = $this->getServiceClientMock();
+
+        Person::using($client)->withData([])->getRawData();
     }
 
     /**

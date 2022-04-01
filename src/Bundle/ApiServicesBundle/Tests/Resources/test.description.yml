@@ -16,6 +16,11 @@ operations:
         description: the test ID
         required: true
         location: uri
+  TestRawCommand:
+    httpMethod: GET
+    uri: /getRaw
+    summary: Test getting raw data
+    responseClass: RawResponse
   GetPerson:
     httpMethod: GET
     uri: /person/{id}
@@ -45,7 +50,7 @@ operations:
 models:
   RawResponse:
     type: class
-    class: Sentry\Bundle\ApiServicesBundle\Models\Http\RawResult
+    class: Cob\Bundle\ApiServicesBundle\Models\Http\RawResponse
   JSONResponse:
     type: object
     instanceOf: Cob\Bundle\ApiServiceBundle\Models\Response

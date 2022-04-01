@@ -2,6 +2,7 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Response;
 
+use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState;
 use Cob\Bundle\ApiServicesBundle\Models\ServiceClientInterface;
@@ -27,13 +28,20 @@ interface ResponseModel extends UsesDot, HasParent
         $parent = null
     );
 
-    public static function loadAsync(LoadConfig $loadConfig);
+    public function getClient(): ServiceClientInterface;
 
-    public static function load(LoadConfig $loadConfig);
+    public static function loadAsync(LoadConfig $loadConfig): ResponseModel;
+    public static function load(LoadConfig $loadConfig): ResponseModel;
+    public static function withData(LoadConfig $loadConfig): ResponseModel;
+    public static function withRawData(LoadConfig $loadConfig): ResponseModel;
 
-    public static function withData(LoadConfig $loadConfig);
-
-    public static function withRawData(LoadConfig $loadConfig);
+    public function isWaiting(): bool;
+    public function isLoaded(): bool;
+    public function isLoadedWithData(): bool;
 
     public function toArray(): array;
+
+    public function getRawData();
+
+    public static function getConfig(): ResponseModelConfig;
 }

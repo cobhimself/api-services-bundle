@@ -18,6 +18,9 @@ abstract class BaseResponseModelTestCase extends TestCase
     const MOCK_INNER_RESPONSE_DATA = ['one' => 1, 'two' => 2];
     const MOCK_RESPONSE_DATA = ['data' => self::MOCK_INNER_RESPONSE_DATA];
 
+    const RAW_TEST_COMMAND_NAME = 'TestRawCommand';
+    const MOCK_RAW_TEST_DATA = 'raw data';
+
     protected function getMockParentModel(array $withData = []): MockBaseResponseModel {
         //Normally, the parent model would be a different type of model but this will do fine for testing we can
         //get a parent model
@@ -25,5 +28,4 @@ abstract class BaseResponseModelTestCase extends TestCase
         return MockBaseResponseModel::using($this->getServiceClientMock())
             ->withData($withData);
     }
-
 }

@@ -146,7 +146,7 @@ class DotDataTest extends TestCase
 
         $raw = 'raw';
 
-        $rawData = DotData::of($raw);
+        $rawData = DotData::of('raw');
 
         $this->assertEquals($raw, $rawData->getRawData());
     }

@@ -8,9 +8,11 @@ use Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState;
 use Cob\Bundle\ApiServicesBundle\Models\Response\HasParent;
 use Cob\Bundle\ApiServicesBundle\Models\ServiceClientInterface;
 use Cob\Bundle\ApiServicesBundle\Models\UsesDot;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Selectable;
 use GuzzleHttp\Promise\PromiseInterface;
 
-interface ResponseModelCollection extends UsesDot, HasParent
+interface ResponseModelCollection extends Collection, Selectable, UsesDot, HasParent
 {
     /**
      * Establish a new response model with a specific load state and load promise.
@@ -28,6 +30,8 @@ interface ResponseModelCollection extends UsesDot, HasParent
         PromiseInterface $loadPromise,
         $parent = null
     );
+
+    public function getClient(): ServiceClientInterface;
 
     /**
      * Get the configuration of this response model collection used to establish default behavior.
@@ -64,4 +68,8 @@ interface ResponseModelCollection extends UsesDot, HasParent
     public static function withData(CollectionLoadConfig $loadConfig): ResponseModelCollection;
 
     public function toArray(): array;
+
+    public function isWaiting(): bool;
+    public function isLoaded(): bool;
+    public function isLoadedWithData(): bool;
 }

@@ -17,10 +17,10 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * Handles response data without performing any deserialization.
  */
-class RawResult implements ClassResultInterface
+class RawResponse implements ClassResultInterface
 {
     /** @var string */
-    private $source;
+    private $content;
 
     /**
      * @inheritDoc
@@ -45,9 +45,9 @@ class RawResult implements ClassResultInterface
     /**
      * Initialize our raw data
      */
-    protected function init(ResponseInterface $response): RawResult
+    protected function init(ResponseInterface $response): RawResponse
     {
-        $this->source = (string) $response->getBody();
+        $this->content = (string) $response->getBody();
 
         return $this;
     }
@@ -59,6 +59,6 @@ class RawResult implements ClassResultInterface
      */
     public function __toString()
     {
-        return $this->source;
+        return $this->content;
     }
 }
