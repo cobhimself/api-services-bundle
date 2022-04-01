@@ -77,6 +77,13 @@ trait LoadConfigSharedTrait
     }
 
     /**
+     * Setup a sane default exception handler for use with our loading method.
+     *
+     * We're going to pass through any exception by default. This means any
+     * connection issues which we might be ok with swallowing will be passed
+     * through. @see ClientCommandExceptionHandler for ways to handle specific
+     * HTTP error codes.
+     *
      * @return ExceptionHandlerInterface
      */
     public function getExceptionHandler(): ExceptionHandlerInterface

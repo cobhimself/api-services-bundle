@@ -150,24 +150,6 @@ trait ResponseModelTrait
     }
 
     /**
-     * Setup a sane default exception handler for use with our loading method.
-     *
-     * We're going to pass through any exception by default. This means any
-     * connection issues which we might be ok with swallowing will be passed
-     * through. @see ClientCommandExceptionHandler for ways to handle specific
-     * HTTP error codes.
-     *
-     * @return ExceptionHandlerInterface
-     */
-    protected function getDefaultExceptionHandler(): ExceptionHandlerInterface
-    {
-        return ResponseModelExceptionHandler::passThruAndWrapWith(
-            ResponseModelException::class,
-            [sprintf('Could not load response model %s', static::class)]
-        );
-    }
-
-    /**
      * Confirm the given property exists in the response model.
      *
      * This method helps us make sure our models are setup correctly and
@@ -180,14 +162,11 @@ trait ResponseModelTrait
     protected function checkForPropertyException(string $property)
     {
         if (!property_exists($this, $property) || null === $this->$property) {
-            $message = 'Could not get property \'%s\'!' . PHP_EOL . "\tIN: %s";
-            throw new ResponseModelSetupException(
-                sprintf(
-                    $message,
-                    $property,
-                    get_class($this)
-                )
-            );
+            throw new ResponseModelSetupException(sprintf(
+                'Could not get property \'%s\'!' . PHP_EOL . "\tIN: %s",
+                $property,
+                get_class($this)
+            ));
         }
     }
 
