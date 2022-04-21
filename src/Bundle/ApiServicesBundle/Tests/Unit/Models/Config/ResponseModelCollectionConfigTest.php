@@ -26,6 +26,8 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Response\BaseResponseModelTes
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModelTrait
  * @uses \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
  * @uses \Cob\Bundle\ApiServicesBundle\Models\DotData
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Util\LogUtil
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\HasOutputTrait
  */
 class ResponseModelCollectionConfigTest extends ResponseModelCollectionConfigTestCase {
 

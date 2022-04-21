@@ -6,6 +6,7 @@ use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException;
 use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ExceptionHandlerInterface;
 use Cob\Bundle\ApiServicesBundle\Models\Response\Collection\ResponseModelCollection;
 use Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil;
+use Cob\Bundle\ApiServicesBundle\Models\Util\LogUtil;
 
 class ResponseModelCollectionConfig
 {
@@ -166,5 +167,27 @@ class ResponseModelCollectionConfig
     public static function builder(): ResponseModelCollectionConfigBuilder
     {
         return new ResponseModelCollectionConfigBuilder();
+    }
+
+    public function __toString(): string
+    {
+        return 'Response Model Collection Config: ' . PHP_EOL .
+            LogUtil::outputStructure([
+                'Model'                     => $this->responseModelClass,
+                'Child Models'              => $this->childResponseModelClass,
+                'Command'                   => $this->command,
+                'Default Args'              => json_encode($this->defaultArgs),
+                'Collection Path'           => $this->collectionPath,
+                'Count Command'             => $this->countCommand ?? '',
+                'Count Args'                => json_encode($this->countArgs),
+                'Count Value Path'          => $this->countValuePath,
+                'Load Max Results'          => $this->loadMaxResults,
+                'Build Count Args Callback' => !is_null($this->buildCountArgsCallback),
+                'Chunk Command Max Results' => $this->chunkCommandMaxResults,
+                'Init Callbacks'            => (sizeof($this->initCallbacks) > 0),
+                'Default Exception Handler' => $this->defaultExceptionHandler
+                    ? get_class($this->defaultExceptionHandler)
+                    : 'false',
+            ]);
     }
 }

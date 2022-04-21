@@ -14,6 +14,7 @@ use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\PostRunAllPromisesE
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\PostRunPromiseInAllEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\PreRunAllPromisesEvent;
 use Cob\Bundle\ApiServicesBundle\Models\ServiceClient;
+use Cob\Bundle\ApiServicesBundle\Models\ServiceClientInterface;
 use Exception;
 use GuzzleHttp\Promise\Each;
 use GuzzleHttp\Promise\Promise as GuzzlePromise;
@@ -129,5 +130,20 @@ class Promise
                 }
             })->wait();
         });
+    }
+
+    public static function allResponseModels(
+        array $responseModels,
+        $message = null,
+        ServiceClientInterface $client = null,
+        int $concurrency = 25
+    ) {
+        //We need to convert our array of response models into an array of their responses
+        $promises = array_map(function ($responseModel) {
+            ClassUtil::confirmValidResponseModelOrCollection($responseModel);
+            return $responseModel->getLoadPromise();
+        }, $responseModels);
+
+        return self::all($promises, $message, $client, $concurrency);
     }
 }

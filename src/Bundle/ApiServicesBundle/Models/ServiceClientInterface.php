@@ -12,6 +12,7 @@ namespace Cob\Bundle\ApiServicesBundle\Models;
 
 use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelException;
 use GuzzleHttp\Command\ServiceClientInterface as GuzzleServiceClientInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -79,4 +80,21 @@ interface ServiceClientInterface extends GuzzleServiceClientInterface
      * @throws ResponseModelException
      */
     public static function factory(array $config = []): ServiceClient;
+
+    /**
+     * Return an output interface the client can use to provide logging details of its actions.
+     *
+     * Note: Any class which has access to this client has access to the output through this method which makes it
+     * easy to establish debug chains.
+     *
+     * @return OutputInterface
+     */
+    public function getOutput(): OutputInterface;
+
+    /**
+     * Provide an output interface to use when logging debug details.
+     *
+     * @param OutputInterface $output the output interface to use when outputting log information
+     */
+    public function setOutput(OutputInterface $output);
 }

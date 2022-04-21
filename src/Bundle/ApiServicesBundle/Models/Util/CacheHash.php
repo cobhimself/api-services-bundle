@@ -3,6 +3,7 @@
 namespace Cob\Bundle\ApiServicesBundle\Models\Util;
 
 use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class CacheHash
 {
@@ -16,19 +17,29 @@ class CacheHash
      */
     public static function getHashForResponseClassAndArgs(
         string $responseClass,
-        array $commandArgs
+        array $commandArgs,
+        OutputInterface $output = null
     ): string {
         ClassUtil::confirmValidResponseModel($responseClass);
 
-        $responseModelConfig = call_user_func_array(
+        $config = call_user_func_array(
             [$responseClass, 'getConfig'],
             [$responseClass]
         );
 
+        if (!is_null($output)) {
+            LogUtil::debug($output, 'Generating cache hash for ' . $responseClass . ' using: ');
+            LogUtil::outputStructure([
+                'Command' => $config->getCommand(),
+                'Default Args' => $config->getDefaultArgs(),
+                'Command Args' => $commandArgs
+            ]);
+        }
+
         return  self::hashArray([
             $responseClass,
-            $responseModelConfig->getCommand(),
-            $responseModelConfig->getDefaultArgs(),
+            $config->getCommand(),
+            $config->getDefaultArgs(),
             $commandArgs
         ]);
     }
@@ -43,7 +54,8 @@ class CacheHash
 
     public static function getHashForResponseCollectionClassAndArgs(
         string $collectionClass,
-        array $commandArgs
+        array $commandArgs,
+        OutputInterface $output = null
     ): string {
         ClassUtil::confirmValidResponseModelCollection($collectionClass);
 
@@ -54,6 +66,18 @@ class CacheHash
             [$collectionClass, 'getConfig'],
             [$collectionClass]
         );
+
+        if (!is_null($output)) {
+            LogUtil::debug($output, 'Generating cache hash for ' . $collectionClass . ' using: ');
+            LogUtil::outputStructure([
+                'Command' => $config->getCommand(),
+                'Default Args' => $config->getDefaultArgs(),
+                'Command Args' => $commandArgs,
+                'Count Command' => $config->getCountCommand() ?? '',
+                'Count Args' => join(',', $config->getCountArgs()),
+                'Load Max Results' => $config->getLoadMaxResults()
+            ]);
+        }
 
         return  self::hashArray([
             $collectionClass,

@@ -11,6 +11,7 @@ use Cob\Bundle\ApiServicesBundle\Models\Loader\AsyncCollectionLoader;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\CollectionLoader;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfig;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfigBuilder;
+use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigBuilder;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataCollectionLoader;
@@ -18,7 +19,9 @@ use Cob\Bundle\ApiServicesBundle\Models\Response\HasParentTrait;
 use Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModel;
 use Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModelTrait;
 use Cob\Bundle\ApiServicesBundle\Models\ServiceClientInterface;
+use Cob\Bundle\ApiServicesBundle\Models\Util\LogUtil;
 use Doctrine\Common\Collections\ArrayCollection;
+use Generator;
 use GuzzleHttp\Promise\PromiseInterface;
 
 /**
@@ -120,6 +123,7 @@ class BaseResponseModelCollection
      * @see AsyncCollectionLoader::load() for details on how the data is loaded.
      */
     public static function loadAsync(CollectionLoadConfig $loadConfig): ResponseModelCollection {
+        static::logLoad('async', $loadConfig);
         return AsyncCollectionLoader::load(
             static::getConfig(),
             $loadConfig
@@ -134,6 +138,7 @@ class BaseResponseModelCollection
     public static function load(
         CollectionLoadConfig $loadConfig
     ): ResponseModelCollection {
+        static::logLoad('load', $loadConfig);
         return CollectionLoader::load(
             static::getConfig(),
             $loadConfig
@@ -148,6 +153,7 @@ class BaseResponseModelCollection
     public static function withData(
         CollectionLoadConfig $loadConfig
     ): ResponseModelCollection {
+        static::logLoad('withData', $loadConfig);
         return WithDataCollectionLoader::load(
             static::getConfig(),
             $loadConfig
@@ -232,5 +238,183 @@ class BaseResponseModelCollection
         $this->confirmLoaded();
 
         return parent::get($key);
+    }
+
+    /**
+     * Generator which yields each item in this collection, optionally only
+     * those deemed acceptable.
+     *
+     * @param callable $accept callback whose only argument is an item in this
+     *                         collection and returns true or false as to
+     *                         whether or not the item is acceptable to yield
+     *
+     * @return Generator
+     */
+    public function yield(callable $accept = null): Generator {
+        foreach ($this as $model) {
+            if (null === $accept || $accept($model) === true) {
+                yield $model;
+            }
+        }
+    }
+
+    /**
+     * Run a callback on each item in this collection; optionally only for
+     * acceptable items.
+     *
+     * @param callable      $do         callback run on each acceptable item in
+     *                                  this collection; returned result
+     *                                  is ignored
+     * @param callable|null $acceptable callback run on each item in this
+     *                                  collection to determine whether or not
+     *                                  we want to do anything with it
+     */
+    public function each(callable $do, callable $acceptable = null)
+    {
+        foreach ($this->yield($acceptable) as $item) {
+            $do($item);
+        }
+    }
+
+    /**
+     * Get the results from a callback function for each of the items in this
+     * collection; optionally only for acceptable items.
+     *
+     * @param callable      $do         callback run on each acceptable item in
+     *                                  this collection; returned result
+     *                                  is aggregated
+     * @param callable|null $acceptable callback run on each item in this
+     *                                  collection to determine whether or not
+     *                                  we want to do anything with it
+     *
+     * @return ResponseModel[] the aggregate results
+     */
+    public function eachGet(callable $do, callable $acceptable = null): array
+    {
+        $results = [];
+
+        foreach ($this->yield($acceptable) as $item) {
+            $results[] = $do($item);
+        }
+
+        return $results;
+    }
+
+    /**
+     * Like eachGet but the returned array is flattened.
+     *
+     * @param callable      $do         callback run on each acceptable item in
+     *                                  this collection; returned result
+     *                                  is aggregated
+     * @param callable|null $acceptable callback run on each item in this
+     *                                  collection to determine whether or not
+     *                                  we want to do anything with it
+     *
+     * @return array the flattened aggregate results
+     */
+    public function eachGetFlat(
+        callable $do,
+        callable $acceptable = null
+    ): array {
+        return static::flattenArray($this->eachGet($do, $acceptable));
+    }
+
+    public static function flattenArray(array $array): array
+    {
+        $final = [];
+
+        array_walk_recursive($array, static function ($a) use (&$final) {
+            $final[] = $a;
+        });
+
+        return $final;
+    }
+
+    /**
+     * Apply a user supplied function to every member of the collection.
+     *
+     * NOTE: If callback needs to be working with the actual values of the
+     * array, specify the first parameter of callback as a reference. Then, any
+     * changes made to those elements will be made in the original array itself.
+     *
+     * @see array_walk()
+     *
+     * @param mixed|null $userData data to send in to each fun
+     *
+     * @param callable   $walk     the function to call for each collection item
+     *
+     * @return $this
+     */
+    public function walk(callable $walk, $userData = null): self
+    {
+        array_walk($this, $walk, $userData);
+
+        return $this;
+    }
+
+    /**
+     * Walk through our collection and return the first item the callback
+     * function returns true for.
+     *
+     * @param callable $accept function passed each item in the collection
+     *                         iteratively;
+     *
+     * @return false|ResponseModel the first model we accept or false if none are accepted
+     */
+    public function returnFirst(callable $accept)
+    {
+        foreach ($this->yield($accept) as $model) {
+            return $model;
+        }
+
+        return false;
+    }
+
+    /**
+     * Filter the items in this collection and return the first one.
+     *
+     * @param callable $filter a callable which accepts a single item from this
+     *                         collection and determines whether or not it
+     *                         should be included in the final list of items
+     *
+     * @return false|ResponseModel[]
+     */
+    protected function filterAndReturnFirst(callable $filter)
+    {
+        $items = $this->filter($filter)->toArray();
+
+        return (count($items)) ? array_shift($items) : false;
+    }
+
+    public function reduce(callable $filter): BaseResponseModelCollection
+    {
+        $filtered = array_values($this->filter($filter)->toArray());
+
+        $this->clear();
+
+        foreach ($filtered as $child) {
+            $this->add($child);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Log load configuration details.
+     *
+     * This is helpful for debugging.
+     *
+     * @param string               $strategy   a string representing the strategy being used to load data
+     * @param CollectionLoadConfig $loadConfig the load configuration to log details about.
+     */
+    protected static function logLoad(string $strategy, CollectionLoadConfig $loadConfig) {
+        LogUtil::lazyDebug(
+            $loadConfig->getClient()->getOutput(),
+            function () use ($loadConfig, $strategy) {
+                return static::getConfig() . PHP_EOL
+                    . sprintf('Loading %s using "%s" strategy...', static::class, $strategy) . PHP_EOL
+                    . $loadConfig;
+            }
+        );
     }
 }

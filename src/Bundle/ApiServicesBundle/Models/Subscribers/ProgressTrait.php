@@ -10,7 +10,8 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Subscribers;
 
-use Cob\Bundle\ApiServicesBundle\Models\CommandLineOutputTrait;
+use Cob\Bundle\ApiServicesBundle\Models\HasOutputTrait;
+use Cob\Bundle\ApiServicesBundle\Models\Util\LogUtil;
 
 /**
  * Trait which provides properties and methods often used with
@@ -18,7 +19,7 @@ use Cob\Bundle\ApiServicesBundle\Models\CommandLineOutputTrait;
  */
 trait ProgressTrait
 {
-    use CommandLineOutputTrait;
+    use HasOutputTrait;
 
     /** @var bool */
     protected $ignoreAdvance;
@@ -31,19 +32,14 @@ trait ProgressTrait
      */
     protected function outputEvent($message)
     {
+        $callers = debug_backtrace(null, 2);
+
         //No need to generate a backtrace if we're not debugging...
-        if ($this->getOutput()->isDebug()) {
+        LogUtil::lazyDebug($this->getOutput(), function () use ($message, $callers) {
             $message = is_object($message) ? get_class($message) : $message;
 
-            $callers = debug_backtrace(null, 2);
-            $this->getOutput()->writeln(
-                sprintf(
-                    '%s:%s',
-                    $callers[1]['function'],
-                    $message
-                )
-            );
-        }
+            return sprintf('%s:%s', $callers[1]['function'], $message);
+        });
     }
 
     /**

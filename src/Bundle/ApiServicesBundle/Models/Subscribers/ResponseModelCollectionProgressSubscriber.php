@@ -36,7 +36,7 @@ class ResponseModelCollectionProgressSubscriber extends AbstractResponseModelCol
     const LOADING = 'Loading:';
     const FROM_CACHE = 'From cache:';
 
-    use ProgressTrait;
+    //use ProgressTrait;
 
     /**
      * @inheritDoc

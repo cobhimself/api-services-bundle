@@ -65,6 +65,8 @@ use Prophecy\Prophecy\ObjectProphecy;
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModelTrait
  * @covers \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\HasOutputTrait
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Util\LogUtil
  */
 class BaseResponseModelTest extends BaseResponseModelTestCase
 {
@@ -87,6 +89,7 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
      * @covers ::withData
      * @covers ::isLoadedWithData
      * @covers ::getConfig
+     * @covers ::logLoad
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataLoader
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractCollectionLoader
      */
@@ -114,6 +117,7 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
      * @covers ::withData
      * @covers ::isLoadedWithData
      * @covers ::getConfig
+     * @covers ::logLoad
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigBuilder::withDataFromParent
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataLoader
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractCollectionLoader
@@ -140,6 +144,7 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
     /**
      * @covers ::getConfig
      * @covers ::withData
+     * @covers ::logLoad
      */
     public function testWithDataFromParentBadPath()
     {
@@ -161,10 +166,12 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
      * @covers ::getConfig
      * @covers ::isLoaded
      * @covers ::withData
+     * @covers ::logLoad
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Loader
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractCollectionLoader
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\Promise
      * @uses \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfigBuilder
+     * @uses \Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException
      */
     public function testLoad()
     {
@@ -186,6 +193,7 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
     /**
      * @covers ::getConfig
      * @covers ::loadAsync
+     * @covers ::logLoad
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AsyncLoader::load
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Http\RawResponse
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\Promise::async
@@ -209,6 +217,7 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
     /**
      * @covers ::withRawData
      * @covers ::getConfig
+     * @covers ::logLoad
      * @covers \Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException::confirmResponseModelClassSet
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\WithRawDataLoader::load
      */
@@ -226,6 +235,7 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
     /**
      * @covers ::withData
      * @covers ::getConfig
+     * @covers ::logLoad
      * @covers \Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException
      */
     public function testCannotGetRawDataFromNormalResponse()
@@ -244,6 +254,7 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
      * @covers ::isLoaded
      * @covers ::isWaiting
      * @covers ::withData
+     * @covers ::logLoad
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractCollectionLoader
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AsyncLoader
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\Promise
@@ -271,6 +282,7 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
     /**
      * @covers ::getConfig
      * @covers ::withData
+     * @covers ::logLoad
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig::doInits
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataLoader
      * @covers \Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException::confirmResponseModelClassSet
@@ -289,6 +301,7 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
      * @covers ::getConfig
      * @covers ::isLoaded
      * @covers ::withData
+     * @covers ::logLoad
      * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractCollectionLoader
      * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataLoader
      * @uses \Cob\Bundle\ApiServicesBundle\Models\Util\Promise
@@ -330,6 +343,7 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
      * @covers ::getConfig
      * @covers ::isLoaded
      * @covers ::loadAsync
+     * @covers ::logLoad
      * @covers \Cob\Bundle\ApiServicesBundle\Models\CacheProvider
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreLoadFromCacheEvent
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPostLoadFromCacheEvent
@@ -374,6 +388,7 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
      * @covers ::getConfig
      * @covers ::isLoaded
      * @covers ::loadAsync
+     * @covers ::logLoad
      * @covers \Cob\Bundle\ApiServicesBundle\Models\CacheProvider
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreLoadFromCacheEvent
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPostLoadFromCacheEvent
@@ -414,6 +429,7 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
      * @covers ::using
      * @covers ::getConfig
      * @covers ::load
+     * @covers ::logLoad
      * @covers \Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\AbstractExceptionHandler
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\Promise
      *
@@ -434,6 +450,7 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
      * @covers ::using
      * @covers ::getConfig
      * @covers ::load
+     * @covers ::logLoad
      * @covers \Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\AbstractExceptionHandler
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\Promise
      *
@@ -461,6 +478,7 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
     /**
      * @covers ::getConfig
      * @covers ::withRawData
+     * @covers ::logLoad
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\WithRawDataLoader
      */
     public function testResponseModelWithRawData()
@@ -480,6 +498,7 @@ class BaseResponseModelTest extends BaseResponseModelTestCase
      * @covers ::getConfig
      * @covers ::setup
      * @covers ::withData
+     * @covers ::logLoad
      * @covers \Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException::confirmResponseModelClassSet
      */
     public function testCheckForPropertyExceptionThrowsException()

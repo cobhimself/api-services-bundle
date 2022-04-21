@@ -10,8 +10,6 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Subscribers;
 
-use Cob\Bundle\ApiServicesBundle\Models\CommandLineOutputInterface;
-use Cob\Bundle\ApiServicesBundle\Models\CommandLineStringHelpersInterface;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\CommandFulfilledEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostAddDataFromParentEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PostAddModelToCollectionEvent;
@@ -34,7 +32,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  * Abstract class which causes all events relating to ResponseModelCollectionInstance
  * instances to be registered for listening.
  */
-abstract class AbstractResponseModelCollectionSubscriber implements EventSubscriberInterface, CommandLineOutputInterface, CommandLineStringHelpersInterface
+abstract class AbstractResponseModelCollectionSubscriber implements EventSubscriberInterface
 {
     /**
      * @inheritDoc

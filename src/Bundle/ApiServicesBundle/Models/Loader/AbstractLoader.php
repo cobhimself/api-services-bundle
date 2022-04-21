@@ -13,13 +13,14 @@ use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreLoa
 use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ExceptionHandlerInterface;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig;
 use Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModel;
-use Cob\Bundle\ApiServicesBundle\Models\ServiceClientInterface;
 use Cob\Bundle\ApiServicesBundle\Models\Util\CacheHash;
 use Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil;
+use Cob\Bundle\ApiServicesBundle\Models\Util\LogUtil;
 use Cob\Bundle\ApiServicesBundle\Models\Util\Promise;
 use GuzzleHttp\Command\CommandInterface;
 use GuzzleHttp\Promise\FulfilledPromise;
 use GuzzleHttp\Promise\PromiseInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 abstract class AbstractLoader implements LoaderInterface
 {
@@ -89,23 +90,25 @@ abstract class AbstractLoader implements LoaderInterface
     ): PromiseInterface
     {
         $responseModelClass = $config->getResponseModelClass();
+        $client = $loadConfig->getClient();
 
         ClassUtil::confirmValidResponseModel($responseModelClass);
 
-        return Promise::async(function () use ($config, $loadConfig) {
+        return Promise::async(function () use ($client, $config, $loadConfig) {
             /**
              * @var ResponseModelPreLoadEvent $event
              */
-            $loadConfig->getClient()->dispatchEvent(
+            $client->dispatchEvent(
                 ResponseModelPreLoadEvent::class,
                 $config,
                 $loadConfig->getCommandArgs()
             );
-        })->then(function () use ($config, $loadConfig) {
+        })->then(function () use ($client, $config, $loadConfig) {
             //Can we load from cache?
             list($hash, $cache) = static::getCachedData($config, $loadConfig);
 
             if (!is_null($cache) && $cache !== false) {
+                LogUtil::debug($client->getOutput(), 'Loading from cache!');
                 return new FulfilledPromise($cache);
             }
 
@@ -114,15 +117,15 @@ abstract class AbstractLoader implements LoaderInterface
 
             return static::getExecuteCommandPromise(
                 $config,
-                $loadConfig->getClient(),
+                $loadConfig,
                 $command,
                 $hash
             )->wait();
-        })->then(function ($response) use ($config, $loadConfig) {
+        })->then(function ($response) use ($client, $config, $loadConfig) {
             /**
              * @var ResponseModelPostLoadEvent $event
              */
-            $event = $loadConfig->getClient()->dispatchEvent(
+            $event = $client->dispatchEvent(
                 ResponseModelPostLoadEvent::class,
                 $config,
                 $loadConfig->getCommandArgs(),
@@ -145,8 +148,14 @@ abstract class AbstractLoader implements LoaderInterface
         if ($client->canCache()) {
             $hash = CacheHash::getHashForResponseClassAndArgs(
                 $config->getResponseModelClass(),
-                $commandArgs
+                $commandArgs,
+                $client->getOutput()
             );
+
+            if ($loadConfig->doClearCache()) {
+                LogUtil::debug($client->getOutput(), 'Clearing cache for ' . $hash . '!');
+                $client->getCache()->delete($hash);
+            }
 
             /**
              * @var ResponseModelPreLoadFromCacheEvent $event
@@ -223,11 +232,13 @@ abstract class AbstractLoader implements LoaderInterface
     }
 
     private static function getExecuteCommandPromise(
-        ResponseModelConfig    $config,
-        ServiceClientInterface $client,
-        CommandInterface       $command,
-        string                 $cacheHash = null
+        ResponseModelConfig $config,
+        LoadConfig          $loadConfig,
+        CommandInterface    $command,
+        string              $cacheHash = null
     ): PromiseInterface {
+        $client = $loadConfig->getClient();
+
         return Promise::async(function () use ($config, $client, $command) {
             /**
              * @var ResponseModelPreExecuteCommandEvent $event
@@ -238,6 +249,8 @@ abstract class AbstractLoader implements LoaderInterface
                 $command
             );
 
+            LogUtil::debugLogCommandRequest($client, $event->getCommand());
+
             return $event->getCommand();
 
         })->then(function ($command) use ($client) {
@@ -247,6 +260,7 @@ abstract class AbstractLoader implements LoaderInterface
             //Save our response in cache if we can. We specifically do not wait until after we dispatch the post
             //execute command event because we may not always have the same response data from the event.
             if($client->canCache() && !is_null($cacheHash)) {
+                LogUtil::debug($client->getOutput(), 'Saving to cache (' . $cacheHash . ')!');
                 $client->getCache()->save($cacheHash, $response);
             }
 
@@ -258,6 +272,12 @@ abstract class AbstractLoader implements LoaderInterface
                 $config,
                 $command,
                 $response
+            );
+
+            LogUtil::logResponse(
+                $client->getOutput(),
+                $config->getResponseModelClass(),
+                $event->getResponse()
             );
 
             return $event->getResponse();

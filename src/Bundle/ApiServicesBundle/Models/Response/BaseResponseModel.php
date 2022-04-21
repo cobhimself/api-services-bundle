@@ -13,6 +13,7 @@ use Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataLoader;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\WithRawDataLoader;
 use Cob\Bundle\ApiServicesBundle\Models\ServiceClientInterface;
+use Cob\Bundle\ApiServicesBundle\Models\Util\LogUtil;
 use GuzzleHttp\Promise\PromiseInterface;
 
 /**
@@ -78,18 +79,22 @@ class BaseResponseModel implements ResponseModel
     }
 
     public static function loadAsync(LoadConfig $loadConfig): ResponseModel {
+        static::logLoad('loadAsync', $loadConfig);
         return AsyncLoader::load(static::getConfig(), $loadConfig);
     }
 
     public static function load(LoadConfig $loadConfig): ResponseModel {
+        static::logLoad('load', $loadConfig);
         return Loader::load(static::getConfig(), $loadConfig);
     }
 
     public static function withData(LoadConfig $loadConfig): ResponseModel {
+        static::logLoad('withData', $loadConfig);
         return WithDataLoader::load(static::getConfig(), $loadConfig);
     }
 
     public static function withRawData(LoadConfig $loadConfig): ResponseModel {
+        static::logLoad('withRawData', $loadConfig);
         return WithRawDataLoader::load(static::getConfig(), $loadConfig);
     }
 
@@ -111,5 +116,24 @@ class BaseResponseModel implements ResponseModel
     public function isWaiting(): bool
     {
         return $this->loadState->isWaiting();
+    }
+
+    /**
+     * Log load configuration details.
+     *
+     * This is helpful for debugging.
+     *
+     * @param string     $strategy   a string representing the strategy being used to load data
+     * @param LoadConfig $loadConfig the load configuration to log details about.
+     */
+    protected static function logLoad(string $strategy, LoadConfig $loadConfig) {
+        LogUtil::lazyDebug(
+            $loadConfig->getClient()->getOutput(),
+            function () use ($loadConfig, $strategy) {
+                return static::getConfig() . PHP_EOL
+                    . sprintf('Loading %s using "%s" strategy...', static::class, $strategy) . PHP_EOL
+                    . $loadConfig;
+            }
+        );
     }
 }

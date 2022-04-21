@@ -10,8 +10,6 @@
 
 namespace Cob\Bundle\ApiServicesBundle\Models\Subscribers;
 
-use Cob\Bundle\ApiServicesBundle\Models\CommandLineOutputInterface;
-use Cob\Bundle\ApiServicesBundle\Models\CommandLineStringHelpersInterface;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPostExecuteCommandEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPostLoadEvent;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPostLoadFromCacheEvent;
@@ -24,7 +22,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  * Abstract class which causes all events relating to ResponseModelInstance
  * instances to be registered for listening.
  */
-abstract class AbstractResponseModelSubscriber implements EventSubscriberInterface, CommandLineOutputInterface, CommandLineStringHelpersInterface
+abstract class AbstractResponseModelSubscriber implements EventSubscriberInterface
 {
     /**
      * @inheritDoc
@@ -90,4 +88,28 @@ abstract class AbstractResponseModelSubscriber implements EventSubscriberInterfa
     abstract public function onPostExecuteCommandEvent(
         ResponseModelPostExecuteCommandEvent $event
     );
+
+    /**
+     * If the output is at a debug verbosity, output information about an event.
+     *
+     * @param mixed $message if a string, the message is appended to the calling
+     *                       function; if an object, its class is used
+     */
+    protected function outputEvent($message)
+    {
+        //No need to generate a backtrace if we're not debugging...
+        if ($this->getOutput()->isDebug()) {
+            $message = is_object($message) ? get_class($message) : $message;
+
+            $callers = debug_backtrace(null, 2);
+            $this->getOutput()->writeln(
+                sprintf(
+                    '%s:%s',
+                    $callers[1]['function'],
+                    $message
+                )
+            );
+        }
+    }
+
 }

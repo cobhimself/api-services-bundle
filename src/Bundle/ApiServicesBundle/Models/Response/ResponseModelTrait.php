@@ -13,7 +13,10 @@ use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ResponseModelException
 use Cob\Bundle\ApiServicesBundle\Models\Loader\LoadState;
 use Cob\Bundle\ApiServicesBundle\Models\ServiceClientInterface;
 use Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil;
+use Cob\Bundle\ApiServicesBundle\Models\Util\Promise;
 use GuzzleHttp\Promise\PromiseInterface;
+use Symfony\Component\Console\Output\NullOutput;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Trait shared among both individual response models and response model collections.
@@ -39,6 +42,16 @@ trait ResponseModelTrait
      * @var ServiceClientInterface the service client we are using to run service commands
      */
     private $client;
+
+    /**
+     * Get the output interface to use during logging.
+     *
+     * @return OutputInterface
+     */
+    public function getOutput(): OutputInterface
+    {
+        return $this->getClient()->getOutput();
+    }
 
     public function dot(string $key, $default = false)
     {
@@ -182,5 +195,12 @@ trait ResponseModelTrait
     public static function confirmCorrectParentModel($parent, $actual)
     {
         ClassUtil::confirmCorrectParentModel($parent, $actual, static::class);
+    }
+
+    public function getLoadPromise(): PromiseInterface
+    {
+        return Promise::async(function () {
+            $this->confirmLoaded();
+        });
     }
 }

@@ -78,6 +78,8 @@ use Prophecy\Prophecy\ObjectProphecy;
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModelTrait
  * @covers \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\HasOutputTrait
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Util\LogUtil
  */
 class BaseResponseModelCollectionTest extends BaseResponseModelTestCase
 {
@@ -89,6 +91,7 @@ class BaseResponseModelCollectionTest extends BaseResponseModelTestCase
      * @covers ::__construct
      * @covers ::withData
      * @covers ::count
+     * @covers ::logLoad
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataCollectionLoader
      * @covers \Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException
      */
@@ -116,6 +119,7 @@ class BaseResponseModelCollectionTest extends BaseResponseModelTestCase
      * @covers ::__construct
      * @covers ::withData
      * @covers ::count
+     * @covers ::logLoad
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfigBuilder::withDataFromParent
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataCollectionLoader
      */
@@ -168,6 +172,7 @@ class BaseResponseModelCollectionTest extends BaseResponseModelTestCase
      * @covers ::isLoaded
      * @covers ::withData
      * @covers ::count
+     * @covers ::logLoad
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Loader
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractCollectionLoader
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\CollectionLoader
@@ -197,6 +202,7 @@ class BaseResponseModelCollectionTest extends BaseResponseModelTestCase
      * @covers ::isLoaded
      * @covers ::isWaiting
      * @covers ::count
+     * @covers ::logLoad
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AbstractCollectionLoader
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AsyncCollectionLoader
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\Promise
@@ -237,6 +243,7 @@ class BaseResponseModelCollectionTest extends BaseResponseModelTestCase
      * @covers ::setup
      * @covers ::getConfig
      * @covers ::withData
+     * @covers ::logLoad
      * @uses \Cob\Bundle\ApiServicesBundle\Exceptions\BaseApiServicesBundleException
      */
     public function testSetupException()
@@ -250,6 +257,7 @@ class BaseResponseModelCollectionTest extends BaseResponseModelTestCase
      * @covers ::count
      * @covers ::loadAsync
      * @covers ::get
+     * @covers ::logLoad
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\AsyncCollectionLoader
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\CacheHash::getHashForResponseCollectionClassAndArgs
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\CacheHash::hashArray
@@ -300,6 +308,7 @@ class BaseResponseModelCollectionTest extends BaseResponseModelTestCase
      * @covers ::isLoaded
      * @covers ::loadAsync
      * @covers ::get
+     * @covers ::logLoad
      * @covers \Cob\Bundle\ApiServicesBundle\Models\CacheProvider
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreLoadFromCacheEvent
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPostLoadFromCacheEvent
@@ -355,6 +364,7 @@ class BaseResponseModelCollectionTest extends BaseResponseModelTestCase
      * @covers ::getConfig
      * @covers ::isLoaded
      * @covers ::loadAsync
+     * @covers ::logLoad
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\CanGetHashTrait
      * @covers \Cob\Bundle\ApiServicesBundle\Models\CacheProvider
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreLoadFromCacheEvent
@@ -402,6 +412,7 @@ class BaseResponseModelCollectionTest extends BaseResponseModelTestCase
      * @dataProvider dpTestBadResponsesDuringLoad
      * @covers ::using
      * @covers ::load
+     * @covers ::logLoad
      * @covers \Cob\Bundle\ApiServicesBundle\Exceptions\CountDataException
      * @covers \Cob\Bundle\ApiServicesBundle\Models\Response\Collection\Count
      * @covers \Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ClientCommandExceptionHandler

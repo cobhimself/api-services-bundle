@@ -8,6 +8,7 @@ use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ExceptionHandlerInterf
 use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ResponseModelExceptionHandler;
 use Cob\Bundle\ApiServicesBundle\Models\Response\Collection\ResponseModelCollection;
 use Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModel;
+use Cob\Bundle\ApiServicesBundle\Models\ServiceClient;
 use Cob\Bundle\ApiServicesBundle\Models\ServiceClientInterface;
 
 trait LoadConfigSharedTrait
@@ -95,9 +96,9 @@ trait LoadConfigSharedTrait
     }
 
     /**
-     * @return ServiceClientInterface
+     * @return ServiceClient
      */
-    public function getClient(): ServiceClientInterface
+    public function getClient(): ServiceClient
     {
         return $this->client;
     }

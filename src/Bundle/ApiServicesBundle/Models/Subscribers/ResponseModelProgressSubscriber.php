@@ -22,7 +22,7 @@ use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPreLoa
  */
 class ResponseModelProgressSubscriber extends AbstractResponseModelSubscriber
 {
-    use ProgressTrait;
+    //use ProgressTrait;
 
     /**
      * @inheritDoc

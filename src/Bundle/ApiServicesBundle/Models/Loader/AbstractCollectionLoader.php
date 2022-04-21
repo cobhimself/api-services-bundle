@@ -17,15 +17,18 @@ use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreLoadE
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\Collection\PreLoadFromCacheEvent;
 use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ExceptionHandlerInterface;
 use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfig;
+use Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig;
 use Cob\Bundle\ApiServicesBundle\Models\Response\Collection\Count;
 use Cob\Bundle\ApiServicesBundle\Models\Response\Collection\ResponseModelCollection;
 use Cob\Bundle\ApiServicesBundle\Models\ServiceClientInterface;
 use Cob\Bundle\ApiServicesBundle\Models\Util\CacheHash;
 use Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil;
+use Cob\Bundle\ApiServicesBundle\Models\Util\LogUtil;
 use Cob\Bundle\ApiServicesBundle\Models\Util\Promise;
 use GuzzleHttp\Command\CommandInterface;
 use GuzzleHttp\Promise\FulfilledPromise;
 use GuzzleHttp\Promise\PromiseInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Abstract loader containing the bulk of the response model collection methods.
@@ -101,14 +104,16 @@ abstract class AbstractCollectionLoader implements CollectionLoaderInterface
     {
         ClassUtil::confirmValidResponseModelCollection($config->getResponseModelClass());
 
+        $client = $loadConfig->getClient();
+
         //Since we allow the PreLoadEvent to modify the load configuration, provide a clone
         $loadConfig = clone $loadConfig;
 
-        return Promise::async(function () use ($config, &$loadConfig) {
+        return Promise::async(function () use ($client, $config, &$loadConfig) {
             /**
              * @var PreLoadEvent $event
              */
-            $event = $loadConfig->getClient()->dispatchEvent(
+            $event = $client->dispatchEvent(
                 PreLoadEvent::class,
                 $config,
                 $loadConfig
@@ -117,11 +122,12 @@ abstract class AbstractCollectionLoader implements CollectionLoaderInterface
             //Allow our event to update the command arguments
             $loadConfig = $event->getLoadConfig();
 
-        })->then(function () use ($config, $loadConfig) {
+        })->then(function () use ($client, $config, $loadConfig) {
             //Can we load from cache?
             list($hash, $cache) = static::getCachedData($config, $loadConfig);
 
             if (!is_null($cache)) {
+                LogUtil::debug($client->getOutput(), 'Loading from cache!');
                 return new FulfilledPromise($cache);
             } else if ($config->hasCountCommand()) {
                 return static::getLoadPromiseUsingCount($config, $loadConfig, $hash);
@@ -130,11 +136,11 @@ abstract class AbstractCollectionLoader implements CollectionLoaderInterface
 
                 return static::getExecuteCommandPromise($config, $loadConfig, $command, $hash)->wait();
             }
-        })->then(function ($response) use ($config, $loadConfig) {
+        })->then(function ($response) use ($client, $config, $loadConfig) {
             /**
              * @var PostLoadEvent $event
              */
-            $event = $loadConfig->getClient()->dispatchEvent(
+            $event = $client->dispatchEvent(
                 PostLoadEvent::class,
                 $config,
                 $loadConfig,
@@ -163,12 +169,18 @@ abstract class AbstractCollectionLoader implements CollectionLoaderInterface
     ): array {
         $hash = CacheHash::getHashForResponseCollectionClassAndArgs(
             $modelConfig->getResponseModelClass(),
-            $loadConfig->getCommandArgs()
+            $loadConfig->getCommandArgs(),
+            $loadConfig->getClient()->getOutput()
         );
 
         $client = $loadConfig->getClient();
 
         if ($client->canCache()) {
+
+            if ($loadConfig->doClearCache()) {
+                LogUtil::debug($client->getOutput(), 'Clearing cache for ' . $hash . '!');
+                $client->getCache()->delete($hash);
+            }
 
             /**
              * @var PreLoadFromCacheEvent $event
@@ -271,6 +283,8 @@ abstract class AbstractCollectionLoader implements CollectionLoaderInterface
                 $command
             );
 
+            LogUtil::debugLogCommandRequest($client, $event->getCommand());
+
             return $event->getCommand();
         })->then(function ($command) use ($client) {
             //We do not run this asynchronously because the data is required to move forward
@@ -279,7 +293,7 @@ abstract class AbstractCollectionLoader implements CollectionLoaderInterface
 
             //Save our response in cache if we can. We specifically do not wait until after we dispatch the post
             //execute command event because we may not always get the same response data from the event.
-            static::attemptSaveCache($client, $cacheHash, $response);
+            static::attemptSaveCache($client, $response, $cacheHash);
 
             /**
              * @var PostExecuteCommandEvent $event
@@ -289,6 +303,12 @@ abstract class AbstractCollectionLoader implements CollectionLoaderInterface
                 $modelConfig,
                 $command,
                 $response
+            );
+
+            LogUtil::logResponse(
+                $client->getOutput(),
+                $modelConfig->getResponseModelClass(),
+                $event->getResponse()
             );
 
             return $event->getResponse();
@@ -316,6 +336,13 @@ abstract class AbstractCollectionLoader implements CollectionLoaderInterface
             //Our first step is to obtain count information so we can split our requests into chunks.
             return Count::get($modelConfig, $client);
         })->then(function ($countResponse) use ($client, $modelConfig, $commandArgs, $hash) {
+            LogUtil::lazyDebug(
+                $client->getOutput(),
+                function () use ($countResponse) {
+                    return 'Response from count command: ' . PHP_EOL . print_r($countResponse, true);
+                }
+            );
+
             $commands = $client->getChunkedCommands(
                 $modelConfig->getCommand(),
                 $commandArgs,
@@ -356,6 +383,11 @@ abstract class AbstractCollectionLoader implements CollectionLoaderInterface
             //Use the command from the dispatched event if it's not null
             $commands = $event->getCommands() ?? $commands;
 
+            LogUtil::debug(
+                $client->getOutput(),
+                'Attempting to load ' . count($commands) . ' commands.'
+            );
+
             $allResponse = [];
 
             static::executeAllCommands(
@@ -377,7 +409,7 @@ abstract class AbstractCollectionLoader implements CollectionLoaderInterface
 
             $allResponse = $event->getResponse();
 
-            static::attemptSaveCache($client, $hash, $allResponse);
+            static::attemptSaveCache($client, $allResponse, $hash);
 
             return new FulfilledPromise($allResponse);
         });
@@ -444,10 +476,11 @@ abstract class AbstractCollectionLoader implements CollectionLoaderInterface
      */
     private static function attemptSaveCache(
         ServiceClientInterface $client,
-        string $cacheHash,
-        $data
+        $data,
+        string $cacheHash = null
     ) {
-        if ($client->canCache()) {
+        if (!is_null($cacheHash) && $client->canCache()) {
+            LogUtil::debug($client->getOutput(), 'Saving to cache (' . $cacheHash . ')!');
             $client->getCache()->save($cacheHash, $data);
         }
     }

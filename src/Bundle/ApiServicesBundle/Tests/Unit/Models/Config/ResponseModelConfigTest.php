@@ -3,6 +3,7 @@
 namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Config;
 
 use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig;
+use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ClientCommandExceptionHandler;
 use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ExceptionHandlerInterface;
 use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ResponseModelExceptionHandler;
 use Cob\Bundle\ApiServicesBundle\Tests\ServiceClientMockTrait;
@@ -15,6 +16,8 @@ use Generator;
  * @coversDefaultClass \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigBuilder
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigSharedTrait
+ * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\LogUtil
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\HasOutputTrait
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Response\BaseResponseModel
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Deserializer
  * @uses \Cob\Bundle\ApiServicesBundle\Models\DotData
@@ -107,5 +110,37 @@ class ResponseModelConfigTest extends BaseResponseModelTestCase
         );
 
         $config->doInits($model);
+    }
+
+    /**
+     * @covers ::__toString
+     * @covers ::__construct
+     * @uses \Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\AbstractExceptionHandler
+     * @uses \Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ClientCommandExceptionHandler
+     */
+    public function testToString()
+    {
+        $config = new ResponseModelConfig(
+            MockBaseResponseModel::class,
+            self::TEST_COMMAND_NAME,
+            self::TEST_COMMAND_ARGS,
+            false,
+            [
+                function () { /* purposely empty*/ }
+            ],
+            ClientCommandExceptionHandler::ignore()
+        );
+
+        $expected = [];
+        $expected[] = 'Response Model Config: ';
+        $expected[] = ' > Model: ' . MockBaseResponseModel::class;
+        $expected[] = ' > Command: ' . self::TEST_COMMAND_NAME;
+        $expected[] = ' > Default Args: ["arg1","arg2"]';
+        $expected[] = ' > Holds Raw Data: false';
+        $expected[] = ' > Init Callbacks: true';
+        $expected[] = ' > Default Exception Handler:';
+        $expected[] = '   ' . ClientCommandExceptionHandler::class;
+
+        $this->assertEquals(join(PHP_EOL, $expected) . PHP_EOL, (string) $config);
     }
 }

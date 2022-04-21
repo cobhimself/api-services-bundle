@@ -4,6 +4,8 @@ namespace Cob\Bundle\ApiServicesBundle\Models\Config;
 
 use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ExceptionHandlerInterface;
 use Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModel;
+use Cob\Bundle\ApiServicesBundle\Models\Util\LogUtil;
+use Cob\Bundle\ApiServicesBundle\Models\Util\ObjectDetailsBuilder;
 
 class ResponseModelConfig
 {
@@ -48,5 +50,18 @@ class ResponseModelConfig
     public static function builder(): ResponseModelConfigBuilder
     {
         return new ResponseModelConfigBuilder();
+    }
+
+    public function __toString(): string
+    {
+        return 'Response Model Config: ' . PHP_EOL .
+            LogUtil::outputStructure([
+                'Model' => $this->responseModelClass,
+                'Command' => $this->command,
+                'Default Args' => json_encode($this->defaultArgs),
+                'Holds Raw Data' => $this->holdsRawData,
+                'Init Callbacks' => (sizeof($this->initCallbacks) > 0),
+                'Default Exception Handler' => $this->defaultExceptionHandler ? get_class($this->defaultExceptionHandler) : 'false'
+            ]);
     }
 }

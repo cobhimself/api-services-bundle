@@ -19,26 +19,12 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 interface CommandLineOutputInterface
 {
     /**
-     * @return OutputInterface|null
-     */
-    public function getOutput();
-
-    /**
-     * @param OutputInterface $output
-     *
-     * @return $this
-     */
-    public function setOutput(OutputInterface $output);
-
-    /**
      * @return ProgressBar|null
      */
     public function getProgressBar();
 
     /**
      * @param ProgressBar $progressBar
-     *
-     * @return $this
      */
     public function setProgressBar(ProgressBar $progressBar);
 
@@ -49,8 +35,6 @@ interface CommandLineOutputInterface
 
     /**
      * @param SymfonyStyle $io
-     *
-     * @return $this
      */
     public function setIo(SymfonyStyle $io);
 
@@ -58,15 +42,6 @@ interface CommandLineOutputInterface
      * Quickly output to the console if we're in debug mode.
      */
     public function writeDebug(string $msg, int $indent = 0);
-
-    /**
-     * Pass on the output classes from the given model to this model.
-     *
-     * @param object $model an object which uses this trait
-     *
-     * @return $this
-     */
-    public function inheritOutputFrom($model);
 
     /**
      * Write the given message, indent it, and fit it inside the width.

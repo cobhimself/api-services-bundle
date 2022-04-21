@@ -42,6 +42,8 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\PersonCollection;
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Util\Promise
  * @covers \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\CollectionLoadConfig
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfigBuilder
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\HasOutputTrait
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Util\LogUtil
  */
 class CollectionLoadConfigBuilderTest extends CollectionLoadConfigTestCase
 {

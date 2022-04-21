@@ -29,6 +29,8 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\Person;
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigSharedTrait
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModelTrait
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Util\Promise
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\HasOutputTrait
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Util\LogUtil
  */
 class LoadConfigBuilderTest extends LoadConfigTestCase
 {

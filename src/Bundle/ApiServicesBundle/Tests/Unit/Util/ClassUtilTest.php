@@ -44,6 +44,8 @@ use stdClass;
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigBuilder
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfigBuilder
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Util\LogUtil
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\HasOutputTrait
  */
 class ClassUtilTest extends TestCase
 {
@@ -107,6 +109,8 @@ class ClassUtilTest extends TestCase
      * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\WithDataLoader
      * @uses \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig
      * @uses \Cob\Bundle\ApiServicesBundle\Models\ServiceClient
+     * @uses \Cob\Bundle\ApiServicesBundle\Models\Util\LogUtil
+     * @uses \Cob\Bundle\ApiServicesBundle\Models\HasOutputTrait
      */
     public function testIsValidResponseModel()
     {

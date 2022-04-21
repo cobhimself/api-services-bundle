@@ -27,6 +27,8 @@ use PHPUnit\Framework\TestCase;
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfig
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigBuilder
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigSharedTrait
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\HasOutputTrait
+ * @uses \Cob\Bundle\ApiServicesBundle\Models\Util\LogUtil
  */
 class PostAddModelToCollectionEventTest extends TestCase
 {
