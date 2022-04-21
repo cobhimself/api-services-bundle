@@ -171,7 +171,7 @@ class ResponseModelCollectionConfig
 
     public function __toString(): string
     {
-        return 'Response Model Collection Config: ' . PHP_EOL .
+        return 'Response Model Collection Config:' . PHP_EOL .
             LogUtil::outputStructure([
                 'Model'                     => $this->responseModelClass,
                 'Child Models'              => $this->childResponseModelClass,

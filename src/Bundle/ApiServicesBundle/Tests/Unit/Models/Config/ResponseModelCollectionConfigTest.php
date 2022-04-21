@@ -179,4 +179,44 @@ class ResponseModelCollectionConfigTest extends ResponseModelCollectionConfigTes
 
         $this->assertTrue($callbackCalled);
     }
+
+    /**
+     * @covers ::__construct
+     * @covers ::__toString
+     */
+    public function testToString()
+    {
+        $config = new ResponseModelCollectionConfig(
+            PersonCollection::class,
+            Person::class,
+            self::TEST_COMMAND_NAME,
+            self::TEST_COMMAND_ARGS,
+            '',
+            null,
+            [],
+            '',
+            100,
+            null,
+            10,
+            [function () { /* intentionally blank */ }]
+        );
+
+        $expected = [];
+        $expected[] = 'Response Model Collection Config:';
+        $expected[] = ' > Model: Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\PersonCollection';
+        $expected[] = ' > Child Models: Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\Person';
+        $expected[] = ' > Command: TestCommand';
+        $expected[] = ' > Default Args: ["arg1","arg2"]';
+        $expected[] = ' > Collection Path: ';
+        $expected[] = ' > Count Command: ';
+        $expected[] = ' > Count Args: []';
+        $expected[] = ' > Count Value Path: ';
+        $expected[] = ' > Load Max Results: 100';
+        $expected[] = ' > Build Count Args Callback: false';
+        $expected[] = ' > Chunk Command Max Results: 10';
+        $expected[] = ' > Init Callbacks: true';
+        $expected[] = ' > Default Exception Handler: false';
+
+        $this->assertEquals(join(PHP_EOL, $expected) . PHP_EOL, (string) $config);
+    }
 }
