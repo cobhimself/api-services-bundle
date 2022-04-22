@@ -4,6 +4,7 @@ namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Config;
 
 use Cob\Bundle\ApiServicesBundle\Exceptions\ResponseModelSetupException;
 use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig;
+use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ClientCommandExceptionHandler;
 use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ExceptionHandlerInterface;
 use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ResponseModelExceptionHandler;
 use Cob\Bundle\ApiServicesBundle\Tests\ResponseModelCollectionConfigTestCase;
@@ -183,6 +184,8 @@ class ResponseModelCollectionConfigTest extends ResponseModelCollectionConfigTes
     /**
      * @covers ::__construct
      * @covers ::__toString
+     * @uses \Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\AbstractExceptionHandler
+     * @uses \Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ClientCommandExceptionHandler
      */
     public function testToString()
     {
@@ -191,31 +194,34 @@ class ResponseModelCollectionConfigTest extends ResponseModelCollectionConfigTes
             Person::class,
             self::TEST_COMMAND_NAME,
             self::TEST_COMMAND_ARGS,
-            '',
-            null,
+            'collection.path',
+            'countCommand',
             [],
-            '',
+            'count.value.path',
             100,
             null,
             10,
-            [function () { /* intentionally blank */ }]
+            [function () { /* intentionally blank */ }],
+            ClientCommandExceptionHandler::ignore()
         );
 
         $expected = [];
         $expected[] = 'Response Model Collection Config:';
-        $expected[] = ' > Model: Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\PersonCollection';
-        $expected[] = ' > Child Models: Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\Person';
-        $expected[] = ' > Command: TestCommand';
+        $expected[] = ' > Model: ' . PersonCollection::class;
+        $expected[] = ' > Child Models: ' . Person::class;
+        $expected[] = ' > Command: ' . self::TEST_COMMAND_NAME;
         $expected[] = ' > Default Args: ["arg1","arg2"]';
-        $expected[] = ' > Collection Path: ';
-        $expected[] = ' > Count Command: ';
+        $expected[] = ' > Collection Path: collection.path';
+        $expected[] = ' > Count Command: countCommand';
         $expected[] = ' > Count Args: []';
-        $expected[] = ' > Count Value Path: ';
+        $expected[] = ' > Count Value Path: count.value.path';
         $expected[] = ' > Load Max Results: 100';
         $expected[] = ' > Build Count Args Callback: false';
         $expected[] = ' > Chunk Command Max Results: 10';
         $expected[] = ' > Init Callbacks: true';
-        $expected[] = ' > Default Exception Handler: false';
+        //Need a new line before the exception handler class because it will be wrapped and will need two extra spaces
+        //as well to handle indentation
+        $expected[] = ' > Default Exception Handler:' . PHP_EOL . '   ' . ClientCommandExceptionHandler::class;
 
         $this->assertEquals(join(PHP_EOL, $expected) . PHP_EOL, (string) $config);
     }

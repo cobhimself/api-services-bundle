@@ -185,9 +185,7 @@ class ResponseModelCollectionConfig
                 'Build Count Args Callback' => !is_null($this->buildCountArgsCallback),
                 'Chunk Command Max Results' => $this->chunkCommandMaxResults,
                 'Init Callbacks'            => (sizeof($this->initCallbacks) > 0),
-                'Default Exception Handler' => $this->defaultExceptionHandler
-                    ? get_class($this->defaultExceptionHandler)
-                    : 'false',
+                'Default Exception Handler' => $this->defaultExceptionHandler ? get_class($this->defaultExceptionHandler) : 'false',
             ]);
     }
 }
