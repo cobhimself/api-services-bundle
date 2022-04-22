@@ -13,7 +13,7 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModel;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\Person;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\PersonCollection;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\PersonCollectionWithCountCapability;
-use Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Response\BaseResponseModelTestCase;
+use Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Response\BaseTestCase;
 use InvalidArgumentException;
 
 /**
@@ -24,7 +24,7 @@ use InvalidArgumentException;
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Util\ClassUtil
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigSharedTrait
  */
-class ResponseModelConfigBuilderTest extends BaseResponseModelTestCase
+class ResponseModelConfigBuilderTest extends BaseTestCase
 {
 
     private function getBaseBuilder(): ResponseModelConfigBuilder {

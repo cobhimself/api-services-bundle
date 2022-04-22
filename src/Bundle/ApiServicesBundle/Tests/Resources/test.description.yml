@@ -9,7 +9,7 @@ operations:
     httpMethod: GET
     uri: /get/{id}
     summary: Get data for ID 1
-    responseClass: JSONResponse
+    responseModel: JSONResponse
     parameters:
       id:
         type: string
@@ -20,22 +20,22 @@ operations:
     httpMethod: GET
     uri: /getRaw
     summary: Test getting raw data
-    responseClass: RawResponse
+    responseModel: RawResponse
   GetPerson:
     httpMethod: GET
     uri: /person/{id}
     summary: Get a person
-    responseClass: JSONResponse
+    responseModel: JSONResponse
   GetPersonsCount:
     httpMethod: GET
     uri: /persons/count
     summary: Simulates an endpoint which provides us with the total number of persons
-    responseClass: JSONResponse
+    responseModel: JSONResponse
   GetPersons:
     httpMethod: GET
     uri: /persons/
     summary: Simulates an endpoint where a collection of persons could be obtained.
-    responseClass: JSONResponse
+    responseModel: JSONResponse
     parameters:
       start-index:
         type: integer

@@ -8,7 +8,7 @@ use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ExceptionHandlerInterf
 use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ResponseModelExceptionHandler;
 use Cob\Bundle\ApiServicesBundle\Tests\ServiceClientMockTrait;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModel;
-use Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Response\BaseResponseModelTestCase;
+use Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Response\BaseTestCase;
 use Generator;
 
 /**
@@ -30,7 +30,7 @@ use Generator;
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigBuilder
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Loader\Config\LoadConfigSharedTrait
  */
-class ResponseModelConfigTest extends BaseResponseModelTestCase
+class ResponseModelConfigTest extends BaseTestCase
 {
     use ServiceClientMockTrait;
 

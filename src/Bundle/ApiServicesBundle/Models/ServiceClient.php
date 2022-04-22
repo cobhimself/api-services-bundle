@@ -230,11 +230,13 @@ class ServiceClient extends GuzzleClient implements ServiceClientInterface
     {
         $operations = $description->getOperations();
 
-        foreach ($operations as $name => $operation) {
-            if (!isset($operation['responseClass'])) {
+        foreach (array_keys($operations) as $name) {
+            try {
+                $description->getOperation($name);
+            } catch (InvalidArgumentException $e) {
                 throw new ResponseModelException(
                     sprintf(
-                        'Operation %s needs a responseClass set!',
+                        'Operation %s needs a responseModel set!',
                         $name
                     )
                 );

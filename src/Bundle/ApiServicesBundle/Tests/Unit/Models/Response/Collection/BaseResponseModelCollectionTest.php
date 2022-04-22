@@ -26,7 +26,7 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModelWithInit;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\Person;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\PersonCollection;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\PersonCollectionWithCountCapability;
-use Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Response\BaseResponseModelTestCase;
+use Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Response\BaseTestCase;
 use Exception;
 use Generator;
 use GuzzleHttp\Psr7\Response;
@@ -81,7 +81,7 @@ use Prophecy\Prophecy\ObjectProphecy;
  * @uses \Cob\Bundle\ApiServicesBundle\Models\HasOutputTrait
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Util\LogUtil
  */
-class BaseResponseModelCollectionTest extends BaseResponseModelTestCase
+class BaseResponseModelCollectionTest extends BaseTestCase
 {
     use ServiceClientMockTrait;
 

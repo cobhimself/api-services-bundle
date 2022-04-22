@@ -10,7 +10,7 @@ use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ResponseModelException
 use Cob\Bundle\ApiServicesBundle\Tests\ResponseModelCollectionConfigTestCase;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\Person;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\PersonCollection;
-use Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Response\BaseResponseModelTestCase;
+use Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Response\BaseTestCase;
 
 /**
  * @codeCoverageIgnore

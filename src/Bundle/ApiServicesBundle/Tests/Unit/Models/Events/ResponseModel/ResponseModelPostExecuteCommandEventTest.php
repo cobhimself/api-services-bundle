@@ -5,7 +5,7 @@ namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Events\ResponseModel;
 use Cob\Bundle\ApiServicesBundle\Models\Events\ResponseModel\ResponseModelPostExecuteCommandEvent;
 use Cob\Bundle\ApiServicesBundle\Tests\ServiceClientMockTrait;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\MockBaseResponseModel;
-use Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Response\BaseResponseModelTestCase;
+use Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Response\BaseTestCase;
 
 /**
  * @codeCoverageIgnore
@@ -16,7 +16,7 @@ use Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Response\BaseResponseModelTes
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Response\BaseResponseModel
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Deserializer
  */
-class ResponseModelPostExecuteCommandEventTest extends BaseResponseModelTestCase
+class ResponseModelPostExecuteCommandEventTest extends BaseTestCase
 {
     use ServiceClientMockTrait;
 

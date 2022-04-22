@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @codeCoverageIgnore
  */
-abstract class BaseResponseModelTestCase extends TestCase
+abstract class BaseTestCase extends TestCase
 {
     use ServiceClientMockTrait;
 

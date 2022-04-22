@@ -68,7 +68,7 @@ use Prophecy\Prophecy\ObjectProphecy;
  * @uses \Cob\Bundle\ApiServicesBundle\Models\HasOutputTrait
  * @uses \Cob\Bundle\ApiServicesBundle\Models\Util\LogUtil
  */
-class BaseResponseModelTest extends BaseResponseModelTestCase
+class BaseResponseModelTest extends BaseTestCase
 {
     const PERSON_JSON = __DIR__ . '/../../../Resources/MockResponses/person.json';
     const PERSON_WITH_CHILDREN_JSON = __DIR__ . '/../../../Resources/MockResponses/personWithChildren.json';

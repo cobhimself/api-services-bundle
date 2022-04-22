@@ -14,7 +14,7 @@ namespace Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks;
 use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfig;
 use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelConfigBuilder;
 use Cob\Bundle\ApiServicesBundle\Models\Response\BaseResponseModel;
-use Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Response\BaseResponseModelTestCase;
+use Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Response\BaseTestCase;
 
 /**
  * @codeCoverageIgnore
@@ -24,7 +24,7 @@ class MockBaseRawDataResponseModel extends BaseResponseModel
     protected static function setup(): ResponseModelConfigBuilder
     {
         return ResponseModelConfig::builder()
-            ->command(BaseResponseModelTestCase::RAW_TEST_COMMAND_NAME)
+            ->command(BaseTestCase::RAW_TEST_COMMAND_NAME)
             ->holdsRawData();
     }
 }

@@ -33,8 +33,8 @@ trait ServiceClientMockTrait
         $handlerStack = HandlerStack::create($mockHandler);
         $client = new Client(['handler' => $handlerStack]);
 
-        $serviceConfig = ServiceClient::getServiceConfig(__DIR__ . '/Resources/test.description.yml');
-        $description = new Description($serviceConfig);
+        $serviceConfig = $this->getTestServiceConfigInstance();
+        $description = $this->getTestDescriptionInstance();
 
         return new ServiceClient(
             $client,
@@ -44,6 +44,28 @@ trait ServiceClientMockTrait
             null,
             $serviceConfig
         );
+    }
+
+    public function getTestServiceConfigInstance()
+    {
+        static $serviceConfig;
+
+        if (is_null($serviceConfig)) {
+            $serviceConfig = ServiceClient::getServiceConfig(__DIR__ . '/Resources/test.description.yml');
+        }
+
+        return $serviceConfig;
+    }
+
+    public function getTestDescriptionInstance(): Description
+    {
+        static $description;
+
+        if(is_null($description)) {
+            $description =  new Description($this->getTestServiceConfigInstance());
+        }
+
+        return $description;
     }
 
     public function getServiceClientMockWithJsonData(array $mockResponseDataFiles): ServiceClientInterface {

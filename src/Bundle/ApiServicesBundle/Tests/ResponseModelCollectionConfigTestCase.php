@@ -6,12 +6,12 @@ use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig;
 use Cob\Bundle\ApiServicesBundle\Models\ExceptionHandlers\ExceptionHandlerInterface;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\Person;
 use Cob\Bundle\ApiServicesBundle\Tests\Unit\Mocks\PersonCollection;
-use Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Response\BaseResponseModelTestCase;
+use Cob\Bundle\ApiServicesBundle\Tests\Unit\Models\Response\BaseTestCase;
 
 /**
  * @codeCoverageIgnore
  */
-class ResponseModelCollectionConfigTestCase extends BaseResponseModelTestCase {
+class ResponseModelCollectionConfigTestCase extends BaseTestCase {
 
     public function confirmDefaults(ResponseModelCollectionConfig $config)
     {
