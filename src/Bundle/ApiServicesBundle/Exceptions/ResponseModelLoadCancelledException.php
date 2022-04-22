@@ -11,6 +11,7 @@
 namespace Cob\Bundle\ApiServicesBundle\Exceptions;
 
 use Cob\Bundle\ApiServicesBundle\Models\Response\ResponseModel;
+use Cob\Bundle\ApiServicesBundle\Models\Util\LogUtil;
 
 class ResponseModelLoadCancelledException extends ResponseModelException
 {
@@ -23,16 +24,14 @@ class ResponseModelLoadCancelledException extends ResponseModelException
         bool $clearCache,
         string $reason = ""
     ) {
-        $message = sprintf(
-            'Loading of %s was cancelled!' . PHP_EOL
-            . 'Command args: %s' . PHP_EOL
-            . 'Clear cache: %s' . PHP_EOL
-            . 'Reason: %s',
-            get_class($model),
-            var_export($commandArgs, true),
-            $clearCache ? 'true' : 'false',
-            $reason
-        );
+        $message = 'Loading of ' . get_class($model) . ' was cancelled!' . PHP_EOL .
+            LogUtil::outputStructure(
+                [
+                    'Command Args' => json_encode($commandArgs),
+                    'Clear Cache' => $clearCache,
+                    'Reason' => $reason
+                ]
+            );
 
         parent::__construct($message);
     }
