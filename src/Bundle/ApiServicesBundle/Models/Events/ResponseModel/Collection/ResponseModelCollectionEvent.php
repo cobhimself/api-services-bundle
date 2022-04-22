@@ -14,7 +14,7 @@ use Cob\Bundle\ApiServicesBundle\Models\Config\ResponseModelCollectionConfig;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
- * Base Event for all ResponseModelCollectionInterface dispatched events.
+ * Base Event for all BaseResponseModelCollection dispatched events.
  */
 abstract class ResponseModelCollectionEvent extends Event
 {
