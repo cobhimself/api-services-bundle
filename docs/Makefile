@@ -29,9 +29,6 @@ $(built): clean
 init:
 	mkdir $(BUILDDIR)
 
-doxygen:
-	doxygen "$(SOURCEDIR)/Doxyfile"
-
 html: clean init
 
 # Catch-all target: route all unknown targets to Sphinx using the new
