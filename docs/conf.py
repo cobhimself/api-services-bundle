@@ -31,7 +31,7 @@ release = u''
 # -- Global Epilog -----------------------------------------------------------
 
 rst_epilog = """
-.. |ASB| replace:: ApiServicesBundle
+.. |ASB| replace:: `ApiServicesBundle`
 .. |ServiceClient| replace:: :class:`ServiceClient`
 .. |ARM| replace:: :class:`AbstractResponseModel`
 .. |ARMC| replace:: :class:`AbstractResponseModelCollection`
@@ -204,16 +204,3 @@ epub_exclude_files = ['search.html']
 
 # Set domain
 primary_domain = "php"
-
-# Regenerate API docs via doxygen + doxyphp2sphinx
-import subprocess, os
-read_the_docs_build = os.environ.get('READTHEDOCS', None) == 'True'
-if read_the_docs_build:
-    subprocess.call(['mkdir', '_build'])
-    subprocess.call(['doxygen', 'Doxyfile'])
-    subprocess.call([
-        'doxyphp2sphinx',
-        '--xml-dir',
-        '_build/doxygen/xml',
-       'Cob::Bundle::ApiServicesBundle'
-   ])
