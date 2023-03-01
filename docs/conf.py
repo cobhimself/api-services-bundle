@@ -49,7 +49,6 @@ rst_epilog = """
 extensions = [
     'sphinx.ext.todo',
     'sphinx_rtd_theme',
-    'sphinxcontrib.phpdomain',
     'sphinxcontrib.mermaid'
 ]
 
