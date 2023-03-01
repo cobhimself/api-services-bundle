@@ -5,9 +5,6 @@ name = "pypi"
 
 [packages]
 sphinx = "~=4.2"
-
-[dev-packages]
-sphinx = "*"
 sphinx-rtd-theme = "*"
 sphinxcontrib-mermaid = "*"
 
