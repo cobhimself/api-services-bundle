@@ -12,7 +12,7 @@ Overview
 The |ASB| provides boilerplate functionality for service command calls and the
 organization of response data into individual response models or collections of
 response model data. It also makes it easy to load Guzzle
-`service descriptions`_ from YAML files, cache response data and has an event
+`service descriptions`_ from YAML files, cache response data, and has an event
 system which allows extensibility.
 
 .. _service descriptions: https://guzzle3.readthedocs.io/webservice-client/guzzle-service-descriptions.html
@@ -20,7 +20,7 @@ system which allows extensibility.
 The ServiceClient
 -----------------
 
-The APIServicesBundle has a |ServiceClient| class which extends
+The |ASB| has a |ServiceClient| class which extends
 ``\GuzzleHttp\Command\Guzzle\GuzzleClient`` and provides additional
 functionality. The following sections provide information on how to instantiate
 the |ServiceClient| as well as configuration options available.
@@ -51,11 +51,11 @@ description file in addition to other configuration settings. To obtain a
 .. note::
 
     Guzzle provides a way for service descriptions to be created using its
-    ``Description`` class but service descriptions can also be constructed using
-    data structures like JSON or YAML. The |ASB| loads service descriptions from
-    YAML documents. See `Guzzle's service description documentation`_ for more
-    information on service description structure. They provide a `sample JSON
-    services document`_ which is helpful as well.
+    ``Description`` class, but service descriptions can also be constructed
+    using data structures like JSON or YAML. The |ASB| loads service
+    descriptions from YAML documents. See `Guzzle's service description
+    documentation`_ for more information on service description structure. They
+    provide a `sample JSON services document`_, which is helpful as well.
 
     Additional options can be provided within the configuration array sent to
     the ``factory`` method. See the

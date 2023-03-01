@@ -3,11 +3,11 @@
 ===============================
 
 Working with API services can be time-consuming, error-prone, and repetitive.
-The |ASB| provides classes which aid in the creation and use of
-commands associated with API endpoints. While simple API calls can be
-constructed using tools as ubiquitous as curl, or through the construction of
-GuzzleHttp client calls (or other API frameworks), these calls can be made more
-`DRY`_ and reusable by using `API Service Descriptions`_.
+The |ASB| is a Symphony Bundle which aids in the creation and use of commands
+associated with API endpoints. While simple API calls can be constructed using
+tools as ubiquitous as `curl`, or through the construction of
+:class:`GuzzleHttp` client calls (or other API frameworks), these calls can be
+made more `DRY`_ and reusable by using `API Service Descriptions`_.
 
 In addition, many API data structures resemble "Items" and "Collections of
 Items". The |ASB| provides boilerplate to help quickly organize data
