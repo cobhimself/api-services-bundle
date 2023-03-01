@@ -44,7 +44,7 @@ Example Flow
 
 See the example flow below for possible paths through a set of example promises.
 
-.. image:: _static/images/uml/promises-flow.svg
+.. mermaid:: /_uml/promises-flow.mermaid
 
 As you can see above, the primary way of interacting with a promise is through
 its ``then`` method **(2-4)**, which registers callbacks **(6-8)** to receive

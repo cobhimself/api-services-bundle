@@ -49,7 +49,8 @@ rst_epilog = """
 extensions = [
     'sphinx.ext.todo',
     'sphinx_rtd_theme',
-    'sphinxcontrib.phpdomain'
+    'sphinxcontrib.phpdomain',
+    'sphinxcontrib.mermaid'
 ]
 
 # Add any paths that contain templates here, relative to this directory.

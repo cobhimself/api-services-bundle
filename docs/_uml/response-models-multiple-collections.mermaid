@@ -1,0 +1,23 @@
+flowchart LR
+    subgraph ProjectCollection
+        PR1(["Project 1"])
+        subgraph PlanCollection 1
+            PL1(["Plan 1"])
+            PL2(["Plan 2"])
+            PL3(["Plan 3"])
+        end
+
+        PR2(["Project 2"])
+        subgraph PlanCollection 2
+
+            PL4(["Plan 4"])
+            PL5(["Plan 5"])
+        end
+    end
+
+    PR1 --> PL1
+    PR1 --> PL2
+    PR1 --> PL3
+
+    PR2 --> PL4
+    PR2 --> PL5

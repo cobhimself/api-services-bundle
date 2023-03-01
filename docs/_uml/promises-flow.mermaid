@@ -1,0 +1,74 @@
+%%{init: {'fontFamily': 'monospace'} }%%
+flowchart
+    subgraph P1["(1) Promise"]
+        W1(["(5) wait"])
+    end
+
+    subgraph T1["(2) then"]
+        subgraph P2["Promise"]
+            F1(["(6a) onFulfilled"])
+            R1(["(6b) on Rejected"])
+        end
+    end
+
+    outcome1{ }
+
+subgraph T2["(3) then"]
+subgraph P3["Promise"]
+F2(["(7a) on Fulfilled"])
+end
+end
+
+outcome2{ }
+
+subgraph T3["(4) then"]
+subgraph P4["Promise"]
+F3(["(8a) onFulfilled"])
+R3(["(8b/7b) onRejected"])
+end
+end
+
+N1["Nothing is done with return\nvalues or exceptions because\nthere aren't anymore callbacks"]
+
+classDef promise fill:#2980b9,color:#fff,stroke:#fff,stroke-width:4px;
+classDef then fill:#555,color:#fff,stroke:#333,stroke-width:4px;
+classDef wait fill:#9b59b6,color:#fff,stroke:#333,stroke-width:4px;
+classDef onRejected fill:#E74C3C,color:black,stroke:#333,stroke-width:4px;
+classDef onFulfilled fill:#1abc9c,color:black,stroke:#333,stroke-width:4px;
+classDef notes fill:#555,color:#fff,stroke:#333,stroke-width:4px;
+
+class P1,P2,P3,P4 promise
+class T1,T2,T3 then
+class R1,R3 onRejected
+class F1,F2,F3 onFulfilled
+class N1 notes
+class W1 wait
+
+start( ) --> P1
+P1 --> T1
+T1 --> T2
+T2 --> T3
+done( )
+
+
+W1 --resolve--> outcome1
+
+outcome1 --rejected--> R1
+outcome1 --fulfilled--> F1
+
+R1 --resolve--> outcome2
+F1 --resolve--> outcome2
+outcome2 --rejected--> R3
+outcome2 --fulfilled--> F2
+
+outcome3{ }
+
+F2 --resolve--> outcome3
+
+outcome3 --rejected--> R3
+outcome3 --fulfilled--> F3
+
+F3 --resolve--> done
+R3 --resolve--> done
+
+done -.- N1

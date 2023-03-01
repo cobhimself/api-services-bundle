@@ -32,13 +32,7 @@ init:
 doxygen:
 	doxygen "$(SOURCEDIR)/Doxyfile"
 
-api: doxygen
-	doxyphp2sphinx --xml-dir "$(BUILDDIR)/doxygen/xml" "Cob::Bundle::ApiServicesBundle"
-
-plantuml:
-	../vendor/bin/plantuml --config config/plantuml.cfg -tsvg -failfast2 -r -o $(IMAGESDIR)/uml/ _uml/*.puml
-
-html: clean init plantuml api
+html: clean init
 
 # Catch-all target: route all unknown targets to Sphinx using the new
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).

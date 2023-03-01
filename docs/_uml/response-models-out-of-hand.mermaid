@@ -1,0 +1,38 @@
+flowchart
+    subgraph Project Collection
+        PR1(["Project 1"])
+        subgraph Plan Collection 1
+            PL1(["Plan 1"])
+            PL2(["Plan 2"])
+            PL3(["Plan 3"])
+            subgraph Plan Branch Collection 1
+                PB1(["Plan Branch 1"])
+                PB2(["Plan Branch 2"])
+            end
+            subgraph Plan Branch Collection 2
+                PB3(["Plan Branch 3"])
+                PB4(["Plan Branch 4"])
+            end
+        end
+
+        PR2(["Project 2"])
+        subgraph Plan Collection 2
+            PL4(["Plan 4"])
+            subgraph Plan Branch Collection 3
+                PB5(["Plan Branch 5"])
+            end
+        end
+    end
+
+    PR1 --> PL1
+    PL1 --> PB1
+    PL1 --> PB2
+
+    PR1 --> PL2
+
+    PR1 --> PL3
+    PL3 --> PB3
+    PL3 --> PB4
+
+    PR2 --> PL4
+    PL4 --> PB5

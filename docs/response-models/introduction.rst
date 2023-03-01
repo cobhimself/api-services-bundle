@@ -37,7 +37,7 @@ Assuming we want to compile a selection of ``Plan`` objects, an array of
 ``Plan`` classes could be created. However, this would quickly become difficult
 to organize and work with.
 
-.. image:: /_static/images/uml/response-models-array-of-plans.svg
+.. mermaid:: /_uml/response-models-array-of-plans.mermaid
 
 Array of Projects
 =================
@@ -47,7 +47,7 @@ array of ``Project`` classes (which extend the |ARM| class) and we kept an array
 of the plans within it, our array structure would quickly become difficult to
 traverse.
 
-.. image:: /_static/images/uml/response-models-array-of-projects.svg
+.. mermaid:: /_uml/response-models-array-of-projects.mermaid
 
 PlanCollection class
 ====================
@@ -60,7 +60,7 @@ Here, we have a Bamboo Project (which would be a ``Project`` class which extends
 |ARM|) and a collection of ``Plan`` classes (inside a ``PlanCollection`` class
 extending |ARMC|).
 
-.. image:: /_static/images/uml/response-models-plancollection-class.svg
+.. mermaid:: /_uml/response-models-plancollection-class.mermaid
 
 Multiple Collections
 ====================
@@ -69,14 +69,14 @@ It is also possible to query multiple Projects from Bamboo's API. This means we
 can have a "collection" of Projects and each Project would have a "collection"
 of Plan Items.
 
-.. image:: /_static/images/uml/response-models-multiple-collections.svg
+.. mermaid:: /_uml/response-models-multiple-collections.mermaid
 
 In addition, Plans can have multiple Plan Branches. In this case, a Plan "item"
 can have a Plan Branch "collection" which contains Plan Branch "items". As you
 can see below, without a "collection" class, the structure of this data can
 quickly become complicated.
 
-.. image:: /_static/images/uml/response-models-out-of-hand.svg
+.. mermaid:: /_uml/response-models-out-of-hand.mermaid
 
 Summary
 -------

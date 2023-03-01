@@ -72,4 +72,3 @@ covered in the :doc:`ApiServicesBundle Quick Start <quickstart>` documentation.
     event-system
     dot
     promises
-    api
